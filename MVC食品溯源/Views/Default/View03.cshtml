@@ -1,0 +1,39 @@
+﻿
+@{
+	Layout = "~/Views/Shared/Head.cshtml";
+	ViewBag.Title = "ViewPage03";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>View03</title>
+	<script src="~/Scripts/jquery-1.10.2.js"></script>
+	<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$("#Login").click(function () {
+				$.ajax({
+					type: "POST",
+					url: "/Default/SayHello",
+					data: { 'aa': $('#_username').val(), 'bb': $('#_password').val(),'cc':"abc" },
+					dataType: 'Json',
+					success: function (data)
+					{
+						alert(data);
+					}
+				})
+			})
+		})
+	</script>
+</head>
+<body>
+    <div> 
+		Username:<input type="text" id="_username" /><br />
+		Password:<input type="password" id="_password" /><br />
+		<input type="button" id="Login" value="登录" />
+    </div>
+</body>
+</html>

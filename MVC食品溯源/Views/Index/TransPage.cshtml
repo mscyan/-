@@ -1,0 +1,34 @@
+﻿
+@{
+	Layout = null;
+}
+@using MVC食品溯源.DataAccessLib;
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TransPage</title>
+</head>
+<body>
+	@{ string username = Request.Params["_username"].ToString();
+		string password = Request.Params["_password"].ToString();
+		UserSelection userSelection = new UserSelection();
+		bool isExist = userSelection.IsUserExist(new Models.User(username, password, "12321"));
+		}
+    <div> 
+    </div>
+	@{ 
+		if (isExist==false)
+		{
+			Response.Write("username:" + username);
+			Response.Write("<br />password:" + password);
+		}
+		else
+		{
+			Response.Write("Success");
+		}
+	}
+</body>
+</html>

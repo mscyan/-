@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+	@*HeadPage.top*@
+    <div style="background-color:silver;width:600px;height:300px">
+        @RenderBody()
+    </div>
+	@RenderSection("head",required:false)
+	@*HeapPage.foot*@
+	@{ 
+		//Response.Write(this.ToString());
+		//Response.Write(this.Server.ToString());
+	}
+</body>
+</html>
