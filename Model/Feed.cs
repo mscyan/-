@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-	class Feed
+	public class Feed
 	{
 		/// <summary>
 		/// 
@@ -17,7 +17,8 @@ namespace Model
 		/// <param name="feedTypeName">饲料种类名称</param>
 		/// <param name="duration">保质期(月)</param>
 		/// <param name="provider">生产商</param>
-		public Feed(string feedID, string feedTypeID, string feedName, string feedTypeName, int duration, string provider)
+		/// <param name="amount">饲料重量(\单位g)</param>
+		public Feed(string feedID, string feedTypeID, string feedName, string feedTypeName, int duration, string provider, int amount)
 		{
 			this.feedID = feedID;
 			this.feedTypeID = feedTypeID;
@@ -25,6 +26,7 @@ namespace Model
 			this.feedTypeName = feedTypeName;
 			this.duration = duration;
 			this.provider = provider;
+			this.amount = amount;
 		}
 
 		private string feedID;
@@ -33,6 +35,16 @@ namespace Model
 		private string feedTypeName;
 		private int duration;
 		private string provider;
+		private int amount;
+
+		/// <summary>
+		/// 饲料容量
+		/// </summary>
+		public int Amount
+		{
+			get { return amount; }
+			set { amount = value; }
+		}
 
 		/// <summary>
 		/// 饲料ID

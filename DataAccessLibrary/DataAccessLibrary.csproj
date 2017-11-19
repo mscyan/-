@@ -41,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimalDataAccess.cs" />
+    <Compile Include="FeedDataAccess.cs" />
+    <Compile Include="FeedTypeDataAccess.cs" />
+    <Compile Include="FeedUseDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaleInfoDataAccess.cs" />
     <Compile Include="SqlManager.cs" />

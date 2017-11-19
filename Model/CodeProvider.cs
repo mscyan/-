@@ -43,5 +43,10 @@ namespace Model
 			string code = animalUniqueCode.Substring(0, 2) + marketID.Substring(0,2)+ (new Random().Next() % 9).ToString() + second + (new Random().Next() % 9).ToString()+ (new Random().Next() % 9).ToString();
 			return code;
 		}
+
+		public static string getCodeForFeedType()
+		{
+			return "";
+		}
 	}
 }
