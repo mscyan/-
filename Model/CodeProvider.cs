@@ -44,7 +44,14 @@ namespace Model
 			return code;
 		}
 
+		//为饲料种类生成标识码
 		public static string getCodeForFeedType()
+		{
+			return "";
+		}
+
+		//为饲料生成标识码
+		public static string getCodeForFeed()
 		{
 			return "";
 		}

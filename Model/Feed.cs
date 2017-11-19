@@ -18,7 +18,8 @@ namespace Model
 		/// <param name="duration">保质期(月)</param>
 		/// <param name="provider">生产商</param>
 		/// <param name="amount">饲料重量(\单位g)</param>
-		public Feed(string feedID, string feedTypeID, string feedName, string feedTypeName, int duration, string provider, int amount)
+		/// 
+		public Feed(string feedID, string feedTypeID, string feedName, string feedTypeName, int duration, string provider, int amount,DateTime addTime)
 		{
 			this.feedID = feedID;
 			this.feedTypeID = feedTypeID;
@@ -27,6 +28,7 @@ namespace Model
 			this.duration = duration;
 			this.provider = provider;
 			this.amount = amount;
+			this.addTime = addTime;
 		}
 
 		private string feedID;
@@ -36,6 +38,13 @@ namespace Model
 		private int duration;
 		private string provider;
 		private int amount;
+		private DateTime addTime;
+
+		public DateTime AddTime
+		{
+			get { return addTime; }
+			set { addTime = value; }
+		}
 
 		/// <summary>
 		/// 饲料容量
