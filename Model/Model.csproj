@@ -49,6 +49,7 @@
     <Compile Include="FeedType.cs" />
     <Compile Include="FeedUse.cs" />
     <Compile Include="HealthCheck.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="ManuFactory.cs" />
     <Compile Include="ManuWorkInfo.cs" />
     <Compile Include="Market.cs" />

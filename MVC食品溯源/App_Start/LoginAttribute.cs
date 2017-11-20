@@ -10,13 +10,13 @@ namespace MVC食品溯源.App_Start
 	{
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			if(true)
+			if(false)
 			{
 				base.OnActionExecuting(filterContext);
 			}
 			else
 			{
-				filterContext.HttpContext.Response.Redirect("Login.cshtml");
+				filterContext.HttpContext.Response.Redirect("/Login/Login");
 			}
 		}
 	}
