@@ -9,13 +9,19 @@ using Model;
 
 namespace MVC食品溯源.Controllers
 {
-    public class LoginController : Controller
+	[MVC食品溯源.App_Start.Login]
+	public class LoginController : Controller
     {
         // GET: Login
         public ActionResult Login()
         {
             return View();
         }
+
+		public ActionResult View02()
+		{
+			return View();
+		}
 
 		public string LoginResult(string _username,string _password)
 		{
