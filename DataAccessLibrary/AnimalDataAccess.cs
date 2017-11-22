@@ -44,7 +44,7 @@ namespace DataAccessLibrary
 				for (int i = 0; i < dt.Rows.Count; i++)
 				{
 					animal = new Animal(
-					dt.Rows[i][0].ToString(),
+					dt.Rows[i][0].ToString().Trim(),
 					dt.Rows[i][1].ToString().Trim(),
 					DateTime.Parse(dt.Rows[i][2].ToString()),
 					dt.Rows[i][3].ToString(),
