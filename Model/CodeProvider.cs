@@ -41,7 +41,7 @@ namespace Model
 			string second = filetime.Substring(filetime.Length - 3, 3);
 			//2 2 1 3
 			string code = animalUniqueCode.Substring(0, 2) + marketID.Substring(0,2)+ (new Random().Next() % 9).ToString() + second + (new Random().Next() % 9).ToString()+ (new Random().Next() % 9).ToString();
-			return code;
+			return code.ToUpper();
 		}
 
 		//为饲料种类生成标识码
