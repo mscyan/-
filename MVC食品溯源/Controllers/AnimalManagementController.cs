@@ -11,16 +11,36 @@ using DataAccessLibrary;
 
 namespace MVC食品溯源.Controllers
 {
-    public class AnimalManagementController : Controller
-    {
-        // GET: AnimalManagement
+	public class AnimalManagementController : Controller
+	{
+		// GET: AnimalManagement
 		// 此控制器主要用于牲畜养殖管理过程中的数据操作。
-        public ActionResult Index()
-        {
-			
+		public ActionResult Index()
+		{
 
-            return View();
-        }
+
+			return View();
+		}
+
+		public ActionResult AddAnimal()
+		{
+			return View();
+		}
+
+		public ActionResult AlterAnimal()
+		{
+			return View();
+		}
+
+		public ActionResult AddOneAnimal(string AnimalType,string FeedType)
+		{
+			AnimalDataAccess ada = new AnimalDataAccess();
+			bool isaddsuccess = ada.AddAnimal(AnimalType, "HBRH7823SC", FeedType);
+			if (isaddsuccess)
+				return Json("添加成功");
+			else
+				return Json("添加失败");
+		}
 
 		public ActionResult GetAllAnimals()
 		{
@@ -36,6 +56,16 @@ namespace MVC食品溯源.Controllers
 			//ContentResult cr = Content(JsonConvert.SerializeObject(result));
 			//JsonResult js = Json(JsonConvert.SerializeObject(result));
 			return cr;
+		}
+
+		public ActionResult DeleteAnimalById(string ids)
+		{
+			AnimalDataAccess ada = new AnimalDataAccess();
+			bool isdeletesuccess = ada.deleteSingleAnimalByUniqueCode(ids);
+			if (isdeletesuccess)
+				return Json("删除成功");
+			else
+				return Json("删除失败");
 		}
     }
 }

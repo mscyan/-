@@ -892,6 +892,8 @@
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Login\View02.cshtml" />
     <Content Include="Views\AnimalManagement\Index.cshtml" />
+    <Content Include="Views\AnimalManagement\AddAnimal.cshtml" />
+    <Content Include="Views\AnimalManagement\AlterAnimal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

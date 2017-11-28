@@ -30,8 +30,8 @@
 				rownumber: true,
 				pagination: true,
 				singleSelect: true,
-				idField: 'Id',
-				sortName: 'Sort',
+				idField: 'AnimalID',
+				sortName: 'AnimalType',
 				sortOrder: "asc",
 				pageList: [5, 10, 20, 30],
 				columns: [[
@@ -50,7 +50,46 @@
 		})
 		function add() {
 			//增加
-			alert('Open the Add Window')
+			//alert('Open the Add Window')
+			$("<div/>").dialog({
+				id: "addAnimal_id",
+				href: "/AnimalManagement/AddAnimal",
+				title: "添加牲畜信息",
+				width: 300,
+				height: 200,
+				modal: true,
+				buttons: [{
+					id: 'certain',
+					text: '添 加',
+					handler: function () {
+						var animal_type = $("#animal_type").val();
+						var feed_type = $("#feed_type").val();
+						$.ajax({
+							url: "/AnimalManagement/AddOneAnimal",
+							data: { 'AnimalType': animal_type, 'FeedType': feed_type },
+							type: "POST",
+							dataType: "Json",
+							success: function (data) {
+								alert(data);
+								$("#addAnimal_id").dialog("destroy");
+								$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+							}
+						})
+					}
+				}, {
+					text: '取消',
+					handler: function () {
+						$("addAnimal_id").dialog("destroy");
+					}
+				}],
+				onLoad: function () {
+					// do nothing
+					//$("#addAnimal_id").dialog("destroy");
+				},
+				onClose: function () {
+					$("#addAnimal_id").dialog("destroy");
+				}
+			})
 		}
 		function edit() {
 			//编辑
@@ -59,10 +98,41 @@
 				$.messager.alert("Notification", "Please choose the button");
 				return;
 			}
+			else {
+				
+			}
 		}
 
 		function deleteRow() {
 			//删除行
+			var rows = $("#this_table").datagrid("getChecked");
+			if (rows.length < 1)	
+			{
+				$.messager.confirm("提示", "请先选中要删除的列");
+				return;
+			}
+			$.messager.confirm("提示", "确定删除此列？", function (r) {
+				if (r) {
+					// 参数r是提示框的按钮（确定-> true 取消->false）
+					//alert(r + "***");
+					var AnimalID = "";
+					$.each(rows, function (i, row) {
+						AnimalID = row.AnimalID + ",";
+					});
+					AnimalID = AnimalID.substring(0, AnimalID.length - 1);
+					//alert(AnimalID+" "+typeof(AnimalID));
+					$.ajax({
+						url: "/AnimalManagement/DeleteAnimalById",
+						data: { 'ids': AnimalID },
+						type: "POST",
+						dataType: "Json",
+						success: function (data) {
+							alert(data);
+							$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+						}
+					})
+				}
+			});
 		}
 	</script>
 </head>
@@ -76,57 +146,27 @@
 		<div data-options="region:'west',split:true" title="牲畜管理" style="width:180px;height:100%">
 			<!--左侧-->
 			<!--饲料管理，牲畜养殖管理，检疫管理-->
-			<div class="easyui-panel" style="padding:5px">
-				<ul class="easyui-tree">
-					<li>
-						<span>My Documents</span>
-						<ul>
-							<li data-options="state:'closed'">
-								<span>Photos</span>
-								<ul>
-									<li>
-										<span>Friend</span>
-									</li>
-									<li>
-										<span>Wife</span>
-									</li>
-									<li>
-										<span>Company</span>
-									</li>
-								</ul>
-							</li>
-							<li>index.html</li>
-							<li>about.html</li>
-							<li>welcome.html</li>
-						</ul>
-					</li>
-				</ul>
-			</div><div class="easyui-panel" style="padding:5px">
-	<ul class="easyui-tree">
-		<li>
-			<span>My Documents</span>
-			<ul>
-				<li data-options="state:'closed'">
-					<span>Photos</span>
+			<ul class="easyui-tree">
+				<li>
+					<span>饲料管理</span>
 					<ul>
-						<li>
-							<span>Friend</span>
-						</li>
-						<li>
-							<span>Wife</span>
-						</li>
-						<li>
-							<span>Company</span>
-						</li>
+						<li>添加饲料种类</li>
+						<li>添加饲料</li>
 					</ul>
 				</li>
-				<li>index.html</li>
-				<li>about.html</li>
-				<li>welcome.html</li>
+				<li>
+					<span>牲畜养殖管理</span>
+					<ul>
+						<li>新增牲畜</li>
+					</ul>
+				</li>
+				<li>
+					<span>检疫管理</span>
+					<ul>
+						<li>检疫结果</li>
+					</ul>
+				</li>
 			</ul>
-		</li>
-	</ul>
-</div>
 		</div>
 		<div data-options="region:'center',title:'Main Title',iconCls:'icon-ok'">
 			<table id="this_table">

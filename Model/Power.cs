@@ -15,5 +15,17 @@ namespace Model
 
 		private string id;
 		public string powerName;
+
+		public string ID
+		{
+			get { return id; }
+			set { id = value; }
+		}
+
+		public string PowerName
+		{
+			get { return powerName; }
+			set { powerName = value; }
+		}
 	}
 }

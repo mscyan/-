@@ -84,7 +84,7 @@ namespace DataAccessLibrary
 		//删除单条记录
 		public bool deleteSingleAnimalByUniqueCode(string uniquecode)
 		{
-			string sql = string.Format("delete from Animal where AnimalID = '{0}", uniquecode);
+			string sql = string.Format("delete from Animal where AnimalID = '{0}'", uniquecode);
 			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
 			if (Convert.ToInt32(obj) > 0)
 			{
