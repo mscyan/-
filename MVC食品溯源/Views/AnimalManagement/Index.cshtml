@@ -84,7 +84,6 @@
 				}],
 				onLoad: function () {
 					// do nothing
-					//$("#addAnimal_id").dialog("destroy");
 				},
 				onClose: function () {
 					$("#addAnimal_id").dialog("destroy");
@@ -142,7 +141,6 @@
 			牲畜养殖管理平台
 		</div>
 		<div data-options="region:'south',split:true" style="height:50px;"></div>
-		@*<div data-options="region:'east',split:true" title="East" style="width:180px;"></div>*@
 		<div data-options="region:'west',split:true" title="牲畜管理" style="width:180px;height:100%">
 			<!--左侧-->
 			<!--饲料管理，牲畜养殖管理，检疫管理-->
@@ -150,25 +148,26 @@
 				<li>
 					<span>饲料管理</span>
 					<ul>
-						<li>添加饲料种类</li>
-						<li>添加饲料</li>
+						<li>饲料种类</li>
+						<li>饲料</li>
 					</ul>
 				</li>
 				<li>
 					<span>牲畜养殖管理</span>
 					<ul>
-						<li>新增牲畜</li>
+						<li>牲畜信息</li>
+
 					</ul>
 				</li>
 				<li>
 					<span>检疫管理</span>
 					<ul>
-						<li>检疫结果</li>
+						<li>检疫信息</li>
 					</ul>
 				</li>
 			</ul>
 		</div>
-		<div data-options="region:'center',title:'Main Title',iconCls:'icon-ok'">
+		<div data-options="region:'center',title:'牲畜管理页面'">
 			<table id="this_table">
 
 			</table>

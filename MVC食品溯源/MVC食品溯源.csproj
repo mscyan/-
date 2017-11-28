@@ -147,10 +147,13 @@
     <Compile Include="App_Start\LoginAttribute.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AnimalManagementController.cs" />
+    <Compile Include="Controllers\ButchWorkController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\FarmManagementController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
+    <Compile Include="Controllers\ManuWorkController.cs" />
+    <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -894,6 +897,9 @@
     <Content Include="Views\AnimalManagement\Index.cshtml" />
     <Content Include="Views\AnimalManagement\AddAnimal.cshtml" />
     <Content Include="Views\AnimalManagement\AlterAnimal.cshtml" />
+    <Content Include="Views\Sales\Index.cshtml" />
+    <Content Include="Views\ManuWork\Index.cshtml" />
+    <Content Include="Views\ButchWork\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
