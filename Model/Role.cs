@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-	class Role
+	public class Role
 	{
 		public Role()
 		{
@@ -18,9 +18,28 @@ namespace Model
 		private string description;
 		private string givenBy;
 
-		public string ID;
-		public string RoleName;
-		public string Description;
-		public string GivenBy;
+		public string ID
+		{
+			get { return id; }
+			set { id = value; }
+		}
+
+		public string RoleName
+		{
+			get { return roleName; }
+			set { roleName = value; }
+		}
+
+		public string Description
+		{
+			get { return description; }
+			set { description = value; }
+		}
+
+		public string GivenBy
+		{
+			get { return givenBy; }
+			set { givenBy = value; }
+		}
 	}
 }

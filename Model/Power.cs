@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-	class Power
+	public class Power
 	{
 		public Power()
 		{
@@ -14,7 +14,7 @@ namespace Model
 		}
 
 		private string id;
-		public string powerName;
+		private string powerName;
 
 		public string ID
 		{
