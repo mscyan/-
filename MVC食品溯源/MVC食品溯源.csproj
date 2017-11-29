@@ -903,6 +903,10 @@
     <Content Include="Views\ButchWork\Index.cshtml" />
     <Content Include="Views\BackSystem\Index.cshtml" />
     <Content Include="Views\BackSystem\Roles.cshtml" />
+    <Content Include="Views\BackSystem\Users.cshtml" />
+    <Content Include="Views\BackSystem\Replys.cshtml" />
+    <Content Include="Views\BackSystem\Companys.cshtml" />
+    <Content Include="Views\BackSystem\Menus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

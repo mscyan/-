@@ -26,33 +26,34 @@
 		}
 	</style>
 	<script>
-		$(document).ready(function () {
-			$("#this_table").datagrid({
-				url:"/AnimalManagement/GetAllAnimals",
-				striped: true,
-				rownumber: true,
-				pagination: true,
-				singleSelect: true,
-				idField: 'AnimalID',
-				sortName: 'AnimalType',
-				sortOrder: "asc",
-				pageList: [5, 10, 20, 30],
-				columns: [[
-					{ field: "AnimalID", title: "标识码", width: 100 },
-					{ field: "AnimalType", title: "动物品种",sortable:true, width: 100 },
-					{ field: "AnimalBirth", title: "入栏时间", width: 150 },
-					{ field: "FarmID", title: "养殖场ID", width: 150 },
-					{ field: "FeedType", title: "适用饲料类型", width: 100 }
-				]],
-				toolbar: [
-					{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
-					{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
-					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
-				]
-			})
-		})
+		//$(document).ready(function () {
+		//	$("#this_table").datagrid({
+		//		url:"/AnimalManagement/GetAllAnimals",
+		//		striped: true,
+		//		rownumber: true,
+		//		pagination: true,
+		//		singleSelect: true,
+		//		idField: 'AnimalID',
+		//		sortName: 'AnimalType',
+		//		sortOrder: "asc",
+		//		pageList: [5, 10, 20, 30],
+		//		columns: [[
+		//			{ field: "AnimalID", title: "标识码", width: 100 },
+		//			{ field: "AnimalType", title: "动物品种",sortable:true, width: 100 },
+		//			{ field: "AnimalBirth", title: "入栏时间", width: 150 },
+		//			{ field: "FarmID", title: "养殖场ID", width: 150 },
+		//			{ field: "FeedType", title: "适用饲料类型", width: 100 }
+		//		]],
+		//		toolbar: [
+		//			{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
+		//			{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
+		//			{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
+		//		]
+		//	})
+		//})
+
+		//增加
 		function add() {
-			//增加
 			//alert('Open the Add Window')
 			$("<div/>").dialog({
 				id: "addAnimal_id",
@@ -94,20 +95,14 @@
 			})
 		}
 
+		//编辑
 		function edit() {
-			//编辑
-			var row = $("#this_table").datagrid("getChecked");
-			if (row.length < 1) {
-				$.messager.alert("Notification", "Please choose the button");
-				return;
-			}
-			else {
-
-			}
+			
+			
 		}
 
+		//删除行
 		function deleteRow() {
-			//删除行
 			var rows = $("#this_table").datagrid("getChecked");
 			if (rows.length < 1)
 			{
@@ -154,9 +149,27 @@
 			}
 		}
 
-		function hello() {
-			alert("hello");
-			addTab('角色','/BackSystem/Roles',null)
+		function openTabByName(PageName, TabName) {
+			addTab(TabName, '/BackSystem//' + PageName, null)
+		}
+
+		//刷新标签页
+		function refreshTab() {
+			var index = $('#tabs').tabs('getTabIndex', $('#tabs').tabs('getSelected'));
+			if (index != -1) {
+				var tab = $('#tabs').tabs('getTab', index);
+				$('#tabs').tabs('update', {
+					tab: tab,
+					options: {
+						selected: true
+					}
+				});
+			}
+		}
+
+		//关闭所有标签
+		function closeTab() {
+			
 		}
 	</script>
 </head>
@@ -171,7 +184,7 @@
 				<li>
 					<span>厂商管理</span>
 					<ul>
-						<li onclick="hello()">申请回复</li>
+						<li>申请回复</li>
 						<li>厂商信息</li>
 					</ul>
 				</li>
@@ -179,27 +192,25 @@
 					<span>菜单管理</span>
 					<ul>
 						<li>菜单信息</li>
-
 					</ul>
 				</li>
 				<li>
 					<span>权限管理</span>
 					<ul>
-						<li>角色管理</li>
-						<li>用户管理</li>
+						<li><a onclick='openTabByName("Roles","角色")'>角色管理</a></li>
+						<li><a onclick='openTabByName("Users","用户")'>用户管理</a></li>
 					</ul>
 				</li>
 			</ul>
 		</div>
 		<div data-options="region:'center'">
-			@*<table id="this_table"></table>*@
 			<div id="tabs" class="easyui-tabs" fit="true" border="false",data-options="
                     tools:[
                     {iconCls : 'icon-arrow_refresh',text:'刷新',handler:refreshTab},
                     {iconCls : 'icon-delete3',text:'关闭全部',handler:closeTab}
                     ]">
-            <div id="home" title="我的主页" data-options="iconCls:'icon-house',closable:false" style="padding:10px">
-                This is the Home content.
+            <div id="home" title="主页" data-options="iconCls:'icon-house',closable:false" style="padding:10px">
+                欢迎来到后台管理界面
             </div>
         </div>
 		</div>
