@@ -8,5 +8,10 @@ namespace DataAccessLibrary
 {
 	public class ManuFactoryDataAccess
 	{
+		public bool AddManuFactory()
+		{
+
+			return false;
+		}
 	}
 }

@@ -147,6 +147,7 @@
     <Compile Include="App_Start\LoginAttribute.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AnimalManagementController.cs" />
+    <Compile Include="Controllers\BackSystemController.cs" />
     <Compile Include="Controllers\ButchWorkController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\FarmManagementController.cs" />
@@ -900,6 +901,8 @@
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\ManuWork\Index.cshtml" />
     <Content Include="Views\ButchWork\Index.cshtml" />
+    <Content Include="Views\BackSystem\Index.cshtml" />
+    <Content Include="Views\BackSystem\Roles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
