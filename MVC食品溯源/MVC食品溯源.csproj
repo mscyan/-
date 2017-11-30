@@ -905,7 +905,6 @@
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\ManuWork\Index.cshtml" />
     <Content Include="Views\ButchWork\Index.cshtml" />
-    <Content Include="Views\BackSystem\Companys.cshtml" />
     <Content Include="Views\Role\RoleIndex.cshtml" />
     <Content Include="Views\Role\AddRole.cshtml" />
     <Content Include="Views\Role\EditRole.cshtml" />

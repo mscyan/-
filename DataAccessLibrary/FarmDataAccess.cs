@@ -8,31 +8,30 @@ using Model;
 
 namespace DataAccessLibrary
 {
-	public class ManuFactoryDataAccess
+	public class FarmDataAccess
 	{
-		public bool AddManuFactory()
+		public bool AddFarm()
 		{
-
 			return false;
 		}
 
-		//获取所有加工厂
-		public List<ManuFactory> GetAllManuFactory()
+		//获取所有的养殖场
+		public List<Farm> GetAllFarm()
 		{
-			List<ManuFactory> list = new List<ManuFactory>();
-			string sql = "select * from [ManuTable]";
+			List<Farm> list = new List<Farm>();
+			string sql = "select * from [Farm]";
 			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
 			if (dt.Rows.Count > 0)
 			{
 				for (int i = 0; i < dt.Rows.Count; i++)
 				{
-					ManuFactory mf = new ManuFactory(
+					Farm farm = new Farm(
 						dt.Rows[i][0].ToString(),
 						dt.Rows[i][1].ToString(),
 						dt.Rows[i][2].ToString(),
 						dt.Rows[i][3].ToString(),
 						dt.Rows[i][4].ToString());
-					list.Add(mf);
+					list.Add(farm);
 				}
 				return list;
 			}
@@ -40,9 +39,9 @@ namespace DataAccessLibrary
 				return null;
 		}
 
-		public bool DeleteManuFactoryById(string id)
+		public bool DeleteFarmById(string id)
 		{
-			string sql = string.Format("delete from [ManuTable] where ManuId = '{0}'", id);
+			string sql = string.Format("delete from [Farm] where FarmID = '{0}'", id);
 			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
 			if (Convert.ToInt32(obj) > 0)
 				return true;

@@ -72,5 +72,12 @@ namespace MVC食品溯源.Controllers
 			var bfs = bfda.GetAllButchFactory();
 			return Json(bfs);
 		}
+
+		public ActionResult GetAllFarmAction()
+		{
+			FarmDataAccess fda = new FarmDataAccess();
+			var fs = fda.GetAllFarm();
+			return Json(fs);
+		}
     }
 }

@@ -16,7 +16,7 @@ namespace Model
 		/// <param name="farmPerson">养殖场负责人</param>
 		/// <param name="farmPosition">养殖场地点</param>
 		/// <param name="farmTel">养殖场电话</param>
-		public Farm(string farmID, string farmName, string farmPerson, string farmPosition, string farmTel)
+		public Farm(string farmID, string farmPerson, string farmPosition, string farmTel, string farmName)
 		{
 			this.farmID = farmID;
 			this.farmName = farmName;
