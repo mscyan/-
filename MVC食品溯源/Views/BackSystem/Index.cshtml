@@ -150,7 +150,7 @@
 		}
 
 		function openTabByName(PageName, TabName) {
-			addTab(TabName, '/BackSystem//' + PageName, null)
+			addTab(TabName, PageName, null)
 		}
 
 		//刷新标签页
@@ -184,8 +184,11 @@
 				<li>
 					<span>厂商管理</span>
 					<ul>
-						<li>申请回复</li>
-						<li>厂商信息</li>
+						<li><a onclick="">申请回复</a></li>
+						<li><a onclick="">养殖场管理</a></li>
+						<li><a onclick="">屠宰场</a></li>
+						<li><a onclick="">加工厂</a></li>
+						<li><a onclick="">零售点</a></li>
 					</ul>
 				</li>
 				<li>
@@ -197,8 +200,8 @@
 				<li>
 					<span>权限管理</span>
 					<ul>
-						<li><a onclick='openTabByName("Roles","角色")'>角色管理</a></li>
-						<li><a onclick='openTabByName("Users","用户")'>用户管理</a></li>
+						<li><a onclick='openTabByName("/Role/RoleIndex","角色")'>角色管理</a></li>
+						<li><a onclick='openTabByName("/User/UserIndex","用户")'>用户管理</a></li>
 					</ul>
 				</li>
 			</ul>

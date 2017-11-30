@@ -1,0 +1,145 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>角色管理</title>
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
+	<link href="~/Content/themes/icon.css" rel="stylesheet" />
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/icon.css" rel="stylesheet" />
+	<script src="~/Content/js/common.js"></script>
+	<link href="~/Content/themes/table.css" rel="stylesheet" />
+	<style>
+		body {
+			font-family: 'Microsoft YaHei';
+		}
+	</style>
+	<script>
+		$(document).ready(function () {
+			$("#role_table").datagrid({
+				url:"/Role/GetAllRoles",
+				striped: true,
+				rownumber: true,
+				pagination: true,
+				singleSelect: true,
+				idField: 'RoleID',
+				//sortName: 'AnimalType',
+				sortOrder: "asc",
+				pageList: [5, 10, 20, 30],
+				columns: [[
+					{ field: "RoleID", title: "角色ID", width: 100 },
+					{ field: "RoleName", title: "角色名称", sortable: true, width: 100 },
+					{ field: "Description", title: "描述", width: 100 },
+					{ field: "GivenBy", title: "赋权者", width: 100 },
+				]],
+				toolbar: [
+					{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
+					{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
+					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
+				]
+			})
+		})
+		function add() {
+			//增加
+			//alert('Open the Add Window')
+			$("<div/>").dialog({
+				id: "addRole_id",
+				href: "/Role/AddRole",
+				title: "添加角色",
+				width: 300,
+				height: 200,
+				modal: true,
+				buttons: [{
+					id: 'certain',
+					text: '添 加',
+					handler: function () {
+						var role_name = $("#role_name").val();
+						var role_desc = $("#role_desc").val();
+						var giver = 'Admin';
+						$.ajax({
+							url: "/Role/AddRoleAction",
+							data: { 'AnimalType': animal_type, 'FeedType': feed_type },
+							type: "POST",
+							dataType: "Json",
+							success: function (data) {
+								alert(data);
+								$("#addRole_id").dialog("destroy");
+								$("#role_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+							}
+						})
+					}
+				}, {
+					text: '取消',
+					handler: function () {
+						$("addRole_id").dialog("destroy");
+					}
+				}],
+				onLoad: function () {
+					// do nothing
+				},
+				onClose: function () {
+					$("#addRole_id").dialog("destroy");
+				}
+			})
+		}
+		function edit() {
+			//编辑
+			var row = $("#role_table").datagrid("getChecked");
+			if (row.length < 1) {
+				$.messager.alert("Notification", "Please choose the button");
+				return;
+			}
+			else {
+
+			}
+		}
+
+		function deleteRow() {
+			//删除行
+			var rows = $("#role_table").datagrid("getChecked");
+			if (rows.length < 1)
+			{
+				$.messager.confirm("提示", "请先选中要删除的列");
+				return;
+			}
+			$.messager.confirm("提示", "确定删除此列？", function (r) {
+				if (r) {
+					// 参数r是提示框的按钮（确定-> true 取消->false）
+					//alert(r + "***");
+					var AnimalID = "";
+					$.each(rows, function (i, row) {
+						AnimalID = row.AnimalID + ",";
+					});
+					AnimalID = AnimalID.substring(0, AnimalID.length - 1);
+					//alert(AnimalID+" "+typeof(AnimalID));
+					$.ajax({
+						url: "/Role/DeleteRoleById",
+						data: { 'ids': AnimalID },
+						type: "POST",
+						dataType: "Json",
+						success: function (data) {
+							alert(data);
+							$("#role_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+						}
+					})
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+    <div> 
+		<table id="role_table">
+
+		</table>
+    </div>
+</body>
+</html>

@@ -149,12 +149,16 @@
     <Compile Include="Controllers\AnimalManagementController.cs" />
     <Compile Include="Controllers\BackSystemController.cs" />
     <Compile Include="Controllers\ButchWorkController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\FarmManagementController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\ManuWorkController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -895,22 +899,25 @@
     <Content Include="Views\Default\View03.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Login\View02.cshtml" />
-    <Content Include="Views\AnimalManagement\Index.cshtml" />
+    <Content Include="Views\AnimalManagement\AnimalIndex.cshtml" />
     <Content Include="Views\AnimalManagement\AddAnimal.cshtml" />
     <Content Include="Views\AnimalManagement\AlterAnimal.cshtml" />
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\ManuWork\Index.cshtml" />
     <Content Include="Views\ButchWork\Index.cshtml" />
     <Content Include="Views\BackSystem\Index.cshtml" />
-    <Content Include="Views\BackSystem\Roles.cshtml" />
-    <Content Include="Views\BackSystem\Users.cshtml" />
     <Content Include="Views\BackSystem\Replys.cshtml" />
     <Content Include="Views\BackSystem\Companys.cshtml" />
-    <Content Include="Views\BackSystem\Menus.cshtml" />
+    <Content Include="Views\Role\RoleIndex.cshtml" />
+    <Content Include="Views\Role\AddRole.cshtml" />
+    <Content Include="Views\Role\EditRole.cshtml" />
+    <Content Include="Views\User\UserIndex.cshtml" />
+    <Content Include="Views\Company\CompanyIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Menu\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

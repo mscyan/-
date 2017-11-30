@@ -15,7 +15,7 @@ namespace MVC食品溯源.Controllers
 	{
 		// GET: AnimalManagement
 		// 此控制器主要用于牲畜养殖管理过程中的数据操作。
-		public ActionResult Index()
+		public ActionResult AnimalIndex()
 		{
 
 
@@ -44,18 +44,10 @@ namespace MVC食品溯源.Controllers
 
 		public ActionResult GetAllAnimals()
 		{
-			//AnimalDataAccess ada = new AnimalDataAccess();
+			AnimalDataAccess ada = new AnimalDataAccess();
+			var animals = ada.getAllAnimals();
 
-			string constring = "Data Source=MSI;Initial Catalog=食品溯源;Integrated Security=True";
-			IDbConnection con = new SqlConnection(constring);
-			string sql = "select * from [Animal]";
-			var result = con.Query(sql, null, null, true, null, CommandType.Text);
-			//ContentResult cr = Content("{\"total\":"+",\"rows\":"+JsonConvert.SerializeObject(result)+"}");
-			ContentResult cr = Content(JsonConvert.SerializeObject(result));
-			//var result = ada.getAllAnimals();
-			//ContentResult cr = Content(JsonConvert.SerializeObject(result));
-			//JsonResult js = Json(JsonConvert.SerializeObject(result));
-			return cr;
+			return Json(animals);
 		}
 
 		public ActionResult DeleteAnimalById(string ids)

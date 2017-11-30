@@ -18,9 +18,9 @@ namespace Model
 		/// <param name="feedType">适用饲料种类</param>
 		public Animal(string uniqueCode,string animalType,DateTime birth,string farmID,string feedType)
 		{
-			this.uniqueCode = uniqueCode;
+			this.animalID = uniqueCode;
 			this.animalType = animalType;
-			this.birth = birth;
+			this.animalBirth = birth;
 			this.farmID = farmID;
 			this.feedType = feedType;
 		}
@@ -29,14 +29,14 @@ namespace Model
 		{
 		}
 
-		private string uniqueCode;
+		private string animalID;
 		/// <summary>
 		/// 唯一标识码
 		/// </summary>
-		public string UniqueCode
+		public string AnimalID
 		{
-			get { return uniqueCode; }
-			set { uniqueCode = value; }
+			get { return animalID; }
+			set { animalID = value; }
 		}
 
 		private string animalType;
@@ -49,14 +49,14 @@ namespace Model
 			set { animalType = value; }
 		}
 
-		private DateTime birth;
+		private DateTime animalBirth;
 		/// <summary>
 		/// 入栏时间
 		/// </summary>
-		public DateTime Birth
+		public DateTime AnimalBirth
 		{
-			get { return birth; }
-			set { birth = value; }
+			get { return animalBirth; }
+			set { animalBirth = value; }
 		}
 
 		private string farmID;

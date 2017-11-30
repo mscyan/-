@@ -1,0 +1,177 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>牲畜管理</title>
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
+	<link href="~/Content/themes/icon.css" rel="stylesheet" />
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/icon.css" rel="stylesheet" />
+	<script src="~/Content/js/common.js"></script>
+	<link href="~/Content/themes/table.css" rel="stylesheet" />
+	<style>
+		body{
+			font-family:'Microsoft YaHei';
+		}
+	</style>
+	<script>
+		$(document).ready(function () {
+			$("#this_table").datagrid({
+				url:"/AnimalManagement/GetAllAnimals",
+				striped: true,
+				rownumber: true,
+				pagination: true,
+				singleSelect: true,
+				idField: 'AnimalID',
+				sortName: 'AnimalType',
+				sortOrder: "asc",
+				pageList: [5, 10, 20, 30],
+				columns: [[
+					{ field: "AnimalID", title: "标识码", width: 100 },
+					{ field: "AnimalType", title: "动物品种",sortable:true, width: 100 },
+					{ field: "AnimalBirth", title: "入栏时间", width: 150 },
+					{ field: "FarmID", title: "养殖场ID", width: 150 },
+					{ field: "FeedType", title: "适用饲料类型", width: 100 }
+				]],
+				toolbar: [
+					{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
+					{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
+					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
+				]
+			})
+		})
+		function add() {
+			//增加
+			//alert('Open the Add Window')
+			$("<div/>").dialog({
+				id: "addAnimal_id",
+				href: "/AnimalManagement/AddAnimal",
+				title: "添加牲畜信息",
+				width: 300,
+				height: 200,
+				modal: true,
+				buttons: [{
+					id: 'certain',
+					text: '添 加',
+					handler: function () {
+						var animal_type = $("#animal_type").val();
+						var feed_type = $("#feed_type").val();
+						$.ajax({
+							url: "/AnimalManagement/AddOneAnimal",
+							data: { 'AnimalType': animal_type, 'FeedType': feed_type },
+							type: "POST",
+							dataType: "Json",
+							success: function (data) {
+								alert(data);
+								$("#addAnimal_id").dialog("destroy");
+								$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+							}
+						})
+					}
+				}, {
+					text: '取消',
+					handler: function () {
+						$("addAnimal_id").dialog("destroy");
+					}
+				}],
+				onLoad: function () {
+					// do nothing
+				},
+				onClose: function () {
+					$("#addAnimal_id").dialog("destroy");
+				}
+			})
+		}
+		function edit() {
+			//编辑
+			var row = $("#this_table").datagrid("getChecked");
+			if (row.length < 1) {
+				$.messager.alert("Notification", "Please choose the button");
+				return;
+			}
+			else {
+				
+			}
+		}
+
+		function deleteRow() {
+			//删除行
+			var rows = $("#this_table").datagrid("getChecked");
+			if (rows.length < 1)	
+			{
+				$.messager.confirm("提示", "请先选中要删除的列");
+				return;
+			}
+			$.messager.confirm("提示", "确定删除此列？", function (r) {
+				if (r) {
+					// 参数r是提示框的按钮（确定-> true 取消->false）
+					//alert(r + "***");
+					var AnimalID = "";
+					$.each(rows, function (i, row) {
+						AnimalID = row.AnimalID + ",";
+					});
+					AnimalID = AnimalID.substring(0, AnimalID.length - 1);
+					//alert(AnimalID+" "+typeof(AnimalID));
+					$.ajax({
+						url: "/AnimalManagement/DeleteAnimalById",
+						data: { 'ids': AnimalID },
+						type: "POST",
+						dataType: "Json",
+						success: function (data) {
+							alert(data);
+							$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+						}
+					})
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+	<div class="easyui-layout" style="width:100%;height:700px;">
+		<div data-options="region:'north'" style="height:100px">
+			牲畜养殖管理平台
+		</div>
+		<div data-options="region:'south',split:true" style="height:50px;"></div>
+		<div data-options="region:'west',split:true" title="牲畜管理" style="width:180px;height:100%">
+			<!--左侧-->
+			<!--饲料管理，牲畜养殖管理，检疫管理-->
+			<ul class="easyui-tree">
+				<li>
+					<span>饲料管理</span>
+					<ul>
+						<li>饲料种类</li>
+						<li>饲料</li>
+					</ul>
+				</li>
+				<li>
+					<span>牲畜养殖管理</span>
+					<ul>
+						<li>牲畜信息</li>
+
+					</ul>
+				</li>
+				<li>
+					<span>检疫管理</span>
+					<ul>
+						<li>检疫信息</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div data-options="region:'center',title:'牲畜管理页面'">
+			<table id="this_table">
+
+			</table>
+		</div>
+	</div>
+</body>
+</html>

@@ -15,9 +15,9 @@ namespace DataAccessLibrary
 		/// 添加用户
 		/// </summary>
 		/// <returns></returns>
-		public bool AddUser(string username,string password,string Tel)
+		public bool AddUser(string username,string password,string Tel,string companyid)
 		{
-			string sql = string.Format("insert into [User] values ('{0}','{1}','{2}')",username,password,Tel);
+			string sql = string.Format("insert into [User] values ('{0}','{1}','{2}','{3}')",username,password,Tel,companyid);
 			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
 			if (Convert.ToInt32(obj) > 0)
 				return true; 

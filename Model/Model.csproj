@@ -44,6 +44,7 @@
     <Compile Include="ButchFactory.cs" />
     <Compile Include="ButchWorkInfo.cs" />
     <Compile Include="CodeProvider.cs" />
+    <Compile Include="Company.cs" />
     <Compile Include="Farm.cs" />
     <Compile Include="Feed.cs" />
     <Compile Include="FeedType.cs" />
