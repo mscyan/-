@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-	class Market : Company
+	public class Market : Company
 	{
 		/// <summary>
 		/// 
@@ -16,7 +16,7 @@ namespace Model
 		/// <param name="marketPerson">负责人</param>
 		/// <param name="marketPosition">零售点地点</param>
 		/// <param name="marketTel">零售点电话</param>
-		public Market(string marketID, string marketName, string marketPerson, string marketPosition, string marketTel)
+		public Market(string marketID, string marketPerson, string marketPosition, string marketTel, string marketName)
 		{
 			this.marketID = marketID;
 			this.marketName = marketName;

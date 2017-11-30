@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-	class ManuFactory:Company
+	public class ManuFactory:Company
 	{
 		/// <summary>
 		/// 
@@ -16,33 +16,33 @@ namespace Model
 		/// <param name="manuFactoryName">加工厂名称</param>
 		/// <param name="manuPosition">加工厂地点</param>
 		/// <param name="manuTel">加工厂电话</param>
-		public ManuFactory(string manuID,string manuFactoryName, string manuPerson, string manuPosition, string manuTel)
+		public ManuFactory(string manuID, string manuPerson, string manuPosition, string manuTel, string manuName)
 		{
-			this.manuFactoryID = manuID;
+			this.manuID = manuID;
 			this.manuPerson = manuPerson;
 			this.manuPosition = manuPosition;
-			this.manuFactoryName = manuFactoryName;
+			this.manuName = manuName;
 			this.manuTel = manuTel;
 		}
 
-		private string manuFactoryID;
+		private string manuID;
 		/// <summary>
 		/// 加工厂编号
 		/// </summary>
-		public string ManuFactoryID
+		public string ManuID
 		{
-			get { return manuFactoryID; }
-			set { manuFactoryID = value; }
+			get { return manuID; }
+			set { manuID = value; }
 		}
 
-		private string manuFactoryName;
+		private string manuName;
 		/// <summary>
 		/// 加工厂名称
 		/// </summary>
-		public string ManuFactoryName
+		public string ManuName
 		{
-			get { return manuFactoryName; }
-			set { manuFactoryName = value; }
+			get { return manuName; }
+			set { manuName = value; }
 		}
 
 		private string manuPerson;
@@ -59,7 +59,7 @@ namespace Model
 		/// <summary>
 		/// 加工厂地点
 		/// </summary>
-		public string ManuPostion
+		public string ManuPosition
 		{
 			get { return manuPosition; }
 			set { manuPosition = value; }

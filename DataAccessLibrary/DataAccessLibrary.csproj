@@ -49,6 +49,7 @@
     <Compile Include="LogDataAccess.cs" />
     <Compile Include="ManuFactoryDataAccess.cs" />
     <Compile Include="ManuWorkDataAccess.cs" />
+    <Compile Include="MarketDataAccess.cs" />
     <Compile Include="MedicineDataAccess.cs" />
     <Compile Include="MedicineTypeDataAccess.cs" />
     <Compile Include="MedicineUseDataAccess.cs" />

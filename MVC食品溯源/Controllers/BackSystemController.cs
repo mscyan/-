@@ -13,17 +13,5 @@ namespace MVC食品溯源.Controllers
         {
             return View();
         }
-
-		//申请回复页面
-		public ActionResult Replys()
-		{
-			return View();
-		}
-
-		//厂商信息页面
-		public ActionResult Companys()
-		{
-			return View();
-		}
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-	class ButchFactory : Company
+	public class ButchFactory : Company
 	{
 		/// <summary>
 		/// 
@@ -16,7 +16,7 @@ namespace Model
 		/// <param name="butchPerson">负责人</param>
 		/// <param name="butchPosition">屠宰场地点</param>
 		/// <param name="butchTel">屠宰场电话</param>
-		public ButchFactory(string butchID,string butchName,string butchPerson,string butchPosition,string butchTel)
+		public ButchFactory(string butchID,string butchPerson,string butchPosition,string butchTel, string butchName)
 		{
 			this.butchFactoryID = butchID;
 			this.butchFactoryName = butchName;
@@ -59,7 +59,7 @@ namespace Model
 		/// <summary>
 		/// 屠宰场地点
 		/// </summary>
-		public string ButchPostion
+		public string ButchPosition
 		{
 			get { return butchPosition; }
 			set { butchPosition = value; }

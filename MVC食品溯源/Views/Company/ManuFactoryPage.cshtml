@@ -1,0 +1,63 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ManuFactoryPage</title>
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
+	<link href="~/Content/themes/icon.css" rel="stylesheet" />
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/icon.css" rel="stylesheet" />
+	<script src="~/Content/js/common.js"></script>
+	<link href="~/Content/themes/table.css" rel="stylesheet" />
+	<link href="~/Content/themes/icon.css" rel="stylesheet" />
+	@*<link rel="shortcut icon" type="image/ico" href="~/Content/themes/icon/user_home.png" />*@
+
+	<style>
+		body {
+			font-family: 'Microsoft YaHei';
+		}
+	</style>
+	<script>
+		$(document).ready(function () {
+			$("#manufactory_table").datagrid({
+				url:"/Company/GetAllManuFactoryAction",
+				striped: true,
+				rownumber: true,
+				pagination: true,
+				singleSelect: true,
+				idField: 'ManuID',
+				//sortName: 'AnimalType',
+				sortOrder: "asc",
+				pageList: [5, 10, 20, 30],
+				columns: [[
+					{ field: "ManuID", title: "零售点ID", width: 100 },
+					{ field: "ManuPerson", title: "负责人",sortable:true, width: 100 },
+					{ field: "ManuPosition", title: "地址", width: 150 },
+					{ field: "ManuTel", title: "联系电话ID", width: 150 },
+					{ field: "ManuName", title: "零售点名称", width: 120 }
+				]],
+				toolbar: [
+					//{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
+					//{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
+					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
+				]
+			})
+		})
+	</script>
+</head>
+<body>
+    <div> 
+		<table id="manufactory_table">
+
+		</table>
+    </div>
+</body>
+</html>

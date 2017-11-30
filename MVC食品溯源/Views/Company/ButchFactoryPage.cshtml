@@ -1,0 +1,63 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ButchFactoryPage</title>
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
+	<link href="~/Content/themes/icon.css" rel="stylesheet" />
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/icon.css" rel="stylesheet" />
+	<script src="~/Content/js/common.js"></script>
+	<link href="~/Content/themes/table.css" rel="stylesheet" />
+	<link href="~/Content/themes/icon.css" rel="stylesheet" />
+	@*<link rel="shortcut icon" type="image/ico" href="~/Content/themes/icon/user_home.png" />*@
+
+	<style>
+		body {
+			font-family: 'Microsoft YaHei';
+		}
+	</style>
+	<script>
+		$(document).ready(function () {
+			$("#butchfactory_table").datagrid({
+				url:"/Company/GetAllButchFactoryAction",
+				striped: true,
+				rownumber: true,
+				pagination: true,
+				singleSelect: true,
+				idField: 'ButchFactoryID',
+				//sortName: 'AnimalType',
+				sortOrder: "asc",
+				pageList: [5, 10, 20, 30],
+				columns: [[
+					{ field: "ButchFactoryID", title: "零售点ID", width: 100 },
+					{ field: "ButchPerson", title: "负责人",sortable:true, width: 100 },
+					{ field: "ButchPosition", title: "地址", width: 150 },
+					{ field: "ButchTel", title: "联系电话ID", width: 150 },
+					{ field: "ButchFactoryName", title: "零售点名称", width: 120 }
+				]],
+				toolbar: [
+					//{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
+					//{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
+					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
+				]
+			})
+		})
+	</script>
+</head>
+<body>
+    <div> 
+		<table id="butchfactory_table">
+
+		</table>
+    </div>
+</body>
+</html>

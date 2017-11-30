@@ -16,6 +16,7 @@ namespace MVC食品溯源.Controllers
             return View();
         }
 
+		//公司注册
 		public ActionResult AddCompany()
 		{
 			return View();
@@ -28,6 +29,48 @@ namespace MVC食品溯源.Controllers
 
 
 			return Json(list);
+		}
+
+		//养殖场
+		public ActionResult FarmPage()
+		{
+			return View();
+		}
+
+		public ActionResult ButchFactoryPage()
+		{
+			return View();
+		}
+
+		public ActionResult ManuFactoryPage()
+		{
+			return View();
+		}
+
+		public ActionResult MarketPage()
+		{
+			return View();
+		}
+
+		public ActionResult GetAllMarketAction()
+		{
+			MarketDataAccess mda = new MarketDataAccess();
+			var ms = mda.GetAllMarket();
+			return Json(ms);
+		}
+
+		public ActionResult GetAllManuFactoryAction()
+		{
+			ManuFactoryDataAccess mfda = new ManuFactoryDataAccess();
+			var mfs = mfda.GetAllManuFactory();
+			return Json(mfs);
+		}
+
+		public ActionResult GetAllButchFactoryAction()
+		{
+			ButchFactoryDataAccess bfda = new ButchFactoryDataAccess();
+			var bfs = bfda.GetAllButchFactory();
+			return Json(bfs);
 		}
     }
 }

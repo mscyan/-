@@ -8,30 +8,31 @@ using Model;
 
 namespace DataAccessLibrary
 {
-	public class ButchFactoryDataAccess
+	public class MarketDataAccess
 	{
-		public bool AddButchFactory()
+		public bool AddMarket()
 		{
+
 			return false;
 		}
 
-		//获取所有屠宰场
-		public List<ButchFactory> GetAllButchFactory()
+		//获取所有零售点
+		public List<Market> GetAllMarket()
 		{
-			List<ButchFactory> list = new List<ButchFactory>();
-			string sql = "select * from [ButchTable]";
+			List<Market> list = new List<Market>();
+			string sql = "select * from [Market]";
 			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
 			if (dt.Rows.Count > 0)
 			{
 				for (int i = 0; i < dt.Rows.Count; i++)
 				{
-					ButchFactory bf = new ButchFactory(
+					Market mt = new Market(
 						dt.Rows[i][0].ToString(),
 						dt.Rows[i][1].ToString(),
 						dt.Rows[i][2].ToString(),
 						dt.Rows[i][3].ToString(),
 						dt.Rows[i][4].ToString());
-					list.Add(bf);
+					list.Add(mt);
 				}
 				return list;
 			}
@@ -39,10 +40,10 @@ namespace DataAccessLibrary
 				return null;
 		}
 
-		//根据id删除指定屠宰场
-		public bool DeleteButchFactoryById(string id)
+		//根据id删除指定零售点
+		public bool DeleteMarketById(string id)
 		{
-			string sql = string.Format("delete from ButchTable where ButchID = '{0}'", id);
+			string sql = string.Format("delete from Market where MarketID = '{0}'", id);
 			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
 			if (Convert.ToInt32(obj) > 0)
 				return true;

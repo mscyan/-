@@ -18,7 +18,7 @@
 	<script src="~/Content/js/common.js"></script>
 	<link href="~/Content/themes/table.css" rel="stylesheet" />
 	<link href="~/Content/themes/icon.css" rel="stylesheet" />
-	<link rel="shortcut icon" type="image/ico" href="~/Content/themes/icon/user_home.png" />
+	@*<link rel="shortcut icon" type="image/ico" href="~/Content/themes/icon/user_home.png" />*@
 
 	<style>
 		body {
@@ -26,32 +26,6 @@
 		}
 	</style>
 	<script>
-		//$(document).ready(function () {
-		//	$("#this_table").datagrid({
-		//		url:"/AnimalManagement/GetAllAnimals",
-		//		striped: true,
-		//		rownumber: true,
-		//		pagination: true,
-		//		singleSelect: true,
-		//		idField: 'AnimalID',
-		//		sortName: 'AnimalType',
-		//		sortOrder: "asc",
-		//		pageList: [5, 10, 20, 30],
-		//		columns: [[
-		//			{ field: "AnimalID", title: "标识码", width: 100 },
-		//			{ field: "AnimalType", title: "动物品种",sortable:true, width: 100 },
-		//			{ field: "AnimalBirth", title: "入栏时间", width: 150 },
-		//			{ field: "FarmID", title: "养殖场ID", width: 150 },
-		//			{ field: "FeedType", title: "适用饲料类型", width: 100 }
-		//		]],
-		//		toolbar: [
-		//			{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
-		//			{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
-		//			{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
-		//		]
-		//	})
-		//})
-
 		//增加
 		function add() {
 			//alert('Open the Add Window')
@@ -97,8 +71,8 @@
 
 		//编辑
 		function edit() {
-			
-			
+
+
 		}
 
 		//删除行
@@ -169,12 +143,12 @@
 
 		//关闭所有标签
 		function closeTab() {
-			
+
 		}
 	</script>
 </head>
 <body>
-	<div class="easyui-layout" style="width:100%;height:700px;">
+	<div class="easyui-layout" style="width:100%;height:650px;">
 		<div data-options="region:'north'" style="height:100px">
 			食品溯源后台管理
 		</div>
@@ -184,11 +158,11 @@
 				<li>
 					<span>厂商管理</span>
 					<ul>
-						<li><a onclick="">申请回复</a></li>
-						<li><a onclick="">养殖场管理</a></li>
-						<li><a onclick="">屠宰场</a></li>
-						<li><a onclick="">加工厂</a></li>
-						<li><a onclick="">零售点</a></li>
+						<li><a onclick='openTabByName("","")'>申请回复</a></li>
+						<li><a onclick='openTabByName("","")'>养殖场管理</a></li>
+						<li><a onclick='openTabByName("/Company/ButchFactoryPage","屠宰场")'>屠宰场管理</a></li>
+						<li><a onclick='openTabByName("/Company/ManuFactoryPage","加工厂")'>加工厂管理</a></li>
+						<li><a onclick='openTabByName("/Company/MarketPage","零售点")'>零售点管理</a></li>
 					</ul>
 				</li>
 				<li>
@@ -207,15 +181,15 @@
 			</ul>
 		</div>
 		<div data-options="region:'center'">
-			<div id="tabs" class="easyui-tabs" fit="true" border="false",data-options="
+			<div id="tabs" class="easyui-tabs" fit="true" border="false" ,data-options="
                     tools:[
                     {iconCls : 'icon-arrow_refresh',text:'刷新',handler:refreshTab},
                     {iconCls : 'icon-delete3',text:'关闭全部',handler:closeTab}
                     ]">
-            <div id="home" title="主页" data-options="iconCls:'icon-house',closable:false" style="padding:10px">
-                欢迎来到后台管理界面
-            </div>
-        </div>
+				<div id="home" title="主页" data-options="iconCls:'icon-house',closable:false" style="padding:10px">
+					欢迎来到后台管理界面
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

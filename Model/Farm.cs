@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-	class Farm
+	public class Farm
 	{
 		/// <summary>
 		/// 

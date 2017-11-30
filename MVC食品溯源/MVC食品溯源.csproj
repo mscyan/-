@@ -905,14 +905,17 @@
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\ManuWork\Index.cshtml" />
     <Content Include="Views\ButchWork\Index.cshtml" />
-    <Content Include="Views\BackSystem\Index.cshtml" />
-    <Content Include="Views\BackSystem\Replys.cshtml" />
     <Content Include="Views\BackSystem\Companys.cshtml" />
     <Content Include="Views\Role\RoleIndex.cshtml" />
     <Content Include="Views\Role\AddRole.cshtml" />
     <Content Include="Views\Role\EditRole.cshtml" />
     <Content Include="Views\User\UserIndex.cshtml" />
     <Content Include="Views\Company\CompanyIndex.cshtml" />
+    <Content Include="Views\Company\FarmPage.cshtml" />
+    <Content Include="Views\Company\ButchFactoryPage.cshtml" />
+    <Content Include="Views\Company\ManuFactoryPage.cshtml" />
+    <Content Include="Views\Company\MarketPage.cshtml" />
+    <Content Include="Views\BackSystem\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
