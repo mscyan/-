@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-	class ManuWorkInfo
+	public class ManuWorkInfo
 	{
 		/// <summary>
 		/// 

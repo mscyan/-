@@ -14,9 +14,12 @@ namespace OutputConsole
 		{
 			AnimalDataAccess ada = new AnimalDataAccess();
 
-			Console.WriteLine(ada.getAllAnimals().Count()); 
-			ada.deleteSingleAnimalByUniqueCode("98711434RH");
-			Console.WriteLine(ada.getAllAnimals().Count());
+			//Console.WriteLine(ada.getAllAnimals().Count()); 
+			//ada.deleteSingleAnimalByUniqueCode("98711434RH");
+			//Console.WriteLine(ada.getAllAnimals().Count());
+
+			Console.WriteLine(nameof(UserDataAccess));
+			
 
 			Console.Read();
 		}

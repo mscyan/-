@@ -50,10 +50,21 @@ namespace DataAccessLibrary
 		}
 
 		//修改商品记录的信息
-		public bool UpdateSaleInfo()
-		{
+		//public bool UpdateSaleInfo()
+		//{
 
-			return false;
+		//	return false;
+		//}
+
+		//根据id删除指定的售卖记录
+		public bool DeleteSaleInfoById(string id)
+		{
+			string sql = string.Format("delete from Sales where SaleID = '{0}'", id);
+			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
+			if (Convert.ToInt32(obj) > 0)
+				return true;
+			else
+				return false;
 		}
 	}
 }

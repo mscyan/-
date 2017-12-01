@@ -55,5 +55,17 @@ namespace Model
 		{
 			return "";
 		}
+
+		//为加工工作提供标识码
+		public static string getCodeForManuWork()
+		{
+			return "";
+		}
+
+		//为屠宰工作提供标识码
+		public static string getCodeForButchWork()
+		{
+			return "";
+		}
 	}
 }

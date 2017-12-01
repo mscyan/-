@@ -41,7 +41,7 @@ namespace MVC食品溯源.Controllers
 
 		public ActionResult AddUserAction()
 		{
-
+			
 			return Json("添加成功");
 		}
 
