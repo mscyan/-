@@ -46,5 +46,25 @@ namespace MVC食品溯源.Controllers
 			else
 				return Json("删除失败");
 		}
+
+		public ActionResult AddOneButchWorkInfo(string butch_info,string animal_id,string animal_state)
+		{
+			ButchWorkDataAccess bwda = new ButchWorkDataAccess();
+			bool isaddsuccess = bwda.AddButchWork("JHBY8237TZ", butch_info, animal_id, animal_state);
+			if (isaddsuccess)
+				return Json("添加成功");
+			else
+				return Json("添加失败");
+		}
+
+		public ActionResult AlterButchWorkInfoById(string butch_id, string butch_info, string animal_state)
+		{
+			ButchWorkDataAccess bwda = new ButchWorkDataAccess();
+			bool isaltersuccess = bwda.UpdateButchWork(butch_id,butch_info,animal_state);
+			if (isaltersuccess)
+				return Json("修改成功");
+			else
+				return Json("修改失败");
+		}
     }
 }

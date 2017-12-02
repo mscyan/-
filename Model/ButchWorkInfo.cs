@@ -22,7 +22,7 @@ namespace Model
 			this.butchWorkInfoID = butchWorkInfoID;
 			this.butchFactoryID = butchFactoryID;
 			this.butchDate = butchDate;
-			this.butchWorkInfoID = butchWorkInfoID;
+			this.butchInfo = butchInfo;
 			this.animalUniqueCode = animalUniqueCode;
 			this.animalState = animalState;
 		}
@@ -51,7 +51,7 @@ namespace Model
 		/// <summary>
 		/// 屠宰日期
 		/// </summary>
-		private DateTime ButchDate
+		public DateTime ButchDate
 		{
 			get { return butchDate; }
 			set { butchDate = value; }
@@ -61,7 +61,7 @@ namespace Model
 		/// <summary>
 		/// 屠宰信息
 		/// </summary>
-		private string ButchInfo
+		public string ButchInfo
 		{
 			get { return butchInfo; }
 			set { butchInfo = value; }
@@ -71,7 +71,7 @@ namespace Model
 		/// <summary>
 		/// 牲畜唯一标识码
 		/// </summary>
-		private string AnimalUniqueCode
+		public string AnimalUniqueCode
 		{
 			get { return animalUniqueCode; }
 			set { animalUniqueCode = value; }
@@ -81,7 +81,7 @@ namespace Model
 		/// <summary>
 		/// 牲畜当前状态信息
 		/// </summary>
-		private string AnimalState
+		public string AnimalState
 		{
 			get { return animalState; }
 			set { animalState = value; }

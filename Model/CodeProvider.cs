@@ -51,21 +51,29 @@ namespace Model
 		}
 
 		//为饲料生成标识码
-		public static string getCodeForFeed()
+		public static string getCodeForFeed(string farmid)
 		{
-			return "";
+			string filetime = DateTime.Now.ToFileTime().ToString();
+			string second = filetime.Substring(filetime.Length - 3, 3);
+
+
+			return second + farmid.Substring(0, 3);// + animalID.Substring(0, 4);
 		}
 
 		//为加工工作提供标识码
-		public static string getCodeForManuWork()
+		public static string getCodeForManuWork(string manuID,string animalID)
 		{
-			return "";
+			string filetime = DateTime.Now.ToFileTime().ToString();
+			string second = filetime.Substring(filetime.Length - 3, 3);
+			return second + manuID.Substring(0, 3) + animalID.Substring(0, 4);
 		}
 
 		//为屠宰工作提供标识码
-		public static string getCodeForButchWork()
+		public static string getCodeForButchWork(string butchID,string animalID)
 		{
-			return "";
+			string filetime = DateTime.Now.ToFileTime().ToString();
+			string second = filetime.Substring(filetime.Length - 3, 3);
+			return second + butchID.Substring(0, 3) + animalID.Substring(0, 4) ;
 		}
 	}
 }

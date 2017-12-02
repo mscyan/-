@@ -903,7 +903,7 @@
     <Content Include="Views\AnimalManagement\AddAnimal.cshtml" />
     <Content Include="Views\AnimalManagement\AlterAnimal.cshtml" />
     <Content Include="Views\Sales\Index.cshtml" />
-    <Content Include="Views\ManuWork\Index.cshtml" />
+    <Content Include="Views\ManuWork\ManuWorkIndex.cshtml" />
     <Content Include="Views\ButchWork\ButchWorkIndex.cshtml" />
     <Content Include="Views\Role\RoleIndex.cshtml" />
     <Content Include="Views\Role\AddRole.cshtml" />
@@ -917,6 +917,8 @@
     <Content Include="Views\BackSystem\Index.cshtml" />
     <Content Include="Views\ButchWork\AddButchWorkPage.cshtml" />
     <Content Include="Views\ButchWork\AlterButchWorkPage.cshtml" />
+    <Content Include="Views\ManuWork\AddManuWorkPage.cshtml" />
+    <Content Include="Views\ManuWork\AlterManuWorkPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

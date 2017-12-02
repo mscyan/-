@@ -13,7 +13,7 @@ namespace DataAccessLibrary
 		//添加屠宰信息
 		public bool AddButchWork(string butchID,string butchInfo,string animalID,string animalstate)
 		{
-			string code = CodeProvider.getCodeForButchWork();
+			string code = CodeProvider.getCodeForButchWork(butchID,animalID);
 			string sql = string.Format("insert into ButchWork values ('{0}','{1}','{2}','{3}','{4}','{5}')", code, butchID, DateTime.Now.ToLocalTime(), butchInfo, animalID, animalstate);
 			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
 			if (Convert.ToInt32(obj) > 0)
@@ -37,8 +37,8 @@ namespace DataAccessLibrary
 						dt.Rows[i][1].ToString(),
 						DateTime.Parse(dt.Rows[i][2].ToString()),
 						dt.Rows[i][3].ToString(),
-						dt.Rows[i][4].ToString(),
-						dt.Rows[i][5].ToString()
+						dt.Rows[i][4].ToString().Trim(),
+						dt.Rows[i][5].ToString().Trim()
 						);
 					list.Add(bwi);
 				}
@@ -46,6 +46,16 @@ namespace DataAccessLibrary
 			}
 			else
 				return null;
+		}
+
+		public bool UpdateButchWork(string id,string butchinfo,string animalstate)
+		{
+			string sql = string.Format("update ButchWork set ButchInfo = '{0}' ,AnimalState = '{1}' where ButchWorkID = '{2}'", butchinfo, animalstate, id);
+			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
+			if (Convert.ToInt32(obj) > 0)
+				return true;
+			else
+				return false;
 		}
 
 		//根据id删除指定屠宰操作

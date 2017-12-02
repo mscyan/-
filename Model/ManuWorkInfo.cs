@@ -15,12 +15,13 @@ namespace Model
 		/// <param name="manuFactoryID">加工厂编号</param>
 		/// <param name="manuDate">加工日期</param>
 		/// <param name="animalUniqueCode">牲畜唯一标识码</param>
-		public ManuWorkInfo(string manuWorkInfoID, string manuFactoryID, DateTime manuDate, string animalUniqueCode)
+		public ManuWorkInfo(string manuWorkInfoID, string manuFactoryID, DateTime manuDate, string animalUniqueCode,string manuInfo)
 		{
 			this.manuWorkInfoID = manuWorkInfoID;
 			this.manuFactoryID = manuFactoryID;
 			this.manuDate = manuDate;
 			this.animalUniqueCode = animalUniqueCode;
+			this.manuInfo = manuInfo;
 		}
 
 		private string manuWorkInfoID;
@@ -49,7 +50,7 @@ namespace Model
 		/// </summary>
 		public DateTime ManuDate
 		{
-			get { return ManuDate; }
+			get { return manuDate; }
 			set { manuDate = value; }
 		}
 
@@ -61,6 +62,13 @@ namespace Model
 		{
 			get { return animalUniqueCode; }
 			set { animalUniqueCode = value; }
+		}
+
+		private string manuInfo;
+		public string ManuInfo
+		{
+			set { manuInfo = value; }
+			get { return manuInfo; }
 		}
 	}
 }

@@ -11,10 +11,10 @@ namespace DataAccessLibrary
 	public class ManuWorkDataAccess
 	{
 		//添加加工操作
-		public bool AddManuWorkInfo(string manuID,string animalID)
+		public bool AddManuWorkInfo(string manuID,string animalID,string manuInfo)
 		{
-			string code = CodeProvider.getCodeForManuWork();
-			string sql = string.Format("insert into ManuWork values ('{0}','{1}','{2}','{3}')", code, manuID, DateTime.Now.ToLocalTime(), animalID);
+			string code = CodeProvider.getCodeForManuWork(manuID,animalID);
+			string sql = string.Format("insert into ManuWork values ('{0}','{1}','{2}','{3}','{4}')", code, manuID, DateTime.Now.ToLocalTime(), animalID,manuInfo);
 			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
 			if (Convert.ToInt32(obj) > 0)
 				return true;
@@ -26,17 +26,18 @@ namespace DataAccessLibrary
 		public List<ManuWorkInfo> GetAllManuWork()
 		{
 			string sql = "select * from [ManuWork]";
+			List<ManuWorkInfo> list = new List<ManuWorkInfo>();
 			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
 			if (dt.Rows.Count > 0)
 			{
-				List<ManuWorkInfo> list = new List<ManuWorkInfo>();
 				for (int i = 0; i < dt.Rows.Count; i++)
 				{
 					ManuWorkInfo mwi = new ManuWorkInfo(
 						dt.Rows[i][0].ToString(),
 						dt.Rows[i][1].ToString(),
 						DateTime.Parse(dt.Rows[i][2].ToString()),
-						dt.Rows[i][3].ToString()
+						dt.Rows[i][3].ToString(),
+						dt.Rows[i][4].ToString()
 						);
 					list.Add(mwi);
 				}
@@ -44,6 +45,17 @@ namespace DataAccessLibrary
 			}
 			else
 				return null;
+		}
+
+		//更新表
+		public bool UpdateManuWorkInfoById(string id,string manuInfo)
+		{
+			string sql = string.Format("update ManuWork set ManuInfo = '{0}' where ManuWorkID = '{1}'",manuInfo,id);
+			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
+			if (Convert.ToInt32(obj) > 0)
+				return true;
+			else
+				return false;
 		}
 
 		//根据id删除指定的加工工作

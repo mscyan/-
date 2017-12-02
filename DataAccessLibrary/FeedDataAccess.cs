@@ -16,7 +16,7 @@ namespace DataAccessLibrary
 		//添加一条记录
 		public bool AddFeedInfo(string feedtypeID,string feedname,string feedtypeName,int duration,string provider,int amount)
 		{
-			string code = CodeProvider.getCodeForFeed();
+			string code = CodeProvider.getCodeForFeed("");
 			string sql = string.Format("insert into Feed values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{1}')",code,feedtypeID,feedname,feedtypeName,duration,provider,amount,DateTime.Now.ToLocalTime());
 			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
 			if (Convert.ToInt32(obj) > 0)

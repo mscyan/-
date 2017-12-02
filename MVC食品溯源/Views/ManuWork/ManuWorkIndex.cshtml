@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>牲畜屠宰</title>
+    <title>加工页面</title>
 	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
 	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
 	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
@@ -25,22 +25,21 @@
 	<script>
 		$(document).ready(function () {
 			$("#this_table").datagrid({
-				url:"/ButchWork/GetAllButchWorkAction",
+				url:"/ManuWork/GetAllManuWorkInfo",
 				striped: true,
 				rownumber: true,
 				pagination: true,
 				singleSelect: true,
-				idField: 'ButchWorkInfoID',
-				sortName: 'ButchFactoryID',
+				idField: 'ManuWorkInfoID',
+				//sortName: 'ButchFactoryID',
 				sortOrder: "asc",
 				pageList: [5, 10, 20, 30],
 				columns: [[
-					{ field: "ButchWorkInfoID", title: "操作ID", width: 100 },
-					{ field: "ButchFactoryID", title: "屠宰场编号",sortable:true, width: 100 },
-					{ field: "ButchDate", title: "屠宰日期", width: 150 },
-					{ field: "ButchInfo", title: "屠宰信息", width: 150 },
-					{ field: "AnimalUniqueCode", title: "牲畜ID", width: 100 },
-					{ field: "AnimalState", title: "牲畜状态", width: 120 }
+					{ field: "ManuWorkInfoID", title: "操作ID", width: 100 },
+					{ field: "ManuFactoryID", title: "加工厂编号", width: 100 },
+					{ field: "ManuDate", title: "加工日期", width: 150 },
+					{ field: "AnimalUniqueCode", title: "牲畜ID", width: 150 },
+					{ field: "ManuInfo", title: "加工信息", width: 150 }
 				]],
 				toolbar: [
 					{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
@@ -53,9 +52,9 @@
 			//增加
 			//alert('Open the Add Window')
 			$("<div/>").dialog({
-				id: "addButchWork_div",
-				href: "/ButchWork/AddButchWorkPage",
-				title: "添加屠宰信息",
+				id: "addManuWork_div",
+				href: "/ManuWork/AddManuWorkPage",
+				title: "添加加工信息",
 				width: 300,
 				height: 200,
 				modal: true,
@@ -63,17 +62,16 @@
 					id: 'certain',
 					text: '添 加',
 					handler: function () {
-						var butch_info = $("#butch_info").val();
 						var animal_id = $("#animal_id").val();
-						var animal_state = $("#animal_state").val();
+						var manu_info = $("#manu_info").val();
 						$.ajax({
-							url: "/ButchWork/AddOneButchWorkInfo",
-							data: { 'butch_info': butch_info, 'animal_id': animal_id, 'animal_state': animal_state },
+							url: "/ManuWork/AddManuWorkAction",
+							data: { 'animal_id': animal_id, 'manu_info': manu_info },
 							type: "POST",
 							dataType: "Json",
 							success: function (data) {
 								alert(data);
-								$("#addButchWork_div").dialog("destroy");
+								$("#addManuWork_div").dialog("destroy");
 								$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
 							}
 						})
@@ -81,14 +79,14 @@
 				}, {
 					text: '取消',
 					handler: function () {
-						$("addButchWork_div").dialog("destroy");
+						$("addManuWork_div").dialog("destroy");
 					}
 				}],
 				onLoad: function () {
 					// do nothing
 				},
 				onClose: function () {
-					$("#addButchWork_div").dialog("destroy");
+					$("#addManuWork_div").dialog("destroy");
 				}
 			})
 		}
@@ -96,14 +94,14 @@
 			//编辑
 			var row = $("#this_table").datagrid("getChecked");
 			if (row.length < 1) {
-				$.messager.alert("Notification", "Please choose the button");
+				$.messager.alert("Notification", "Please choose a line");
 				return;
 			}
 			else {
 				$("<div/>").dialog({
-					id: "alterButchWork_div",
-					href: "/ButchWork/AlterButchWorkPage",
-					title: "修改屠宰信息",
+					id: "alterManuWork_div",
+					href: "/ManuWork/AlterManuWorkPage",
+					title: "修改加工信息",
 					width: 300,
 					height: 200,
 					modal: true,
@@ -112,21 +110,20 @@
 						text: '修  改',
 						handler: function () {
 							var rows = $("#this_table").datagrid("getChecked");
-							var butch_id = "";
+							var manu_id = "";
 							$.each(rows, function (i, row) {
-								butch_id = row.ButchWorkInfoID;
+								manu_id = row.ManuWorkInfoID;
 							});
-							var butch_info = $("#butch_info").val();
-							var animal_state = $("#animal_state").val();
+							var manu_info = $("#manu_info").val();
 							//var butch_id = row.ButchWorkInfoID;
 							$.ajax({
-								url: "/ButchWork/AlterButchWorkInfoById",
-								data: { 'butch_id': butch_id, 'butch_info': butch_info, 'animal_state': animal_state },
+								url: "/ManuWork/AlterManuWorkByIdAction",
+								data: { 'manu_id': manu_id, 'manu_info': manu_info },
 								type: "POST",
 								dataType: "Json",
 								success: function (data) {
 									alert(data);
-									$("#alterButchWork_div").dialog("destroy");
+									$("#alterManuWork_div").dialog("destroy");
 									$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
 								}
 							})
@@ -134,14 +131,14 @@
 					}, {
 						text: '取消',
 						handler: function () {
-							$("alterButchWork_div").dialog("destroy");
+							$("alterManuWork_div").dialog("destroy");
 						}
 					}],
 					onLoad: function () {
 						// do nothing
 					},
 					onClose: function () {
-						$("#alterButchWork_div").dialog("destroy");
+						$("#alterManuWork_div").dialog("destroy");
 					}
 				})
 			}
@@ -159,13 +156,13 @@
 				$.messager.confirm("提示", "确定删除此列？", function (r) {
 					if (r) {
 						// 参数r是提示框的按钮（确定-> true 取消->false）
-						var ButchWorkID = "";
+						var ManuWorkID = "";
 						$.each(rows, function (i, row) {
-							ButchWorkID = row.ButchWorkInfoID;
+							ManuWorkID = row.ManuWorkInfoID;
 						});
 						$.ajax({
-							url: "/ButchWork/DeleteButchWorkById",
-							data: { 'butch_id': ButchWorkID },
+							url: "/ManuWork/DeleteManuWorkByIdAction",
+							data: { 'manu_id': ManuWorkID },
 							type: "POST",
 							dataType: "Json",
 							success: function (data) {
@@ -182,10 +179,10 @@
 <body>
 	<div class="easyui-layout" style="width:100%;height:700px;">
 		<div data-options="region:'north'" style="height:100px">
-			牲畜屠宰管理平台
+			牲畜加工管理平台
 		</div>
 		<div data-options="region:'south',split:true" style="height:50px;"></div>
-		<div data-options="region:'center',title:'牲畜屠宰管理页面'">
+		<div data-options="region:'center',title:'牲畜加工管理页面'">
 			<table id="this_table"></table>
 		</div>
 	</div>
