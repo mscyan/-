@@ -17,11 +17,11 @@ namespace Model
 		/// <param name="feedDate">喂养时间</param>
 		/// <param name="feedPerson">喂养人员</param>
 		/// <param name="feedAmount">喂养剂量</param>
-		public FeedUse(string feedID, string feedUseID, string animalUniqueCode, DateTime feedDate, string feedPerson, int feedAmount)
+		public FeedUse(string feedUseID, string feedID, string animalID, DateTime feedDate, string feedPerson, int feedAmount)
 		{
 			this.feedID = feedID;
 			this.feedUseID = feedUseID;
-			this.animalUniqueCode = animalUniqueCode;
+			this.animalID = animalID;
 			this.feedDate = feedDate;
 			this.feedPerson = feedPerson;
 			this.feedAmount = feedAmount;
@@ -29,7 +29,7 @@ namespace Model
 
 		private string feedID;
 		private string feedUseID;
-		private string animalUniqueCode;
+		private string animalID;
 		private DateTime feedDate;
 		private string feedPerson;
 		private int feedAmount;
@@ -55,10 +55,10 @@ namespace Model
 		/// <summary>
 		/// 牲畜唯一标识码
 		/// </summary>
-		public string AnimalUniqueCode
+		public string AnimalID
 		{
-			get { return animalUniqueCode; }
-			set { animalUniqueCode = value; }
+			get { return animalID; }
+			set { animalID = value; }
 		}
 
 		/// <summary>

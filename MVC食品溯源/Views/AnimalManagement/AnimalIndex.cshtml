@@ -23,31 +23,31 @@
 		}
 	</style>
 	<script>
-		$(document).ready(function () {
-			$("#this_table").datagrid({
-				url:"/AnimalManagement/GetAllAnimals",
-				striped: true,
-				rownumber: true,
-				pagination: true,
-				singleSelect: true,
-				idField: 'AnimalID',
-				sortName: 'AnimalType',
-				sortOrder: "asc",
-				pageList: [5, 10, 20, 30],
-				columns: [[
-					{ field: "AnimalID", title: "标识码", width: 100 },
-					{ field: "AnimalType", title: "动物品种",sortable:true, width: 100 },
-					{ field: "AnimalBirth", title: "入栏时间", width: 150 },
-					{ field: "FarmID", title: "养殖场ID", width: 150 },
-					{ field: "FeedType", title: "适用饲料类型", width: 100 }
-				]],
-				toolbar: [
-					{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
-					{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
-					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
-				]
-			})
-		})
+		//$(document).ready(function () {
+		//	$("#this_table").datagrid({
+		//		url:"/AnimalManagement/GetAllAnimals",
+		//		striped: true,
+		//		rownumber: true,
+		//		pagination: true,
+		//		singleSelect: true,
+		//		idField: 'AnimalID',
+		//		sortName: 'AnimalType',
+		//		sortOrder: "asc",
+		//		pageList: [5, 10, 20, 30],
+		//		columns: [[
+		//			{ field: "AnimalID", title: "标识码", width: 100 },
+		//			{ field: "AnimalType", title: "动物品种",sortable:true, width: 100 },
+		//			{ field: "AnimalBirth", title: "入栏时间", width: 150 },
+		//			{ field: "FarmID", title: "养殖场ID", width: 150 },
+		//			{ field: "FeedType", title: "适用饲料类型", width: 100 }
+		//		]],
+		//		toolbar: [
+		//			{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
+		//			{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
+		//			{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
+		//		]
+		//	})
+		//})
 		function add() {
 			//增加
 			//alert('Open the Add Window')

@@ -47,17 +47,17 @@ namespace Model
 		//为饲料种类生成标识码
 		public static string getCodeForFeedType()
 		{
-			return "";
+			string filetime = DateTime.Now.ToFileTime().ToString();
+			string second = filetime.Substring(filetime.Length - 10, 10);
+			return second;
 		}
 
 		//为饲料生成标识码
-		public static string getCodeForFeed(string farmid)
+		public static string getCodeForFeed()
 		{
 			string filetime = DateTime.Now.ToFileTime().ToString();
-			string second = filetime.Substring(filetime.Length - 3, 3);
-
-
-			return second + farmid.Substring(0, 3);// + animalID.Substring(0, 4);
+			string second = filetime.Substring(filetime.Length - 10, 10);
+			return second;
 		}
 
 		//为加工工作提供标识码
