@@ -34,7 +34,7 @@ namespace DataAccessLibrary
 			{
 				for (int i = 0; i < dt.Rows.Count; i++)
 				{
-					FeedType ft = new FeedType(dt.Rows[i][0].ToString(), dt.Rows[i][1].ToString());
+					FeedType ft = new FeedType(dt.Rows[i][0].ToString(), dt.Rows[i][1].ToString().Trim());
 					list.Add(ft);
 				}
 				return list;

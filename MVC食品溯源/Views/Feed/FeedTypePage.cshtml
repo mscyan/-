@@ -9,9 +9,129 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>FeedTypePage</title>
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
+	<link href="~/Content/themes/icon.css" rel="stylesheet" />
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/icon.css" rel="stylesheet" />
+	<script src="~/Content/js/common.js"></script>
+	<link href="~/Content/themes/table.css" rel="stylesheet" />
+	<style>
+		body {
+			font-family: 'Microsoft YaHei';
+		}
+	</style>
+	<script>
+		$(document).ready(function () {
+			$("#this_table").datagrid({
+				url: "/Feed/GetAllFeedTypeAction",
+				striped: true,
+				rownumber: true,
+				pagination: true,
+				singleSelect: true,
+				idField: 'FeedTypeID',
+				//sortName: 'AnimalType',
+				sortOrder: "asc",
+				pageList: [5, 10, 20, 30],
+				columns: [[
+					{ field: "FeedTypeID", title: "饲料种类ID", width: 100 },
+					{ field: "FeedTypeName", title: "饲料种类名称", sortable: true, width: 100 },
+				]],
+				toolbar: [
+					{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
+					{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
+					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
+				]
+			})
+		})
+		function add() {
+			//增加
+			//alert('Open the Add Window')
+			$("<div/>").dialog({
+				id: "addFeedType_div",
+				href: "/Feed/AddFeedTypePage",
+				title: "添加牲畜信息",
+				width: 280,
+				height: 200,
+				modal: true,
+				buttons: [{
+					id: 'certain',
+					text: '添 加',
+					handler: function () {
+						var feedtype_name = $("#feedtype_name").val();
+						$.ajax({
+							url: "/Feed/AddFeedTypeAction",
+							data: { 'feedtype_name': feedtype_name },
+							type: "POST",
+							dataType: "Json",
+							success: function (data) {
+								alert(data);
+								$("#addFeedType_div").dialog("destroy");
+								$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+							}
+						})
+					}
+				}, {
+					text: '取消',
+					handler: function () {
+						$("#addFeedType_div").dialog("destroy");
+					}
+				}],
+				onLoad: function () {
+					// do nothing
+				},
+				onClose: function () {
+					$("#addFeedType_div").dialog("destroy");
+				}
+			})
+		}
+		function edit() {
+			//编辑
+			var row = $("#this_table").datagrid("getChecked");
+			if (row.length < 1) {
+				$.messager.alert("Notification", "Please choose the button");
+				return;
+			}
+			else {
+
+			}
+		}
+
+		function deleteRow() {
+			//删除行
+			var rows = $("#this_table").datagrid("getChecked");
+			if (rows.length < 1) {
+				$.messager.confirm("提示", "请先选中要删除的列");
+				return;
+			}
+			$.messager.confirm("提示", "确定删除此列？", function (r) {
+				if (r) {
+					// 参数r是提示框的按钮（确定-> true 取消->false）
+					//alert(r + "***");
+					var FeedTypeID = "";
+					$.each(rows, function (i, row) {
+						FeedTypeID = row.FeedTypeID + ",";
+					});
+					FeedTypeID = FeedTypeID.substring(0, FeedTypeID.length - 1);
+					$.ajax({
+						url: "/Feed/DeleteFeedTypeByIdAction",
+						data: { 'feedtype_id': FeedTypeID },
+						type: "POST",
+						dataType: "Json",
+						success: function (data) {
+							alert(data);
+							$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+						}
+					})
+				}
+			});
+		}
+	</script>
 </head>
 <body>
-    <div> 
-    </div>
+    <table id="this_table">
+
+	</table>
 </body>
 </html>

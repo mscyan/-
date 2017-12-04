@@ -14,10 +14,10 @@ namespace DataAccessLibrary
 	public class FeedDataAccess
 	{
 		//添加一条记录
-		public bool AddFeedInfo(string feedtypeID,string feedname,string feedtypeName,int duration,string provider,int amount)
+		public bool AddFeedInfo(string feedname, string feedtypeID,string feedtypeName,int duration,string provider,int amount)
 		{
 			string code = CodeProvider.getCodeForFeed();
-			string sql = string.Format("insert into Feed values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{1}')",code,feedtypeID,feedname,feedtypeName,duration,provider,amount,DateTime.Now.ToLocalTime());
+			string sql = string.Format("insert into [Feed] values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')",code, feedname, feedtypeID,feedtypeName,duration,provider,amount,DateTime.Now.ToLocalTime());
 			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
 			if (Convert.ToInt32(obj) > 0)
 				return true;
@@ -75,10 +75,17 @@ namespace DataAccessLibrary
 		}
 
 		//通过ID更新饲料
-		public bool UpdateFeedInfoById(string id,string Usedamount)
+		public bool UpdateFeedInfoById(string id,int Usedamount)
 		{
-			string sql = "";
-			return false;
+			string sql = string.Format("select top 1 * from Feed where FeedID = '{0}'", id);
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			int amount = int.Parse(dt.Rows[0][6].ToString());
+			sql = string.Format("update Feed set Amount = '{0}' where FeedID = '{1}'", amount - Usedamount, id);
+			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
+			if (Convert.ToInt32(obj) > 0)
+				return true;
+			else
+				return false;
 		}
 
 		//通过ID删除一条记录

@@ -24,12 +24,9 @@ namespace OutputConsole
 			//bool isaltersuccess = bwda.DeleteButchWorkById("950JHBG161");
 			//Console.WriteLine(isaltersuccess);
 
-			ManuWorkDataAccess mwda = new ManuWorkDataAccess();
-			var iis = mwda.GetAllManuWork();
-			foreach (var item in iis)
-			{
-				Console.WriteLine(item.AnimalUniqueCode+" "+item.ManuDate);
-			}
+			FeedDataAccess fda = new FeedDataAccess();
+			bool aa = fda.UpdateFeedInfoById("2195332514","20");
+			Console.WriteLine(aa);
 
 			Console.Read();
 		}

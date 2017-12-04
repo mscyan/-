@@ -13,6 +13,19 @@ namespace DataAccessLibrary
 	/// </summary>
 	public class FeedUseDataAccess
 	{
+		//添加一条喂养记录
+		public bool AddFeedUse(string feedID,string animalID,string feedPerson,int feedAmount)
+		{
+			string sql = string.Format("insert into FeedUse (FeedID,AnimalID,FeedDate,FeedPerson,FeedAmount) values ('{0}','{1}','{2}','{3}','{4}')",feedID,animalID,DateTime.Now.ToLocalTime(),feedPerson,feedAmount);
+			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
+			new FeedDataAccess().UpdateFeedInfoById(feedID, feedAmount);
+			if (Convert.ToInt32(obj) > 0)
+				return true;
+			else
+				return false;
+		}
+
+		//获得所有喂养记录
 		public List<FeedUse> GetAllFeedUseData()
 		{
 			List<FeedUse> list = new List<FeedUse>();
@@ -36,6 +49,17 @@ namespace DataAccessLibrary
 			}
 			else
 				return null;
+		}
+
+		//根据ID删除指定用药记录
+		public bool DeleteFeedUseById(string id)
+		{
+			string sql = string.Format("delete from FeedUse where FeedUseID = '{0}'", int.Parse(id));
+			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
+			if (Convert.ToInt32(obj) > 0)
+				return true;
+			else
+				return false;
 		}
 	}
 }

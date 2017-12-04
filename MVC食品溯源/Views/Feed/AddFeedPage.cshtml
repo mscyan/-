@@ -1,0 +1,49 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddFeedPage</title>
+</head>
+<body>
+    <div> 
+		<table>
+			<tr>
+				<td>饲料名称</td>
+				<td><input type="text" id="feed_name" /></td>
+			</tr>
+			<tr>
+				<td>饲料种类</td>
+				<td>
+					<select name="typeselection" id="feedtype_selection">
+						@{
+							var list = new DataAccessLibrary.FeedTypeDataAccess().GetAllFeedType();
+							foreach (var item in list)
+							{
+								<option value="@item.FeedTypeID">@item.FeedTypeName</option>
+							}
+						}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>保质期(月)</td>
+				<td><input type="number" min="1" id="duration" /></td>
+			</tr>
+			<tr>
+				<td>生产商</td>
+				<td><input type="text" id="provider" /></td>
+			</tr>
+			<tr>
+				<td>添加数量(公斤)</td>
+				<td><input type="number" id="amount" /></td>
+			</tr>
+		</table>
+    </div>
+</body>
+</html>

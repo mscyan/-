@@ -9,9 +9,126 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>FeedUsePage</title>
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
+	<link href="~/Content/themes/icon.css" rel="stylesheet" />
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/icon.css" rel="stylesheet" />
+	<script src="~/Content/js/common.js"></script>
+	<link href="~/Content/themes/table.css" rel="stylesheet" />
+	<style>
+		body {
+			font-family: 'Microsoft YaHei';
+		}
+	</style>
+	<script>
+		$(document).ready(function () {
+			$("#this_table").datagrid({
+				url: "/Feed/GetAllFeedUseAction",
+				striped: true,
+				rownumber: true,
+				pagination: true,
+				singleSelect: true,
+				idField: 'FeedUseID',
+				sortOrder: "asc",
+				pageList: [5, 10, 20, 30],
+				columns: [[
+					{ field: "FeedUseID", title: "喂养记录ID", width: 100 },
+					{ field: "FeedID", title: "饲料", width: 100 },
+					{ field: "AnimalID", title: "牲畜ID", width: 100 },
+					{ field: "FeedDate", title: "喂养日期", width: 100 },
+					{ field: "FeedPerson", title: "喂养人员", width: 100 },
+					{ field: "FeedAmount", title: "喂养剂量(公斤)", width: 120 },
+				]],
+				toolbar: [
+					{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
+					{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
+					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
+				]
+			})
+		})
+		function add() {
+			$("<div/>").dialog({
+				id: "addFeedUse_div",
+				href: "/Feed/AddFeedUsePage",
+				title: "添加饲料",
+				width: 280,
+				height: 300,
+				modal: true,
+				buttons: [{
+					id: 'certain',
+					text: '添 加',
+					handler: function () {
+						var feed_id = $("#feed_selection option:selected").val();
+						var animal_id = $("#animal_id").val();
+						var feed_person = $("#feed_person").val();
+						var feed_amount = $("#feed_amount").val();
+						$.ajax({
+							url: "/Feed/AddFeedUseAction",
+							data: {
+								"feed_id": feed_id,
+								"animal_id": animal_id,
+								"feed_person": feed_person,
+								"feed_amount": feed_amount
+							},
+							type: "POST",
+							dataType: "Json",
+							success: function (data) {
+								alert(data);
+								$("#addFeedUse_div").dialog("destroy");
+								$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+							},
+						})
+
+					}
+				}, {
+					text: '取消',
+					handler: function () {
+						$("#addFeedUse_div").dialog("destroy");
+					}
+				}],
+				onLoad: function () {
+					// do nothing
+				},
+				onClose: function () {
+					$("#addFeedUse_div").dialog("destroy");
+				}
+			})
+		}
+		function deleteRow() {
+			//删除行
+			var rows = $("#this_table").datagrid("getChecked");
+			if (rows.length < 1) {
+				$.messager.confirm("提示", "请先选中要删除的列");
+				return;
+			}
+			else {
+				$.messager.confirm("提示", "确定删除此列？", function (r) {
+					if (r) {
+						var FeedUseID = "";
+						$.each(rows, function (i, row) {
+							FeedUseID = row.FeedUseID;
+						});
+						$.ajax({
+							url: "/Feed/DeleteFeedUseAction",
+							data: { 'feeduse_id': FeedUseID },
+							type: "POST",
+							dataType: "Json",
+							success: function (data) {
+								alert(data);
+								$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+							}
+						})
+					}
+				});
+			}
+		}
+	</script>
 </head>
 <body>
     <div> 
+		<table id="this_table"></table>
     </div>
 </body>
 </html>

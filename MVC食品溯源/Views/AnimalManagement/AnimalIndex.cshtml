@@ -23,31 +23,31 @@
 		}
 	</style>
 	<script>
-		//$(document).ready(function () {
-		//	$("#this_table").datagrid({
-		//		url:"/AnimalManagement/GetAllAnimals",
-		//		striped: true,
-		//		rownumber: true,
-		//		pagination: true,
-		//		singleSelect: true,
-		//		idField: 'AnimalID',
-		//		sortName: 'AnimalType',
-		//		sortOrder: "asc",
-		//		pageList: [5, 10, 20, 30],
-		//		columns: [[
-		//			{ field: "AnimalID", title: "标识码", width: 100 },
-		//			{ field: "AnimalType", title: "动物品种",sortable:true, width: 100 },
-		//			{ field: "AnimalBirth", title: "入栏时间", width: 150 },
-		//			{ field: "FarmID", title: "养殖场ID", width: 150 },
-		//			{ field: "FeedType", title: "适用饲料类型", width: 100 }
-		//		]],
-		//		toolbar: [
-		//			{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
-		//			{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
-		//			{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
-		//		]
-		//	})
-		//})
+		$(document).ready(function () {
+			$("#this_table").datagrid({
+				url:"/AnimalManagement/GetAllAnimals",
+				striped: true,
+				rownumber: true,
+				pagination: true,
+				singleSelect: true,
+				idField: 'AnimalID',
+				sortName: 'AnimalType',
+				sortOrder: "asc",
+				pageList: [5, 10, 20, 30],
+				columns: [[
+					{ field: "AnimalID", title: "标识码", width: 100 },
+					{ field: "AnimalType", title: "动物品种",sortable:true, width: 100 },
+					{ field: "AnimalBirth", title: "入栏时间", width: 150 },
+					{ field: "FarmID", title: "养殖场ID", width: 150 },
+					{ field: "FeedType", title: "适用饲料类型", width: 100 }
+				]],
+				toolbar: [
+					{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
+					{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
+					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
+				]
+			})
+		})
 		function add() {
 			//增加
 			//alert('Open the Add Window')
@@ -132,46 +132,32 @@
 					})
 				}
 			});
+
+			//添加选项卡
+			function addTab(subtitle, url, icon) {
+				var strHtml = '<iframe id="frmWorkArea" width="99.5%" height="99%" style="padding:1px;" frameborder="0" scrolling="yes" src="' + url + '"></iframe>';
+				if (!$('#tabs').tabs('exists', subtitle)) {
+					$('#tabs').tabs('add', {
+						title: subtitle,
+						content: strHtml,
+						iconCls: icon,
+						closable: true,
+						loadingMessage: '正在加载中......'
+					});
+				} else {
+					$('#tabs').tabs('select', subtitle);
+				}
+			}
+
+			function openTabByName(PageName, TabName) {
+				addTab(TabName, PageName, null)
+			}
 		}
 	</script>
 </head>
 <body>
-	<div class="easyui-layout" style="width:100%;height:700px;">
-		<div data-options="region:'north'" style="height:100px">
-			牲畜养殖管理平台
-		</div>
-		<div data-options="region:'south',split:true" style="height:50px;"></div>
-		<div data-options="region:'west',split:true" title="牲畜管理" style="width:180px;height:100%">
-			<!--左侧-->
-			<!--饲料管理，牲畜养殖管理，检疫管理-->
-			<ul class="easyui-tree">
-				<li>
-					<span>饲料管理</span>
-					<ul>
-						<li>饲料种类</li>
-						<li>饲料</li>
-					</ul>
-				</li>
-				<li>
-					<span>牲畜养殖管理</span>
-					<ul>
-						<li>牲畜信息</li>
+	<table id="this_table">
 
-					</ul>
-				</li>
-				<li>
-					<span>检疫管理</span>
-					<ul>
-						<li>检疫信息</li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-		<div data-options="region:'center',title:'牲畜管理页面'">
-			<table id="this_table">
-
-			</table>
-		</div>
-	</div>
+	</table>
 </body>
 </html>

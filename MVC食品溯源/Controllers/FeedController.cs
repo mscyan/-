@@ -15,7 +15,17 @@ namespace MVC食品溯源.Controllers
             return View();
         }
 
+		public ActionResult AddFeedTypePage()
+		{
+			return View();
+		}
+
 		public ActionResult FeedPage()
+		{
+			return View();
+		}
+
+		public ActionResult AddFeedPage()
 		{
 			return View();
 		}
@@ -25,12 +35,17 @@ namespace MVC食品溯源.Controllers
 			return View();
 		}
 
+		public ActionResult AddFeedUsePage()
+		{
+			return View();
+		}
+
 
 		// 添加饲料种类
 		public ActionResult AddFeedTypeAction(string feedtype_name)
 		{
 			FeedTypeDataAccess ftda = new FeedTypeDataAccess();
-			bool isaddsuccess = ftda.AddFeedType(feedtype_name);
+			bool isaddsuccess = ftda.AddFeedType(feedtype_name.Trim());
 			if (isaddsuccess)
 				return Json("添加成功");
 			else
@@ -57,7 +72,7 @@ namespace MVC食品溯源.Controllers
 		}
 
 		//更新饲料种类
-		public ActionResult UpdateFeedTypeById(string feedtype_id,string feedtype_name)
+		public ActionResult UpdateFeedTypeByIdAction(string feedtype_id,string feedtype_name)
 		{
 			FeedTypeDataAccess ftda = new FeedTypeDataAccess();
 			bool isupdatesuccess = ftda.UpdateNameByID(feedtype_id, feedtype_name);
@@ -68,18 +83,18 @@ namespace MVC食品溯源.Controllers
 		}
 
 		//添加饲料
-		public ActionResult AddFeedAction(string feedtype_id,string feed_name,string feedtype_name,int duration,string provider,int amount)
+		public ActionResult AddFeedAction(string feed_name, string feedtype_id,string feedtype_name,string duration,string provider,string amount)
 		{
 			FeedDataAccess fda = new FeedDataAccess();
-			bool isaddsuccess = fda.AddFeedInfo(feedtype_id,feed_name,feedtype_name,duration,provider,amount);
+			bool isaddsuccess = fda.AddFeedInfo(feedtype_id,feed_name,feedtype_name,int.Parse(duration),provider,int.Parse(amount));
 			if (isaddsuccess)
 				return Json("添加成功");
 			else
 				return Json("添加失败");
 		}
 
-		//根据饲料删除饲料
-		public ActionResult DeleteFeedAction(string feed_id)
+		//根据ID删除饲料
+		public ActionResult DeleteFeedByIdAction(string feed_id)
 		{
 			FeedDataAccess fda = new FeedDataAccess();
 			bool isdeletesuccess = fda.DeleteFeedInfoById(feed_id);
@@ -106,17 +121,26 @@ namespace MVC食品溯源.Controllers
 		//}
 
 		//添加喂养记录
-		public ActionResult AddFeedUseAction()
+		public ActionResult AddFeedUseAction(string feed_id,string animal_id,string feed_person,int feed_amount)
 		{
 			FeedUseDataAccess fuda = new FeedUseDataAccess();
-			//bool isaddsuccess = fuda.
-			return Json("");
+			bool isaddsuccess = fuda.AddFeedUse(feed_id, animal_id, feed_person, feed_amount);
+
+			if (isaddsuccess)
+				return Json("添加成功");
+			else
+				return Json("添加失败");
 		}
 
 		//根据ID删除喂养记录
-		public ActionResult DeleteFeedUseAction()
+		public ActionResult DeleteFeedUseAction(string feeduse_id)
 		{
-			return Json("");
+			FeedUseDataAccess fuda = new FeedUseDataAccess();
+			bool isdeletesuccess = fuda.DeleteFeedUseById(feeduse_id);
+			if (isdeletesuccess)
+				return Json("删除成功");
+			else
+				return Json("删除成功");
 		}
 
 		//获得所有喂养记录

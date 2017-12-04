@@ -151,7 +151,7 @@
     <Compile Include="Controllers\ButchWorkController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
-    <Compile Include="Controllers\FarmManagementController.cs" />
+    <Compile Include="Controllers\FarmController.cs" />
     <Compile Include="Controllers\FeedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
@@ -923,6 +923,10 @@
     <Content Include="Views\Feed\FeedTypePage.cshtml" />
     <Content Include="Views\Feed\FeedPage.cshtml" />
     <Content Include="Views\Feed\FeedUsePage.cshtml" />
+    <Content Include="Views\Farm\FarmIndex.cshtml" />
+    <Content Include="Views\Feed\AddFeedTypePage.cshtml" />
+    <Content Include="Views\Feed\AddFeedPage.cshtml" />
+    <Content Include="Views\Feed\AddFeedUsePage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
