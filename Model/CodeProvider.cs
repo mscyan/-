@@ -60,6 +60,22 @@ namespace Model
 			return second;
 		}
 
+		//为药品种类生成标识码
+		public static string getCodeForMedicineType()
+		{
+			string filetime = DateTime.Now.ToFileTime().ToString();
+			string second = filetime.Substring(filetime.Length - 10, 10);
+			return second;
+		}
+
+		//为药品生成标识码
+		public static string getCodeForMedicine()
+		{
+			string filetime = DateTime.Now.ToFileTime().ToString();
+			string second = filetime.Substring(filetime.Length - 10, 10);
+			return second;
+		}
+
 		//为加工工作提供标识码
 		public static string getCodeForManuWork(string manuID,string animalID)
 		{

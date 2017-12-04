@@ -50,6 +50,17 @@ namespace MVC食品溯源.Controllers
 			return Json(animals);
 		}
 
+		public ActionResult GetPaginationAnimals()
+		{
+			int pageindex = Request["page"] == null ? 1 : Convert.ToInt32(Request["page"]);
+			int pagesize = Request["rows"] == null ? 10 : Convert.ToInt32(Request["rows"]);
+			
+			AnimalDataAccess ada = new AnimalDataAccess();
+			var animals = ada.GetPaginationAnimals(pagesize, pageindex);
+			return Content("{\"total\": " + ada.GetCount().ToString() + ",\"rows\":" + JsonConvert.SerializeObject(animals) + "}");
+
+		}
+
 		public ActionResult DeleteAnimalById(string ids)
 		{
 			AnimalDataAccess ada = new AnimalDataAccess();

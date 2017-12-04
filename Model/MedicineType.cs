@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-	class MedicineType
+	public class MedicineType
 	{
 		/// <summary>
 		/// 

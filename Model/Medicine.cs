@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-	class Medicine
+	public class Medicine
 	{
 		/// <summary>
 		/// 
@@ -17,7 +17,8 @@ namespace Model
 		/// <param name="medicineTypeName">药品种类名称</param>
 		/// <param name="duration">保质期(月)</param>
 		/// <param name="provider">生产商</param>
-		public Medicine(string medicineID, string medicineTypeID, string medicineName, string medicineTypeName, int duration, string provider)
+		public Medicine(string medicineID, string medicineName, string medicineTypeID, 
+			string medicineTypeName, int duration, string provider,int amount,DateTime addTime)
 		{
 			this.medicineID = medicineID;
 			this.medicineTypeID = medicineTypeID;
@@ -25,6 +26,8 @@ namespace Model
 			this.medicineTypeName = medicineTypeName;
 			this.duration = duration;
 			this.provider = provider;
+			this.addTime = addTime;
+			this.amount = amount;
 		}
 
 		private string medicineID;
@@ -86,6 +89,20 @@ namespace Model
 		{
 			get { return provider; }
 			set { provider = value; }
+		}
+
+		private int amount;
+		public int Amount
+		{
+			set { amount = value; }
+			get { return amount; }
+		}
+
+		private DateTime addTime;
+		public DateTime AddTime
+		{
+			set { addTime = value; }
+			get { return addTime; }
 		}
 	}
 }

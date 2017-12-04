@@ -60,6 +60,39 @@ namespace DataAccessLibrary
 			}
 		}
 
+		public List<Animal> GetPaginationAnimals(int pagesize,int index)
+		{
+			List<Animal> list = new List<Animal>();
+			string sql = string.Format("select top {0} * from Animal where AnimalID not in (select top {1} AnimalID from Animal)", pagesize, (index - 1) * pagesize);
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			if (dt.Rows.Count > 0)
+			{
+				for (int i = 0; i < dt.Rows.Count; i++)
+				{
+					Animal animal = new Animal(
+					dt.Rows[i][0].ToString().Trim(),
+					dt.Rows[i][1].ToString().Trim(),
+					DateTime.Parse(dt.Rows[i][2].ToString()),
+					dt.Rows[i][3].ToString(),
+					dt.Rows[i][4].ToString()
+					);
+					list.Add(animal);
+				}
+				return list;
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		public int GetCount()
+		{
+			string sql = "select count (*) from Animal";
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			return int.Parse(dt.Rows[0][0].ToString());
+		}
+
 		//通过动物标识码查找动物
 		public Animal getAnimalByUniqueCode(string uniqueCode)
 		{

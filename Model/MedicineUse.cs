@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-	class MedicineUse
+	public class MedicineUse
 	{
 		/// <summary>
 		/// 
@@ -18,11 +18,12 @@ namespace Model
 		/// <param name="medicinePerson">用药人员</param>
 		/// <param name="medicineAmount">用药剂量</param>
 		/// <param name="reason">用药原因</param>
-		public MedicineUse(string medicineID, string medicineUseID, string animalUniqueCode, DateTime medicineDate, string medicinePerson, int medicineAmount, string reason)
+		public MedicineUse(string medicineUseID,string medicineTypeID, string medicineID, 
+			string animalID, DateTime medicineDate, string medicinePerson, int medicineAmount, string reason)
 		{
 			this.medicineID = medicineID;
 			this.medicineUseID = medicineUseID;
-			this.animalUniqueCode = animalUniqueCode;
+			this.animalID = animalID;
 			this.medicineDate = medicineDate;
 			this.medicinePerson = medicinePerson;
 			this.medicineAmount = medicineAmount;
@@ -31,7 +32,7 @@ namespace Model
 
 		private string medicineID;
 		private string medicineUseID;
-		private string animalUniqueCode;
+		private string animalID;
 		private DateTime medicineDate;
 		private string medicinePerson;
 		private int medicineAmount;
@@ -58,10 +59,10 @@ namespace Model
 		/// <summary>
 		/// 牲畜唯一标识码
 		/// </summary>
-		public string AnimalUniqueCode
+		public string AnimalID
 		{
-			get { return animalUniqueCode; }
-			set { animalUniqueCode = value; }
+			get { return animalID; }
+			set { animalID = value; }
 		}
 
 		/// <summary>

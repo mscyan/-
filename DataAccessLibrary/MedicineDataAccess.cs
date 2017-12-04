@@ -3,10 +3,86 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Model;
+using System.Data;
 
 namespace DataAccessLibrary
 {
 	public class MedicineDataAccess
 	{
+		//添加一条药品
+		public bool AddMedicine(string medicineName,string medicineTypeID,
+			string medicineTypeName,int duration,string provider,int amount)
+		{
+			string code = CodeProvider.getCodeForMedicine();
+			string sql = string.Format("insert into Medicine values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')",code,
+				medicineName,medicineTypeID,medicineTypeName,duration,provider,amount,DateTime.Now.ToLocalTime());
+			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
+			if (Convert.ToInt32(obj) > 0)
+				return true;
+			else
+				return false;
+		}
+
+		//获得所有的药品
+		public List<Medicine> GetAllMedicine(int pagesize,int index)
+		{
+			string sql = string.Format("select top {0} * from Medicine where MedicineID not in (select top {1} MedicineID from Medicine)", pagesize, pagesize * (index - 1));
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			if (dt.Rows.Count > 0)
+			{
+				List<Medicine> list = new List<Medicine>();
+				for (int i = 0; i < dt.Rows.Count; i++)
+				{
+					Medicine m = new Medicine(
+						dt.Rows[i][0].ToString(),
+						dt.Rows[i][1].ToString(),
+						dt.Rows[i][2].ToString(),
+						dt.Rows[i][3].ToString(),
+						int.Parse(dt.Rows[i][4].ToString()),
+						dt.Rows[i][5].ToString(),
+						int.Parse(dt.Rows[i][6].ToString()),
+						DateTime.Parse(dt.Rows[i][7].ToString())
+
+						);
+					list.Add(m);
+				}
+				return list;
+			}
+			else
+				return null;
+		}
+
+		public int GetCount()
+		{
+			string sql = "select count(*) from Medicine";
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			return int.Parse(dt.Rows[0][0].ToString());
+		}
+
+		//根据id更新药品信息
+		public bool UpdateMedicineById(string id,int usedAmount)
+		{
+			string sql = string.Format("select top 1 * from Medicine where MedicineID = '{0}'",id);
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			int amount = int.Parse(dt.Rows[0][6].ToString());
+			sql = string.Format("update Medicine set Amount = '{0}' where MedicineID = '{1}'", amount - usedAmount, id);
+			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
+			if (Convert.ToInt32(obj) > 0)
+				return true;
+			else
+				return false;
+		}
+
+		//根据ID删除指定药品
+		public bool DeleteMedicineById(string id)
+		{
+			string sql = string.Format("delete from Medicine where MedicineID = '{0}'", id);
+			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
+			if (Convert.ToInt32(obj) > 0)
+				return true;
+			else
+				return false;
+		}
 	}
 }

@@ -156,6 +156,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\ManuWorkController.cs" />
+    <Compile Include="Controllers\MedicineController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
@@ -927,6 +928,12 @@
     <Content Include="Views\Feed\AddFeedTypePage.cshtml" />
     <Content Include="Views\Feed\AddFeedPage.cshtml" />
     <Content Include="Views\Feed\AddFeedUsePage.cshtml" />
+    <Content Include="Views\Medicine\MedicineTypePage.cshtml" />
+    <Content Include="Views\Medicine\AddMedicineTypePage.cshtml" />
+    <Content Include="Views\Medicine\MedicinePage.cshtml" />
+    <Content Include="Views\Medicine\AddMedicinePage.cshtml" />
+    <Content Include="Views\Medicine\MedicineUsePage.cshtml" />
+    <Content Include="Views\Medicine\AddMedicineUsePage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
