@@ -58,7 +58,6 @@ namespace MVC食品溯源.Controllers
 			AnimalDataAccess ada = new AnimalDataAccess();
 			var animals = ada.GetPaginationAnimals(pagesize, pageindex);
 			return Content("{\"total\": " + ada.GetCount().ToString() + ",\"rows\":" + JsonConvert.SerializeObject(animals) + "}");
-
 		}
 
 		public ActionResult DeleteAnimalById(string ids)

@@ -12,6 +12,41 @@
 </head>
 <body>
     <div> 
+		<table>
+			<tr>
+				<td>牲畜ID</td>
+				<td><input type="text" id="animal_id" /></td>
+			</tr>
+			<tr>
+				<td>药品</td>
+				<td>
+					<select name="medicineid_selec" id="medicineid_selection">
+						@{
+							var ms = new DataAccessLibrary.MedicineDataAccess().GetAllMedicine();
+							if(ms!=null)
+							{
+								foreach (var item in ms)
+								{
+									<option value="@item.MedicineID"> @item.MedicineName;</option>
+								}
+							}
+						}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>用药人员</td>
+				<td><input type="text" id="medicine_person" /></td>
+			</tr>
+			<tr>
+				<td>用药剂量</td>
+				<td><input type="number" min="1" id="medicine_amount" /></td>
+			</tr>
+			<tr>
+				<td>用药原因</td>
+				<td><input type="text" id="reason" /></td>
+			</tr>
+		</table>
     </div>
 </body>
 </html>

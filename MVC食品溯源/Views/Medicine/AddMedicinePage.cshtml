@@ -12,6 +12,42 @@
 </head>
 <body>
     <div> 
+		<table>
+			<tr>
+				<td>药品名称</td>
+				<td><input type="text" id="medicine_name" /></td>
+			</tr>
+			<tr>
+				<td>药品种类</td>
+				<td>
+					<select name="mt_selection" id="medicinetype_selection">
+						@{
+							var ms = new DataAccessLibrary.MedicineTypeDataAccess().GetAllMedicineType();
+							if (ms != null)
+							{
+								foreach (var item in ms)
+								{
+									<option value="@item.MedicineTypeID"> @item.MedicineTypeName</option>
+								}
+							}
+
+						}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>保质期(月)</td>
+				<td><input type="number" id="duration" min="1" /></td>
+			</tr>
+			<tr>
+				<td>生产厂商</td>
+				<td><input type="text" id="provider" /></td>
+			</tr>
+			<tr>
+				<td>添加剂量(公斤)</td>
+				<td><input type="number" id="amount" min="1" /></td>
+			</tr>
+		</table>
     </div>
 </body>
 </html>

@@ -15,7 +15,7 @@ namespace DataAccessLibrary
 			string animalID,string medicinePerson,int amount,string reason)
 		{
 			string sql = string.Format("insert into MedicineUse" +
-				" (MedicineTypeID,MedicineID,AnimalID,MedicineDate,MedicineDate,MedicineAmount,Reason) " +
+				" (MedicineTypeID,MedicineID,AnimalID,MedicineDate,MedicinePerson,MedicineAmount,Reason) " +
 				"values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}')",
 				medicineTypeID,medicineID,animalID,DateTime.Now.ToLocalTime(),medicinePerson,amount,reason);
 			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);

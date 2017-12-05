@@ -9,9 +9,142 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>MedicinePage</title>
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
+	<link href="~/Content/themes/icon.css" rel="stylesheet" />
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/icon.css" rel="stylesheet" />
+	<script src="~/Content/js/common.js"></script>
+	<link href="~/Content/themes/table.css" rel="stylesheet" />
+	<style>
+		body {
+			font-family: 'Microsoft YaHei';
+		}
+	</style>
+	<script>
+		$(document).ready(function () {
+			$("#this_table").datagrid({
+				url: "/Medicine/GetPaginationMedicineAction",
+				striped: true,
+				rownumbers: true,
+				pagination: true,
+				singleSelect: true,
+				pageSize: 5,
+				idField: 'MedicineID',
+				pageList: [5, 10, 20, 30],
+				columns: [[
+					{ field: "MedicineID", title: "药品ID", width: 100 },
+					{ field: "MedicineName", title: "药品名称", width: 100 },
+					{ field: "MedicineTypeID", title: "药品种类ID", width: 100 },
+					{ field: "MedicineTypeName", title: "药品名称", width: 150 },
+					{ field: "Duration", title: "保质期(月)", width: 100 },
+					{ field: "Provider", title: "生产厂商", width: 100 },
+					{ field: "Amount", title: "剩余量", width: 100 },
+					{ field: "AddTime", title: "添加时间", width: 150 }
+				]],
+				toolbar: [
+					{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
+					{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
+					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
+				]
+			})
+		})
+		function add() {
+			$("<div/>").dialog({
+				id: "addMedicine_id",
+				href: "/Medicine/AddMedicinePage",
+				title: "添加药品信息",
+				width: 300,
+				height: 200,
+				modal: true,
+				buttons: [{
+					id: 'certain',
+					text: '添 加',
+					handler: function () {
+						var medicine_name = $("#medicine_name").val();
+						var medicinetype_id = $("#medicinetype_selection option:selected").val();
+						var medicinetype_name = $("#medicinetype_selection option:selected").text();
+						var duration = $("#duration").val();
+						var provider = $("#provider").val();
+						var amount = $("#amount").val();
+						$.ajax({
+							url: "/Medicine/AddMedicineAction",
+							data: {
+								"medicine_name": medicine_name,
+								"medicinetype_id": medicinetype_id,
+								"medicinetype_name": medicinetype_name,
+								"duration": duration,
+								"provider": provider,
+								"amount": amount
+							},
+							type: "POST",
+							dataType: "Json",
+							success: function (data) {
+								alert(data);
+								$("#addMedicine_id").dialog("destroy");
+								$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+							}
+						})
+					}
+				}, {
+					text: '取消',
+					handler: function () {
+						$("addMedicine_id").dialog("destroy");
+					}
+				}],
+				onLoad: function () {
+					// do nothing
+				},
+				onClose: function () {
+					$("#addMedicine_id").dialog("destroy");
+				}
+			})
+		}
+		function edit() {
+			//编辑
+			var row = $("#this_table").datagrid("getChecked");
+			if (row.length < 1) {
+				$.messager.alert("Notification", "Please choose the button");
+				return;
+			}
+			else {
+
+			}
+		}
+
+		function deleteRow() {
+			//删除行
+			var rows = $("#this_table").datagrid("getChecked");
+			if (rows.length < 1) {
+				$.messager.confirm("提示", "请先选中要删除的列");
+				return;
+			}
+			$.messager.confirm("提示", "确定删除此列？", function (r) {
+				if (r) {
+					var MedicineID = "";
+					$.each(rows, function (i, row) {
+						MedicineID = row.MedicineID + ",";
+					});
+					MedicineID = MedicineID.substring(0, MedicineID.length - 1);
+					$.ajax({
+						url: "/Medicine/DeleteMedicineByIdAction",
+						data: { 'medicine_id': MedicineID },
+						type: "POST",
+						dataType: "Json",
+						success: function (data) {
+							alert(data);
+							$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+						}
+					})
+				}
+			});
+		}
+	</script>
 </head>
 <body>
     <div> 
+		<table id="this_table"></table>
     </div>
 </body>
 </html>

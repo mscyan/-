@@ -25,18 +25,19 @@
 	<script>
 		$(document).ready(function () {
 			$("#this_table").datagrid({
-				url: "/Medicine/GetPaginationMedicineType",
+				url: "/Medicine/GetPaginationMedicineTypeAction",
 				striped: true,
 				rownumbers: true,
 				pagination: true,
 				singleSelect: true,
+				pageSize: 5,
 				idField: 'MedicineTypeID',
 				//sortName: 'AnimalType',
-				sortOrder: "asc",
+				//sortOrder: "asc",
 				pageList: [5, 10, 20, 30],
 				columns: [[
 					{ field: "MedicineTypeID", title: "药品种类ID", width: 100 },
-					{ field: "MedicineTypeName", title: "药品种类名称", sortable: true, width: 100 },
+					{ field: "MedicineTypeName", title: "药品种类名称", width: 100 },
 				]],
 				toolbar: [
 					{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
@@ -51,7 +52,7 @@
 			$("<div/>").dialog({
 				id: "addMedicineType_div",
 				href: "/Medicine/AddMedicineTypePage",
-				title: "添加牲畜信息",
+				title: "添加信息",
 				width: 280,
 				height: 200,
 				modal: true,
@@ -59,15 +60,15 @@
 					id: 'certain',
 					text: '添 加',
 					handler: function () {
-						var feedtype_name = $("#feedtype_name").val();
+						var medicinetype_name = $("#medicinetype_name").val();
 						$.ajax({
-							url: "/Feed/AddFeedTypeAction",
-							data: { 'feedtype_name': feedtype_name },
+							url: "/Medicine/AddMedicineTypeAction",
+							data: { 'medicinetype_name': medicinetype_name },
 							type: "POST",
 							dataType: "Json",
 							success: function (data) {
 								alert(data);
-								$("#addFeedType_div").dialog("destroy");
+								$("#addMedicineType_div").dialog("destroy");
 								$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
 							}
 						})
@@ -75,16 +76,58 @@
 				}, {
 					text: '取消',
 					handler: function () {
-						$("#addFeedType_div").dialog("destroy");
+						$("#addMedicineType_div").dialog("destroy");
 					}
 				}],
 				onLoad: function () {
 					// do nothing
 				},
 				onClose: function () {
-					$("#addFeedType_div").dialog("destroy");
+					$("#addMedicineType_div").dialog("destroy");
 				}
 			})
+		}
+		function edit() {
+			//编辑
+			var row = $("#this_table").datagrid("getChecked");
+			if (row.length < 1) {
+				$.messager.alert("Notification", "Please choose the button");
+				return;
+			}
+			else {
+
+			}
+		}
+
+		function deleteRow() {
+			//删除行
+			var rows = $("#this_table").datagrid("getChecked");
+			if (rows.length < 1) {
+				$.messager.confirm("提示", "请先选中要删除的列");
+				return;
+			}
+			$.messager.confirm("提示", "确定删除此列？", function (r) {
+				if (r) {
+					// 参数r是提示框的按钮（确定-> true 取消->false）
+					//alert(r + "***");
+					var MedicineTypeID = "";
+					$.each(rows, function (i, row) {
+						MedicineTypeID = row.MedicineTypeID + ",";
+					});
+					MedicineTypeID = MedicineTypeID.substring(0, MedicineTypeID.length - 1);
+					//alert(AnimalID+" "+typeof(AnimalID));
+					$.ajax({
+						url: "/Medicine/DeleteMedicineTypeByIdAction",
+						data: { 'medicinetype_id': MedicineTypeID },
+						type: "POST",
+						dataType: "Json",
+						success: function (data) {
+							alert(data);
+							$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+						}
+					})
+				}
+			});
 		}
 	</script>
 </head>

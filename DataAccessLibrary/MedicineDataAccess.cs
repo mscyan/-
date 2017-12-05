@@ -24,8 +24,57 @@ namespace DataAccessLibrary
 				return false;
 		}
 
-		//获得所有的药品
-		public List<Medicine> GetAllMedicine(int pagesize,int index)
+		public Medicine GetMedicineById(string id)
+		{
+			string sql = string.Format("select * from Medicine where MedicineID = '{0}'", id);
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			if (dt.Rows.Count > 0)
+			{
+				Medicine m = new Medicine(
+						dt.Rows[0][0].ToString(),
+						dt.Rows[0][1].ToString(),
+						dt.Rows[0][2].ToString(),
+						dt.Rows[0][3].ToString(),
+						int.Parse(dt.Rows[0][4].ToString()),
+						dt.Rows[0][5].ToString(),
+						int.Parse(dt.Rows[0][6].ToString()),
+						DateTime.Parse(dt.Rows[0][7].ToString()));
+				return m ;
+			}
+			else
+				return null;
+		}
+
+		public List<Medicine> GetAllMedicine()
+		{
+			string sql = string.Format("select * from Medicine");
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			if (dt.Rows.Count > 0)
+			{
+				List<Medicine> list = new List<Medicine>();
+				for (int i = 0; i < dt.Rows.Count; i++)
+				{
+					Medicine m = new Medicine(
+						dt.Rows[i][0].ToString(),
+						dt.Rows[i][1].ToString(),
+						dt.Rows[i][2].ToString(),
+						dt.Rows[i][3].ToString(),
+						int.Parse(dt.Rows[i][4].ToString()),
+						dt.Rows[i][5].ToString(),
+						int.Parse(dt.Rows[i][6].ToString()),
+						DateTime.Parse(dt.Rows[i][7].ToString())
+
+						);
+					list.Add(m);
+				}
+				return list;
+			}
+			else
+				return null;
+		}
+
+		//获得分页显示的药品
+		public List<Medicine> GetPaginationMedicine(int pagesize,int index)
 		{
 			string sql = string.Format("select top {0} * from Medicine where MedicineID not in (select top {1} MedicineID from Medicine)", pagesize, pagesize * (index - 1));
 			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);

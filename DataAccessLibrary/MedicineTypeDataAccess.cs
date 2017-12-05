@@ -25,7 +25,27 @@ namespace DataAccessLibrary
 		//获得所有药品种类
 		public List<MedicineType> GetPaginationMedicineType(int pagesize,int index)
 		{
-			string sql = string.Format("select top {0} * from MedicineType where MedicineTypeID not in (select top {1} MedicineTypeID from MedicineType",pagesize,pagesize*(index-1));
+			string sql = string.Format("select top {0} * from MedicineType where MedicineTypeID not in (select top {1} MedicineTypeID from MedicineType)",pagesize,pagesize*(index-1));
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			if (dt.Rows.Count > 0)
+			{
+				List<MedicineType> list = new List<MedicineType>();
+				for (int i = 0; i < dt.Rows.Count; i++)
+				{
+					MedicineType mt = new MedicineType(
+						dt.Rows[i][0].ToString(),
+						dt.Rows[i][1].ToString());
+					list.Add(mt);
+				}
+				return list;
+			}
+			else
+				return null;
+		}
+
+		public List<MedicineType> GetAllMedicineType()
+		{
+			string sql = string.Format("select * from MedicineType");
 			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
 			if (dt.Rows.Count > 0)
 			{

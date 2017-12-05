@@ -28,6 +28,7 @@ namespace Model
 			this.medicinePerson = medicinePerson;
 			this.medicineAmount = medicineAmount;
 			this.reason = reason;
+			this.medicineTypeID = medicineTypeID;
 		}
 
 		private string medicineID;
@@ -37,6 +38,13 @@ namespace Model
 		private string medicinePerson;
 		private int medicineAmount;
 		private string reason;
+		private string medicineTypeID;
+
+		public string MedicineTypeID
+		{
+			get { return medicineTypeID; }
+			set { medicineTypeID = value; }
+		}
 
 		/// <summary>
 		/// 药品ID
