@@ -91,5 +91,13 @@ namespace Model
 			string second = filetime.Substring(filetime.Length - 3, 3);
 			return second + butchID.Substring(0, 3) + animalID.Substring(0, 4) ;
 		}
+
+		//为检疫结果提供标识码
+		public static string getCodeForCheck()
+		{
+			string filetime = DateTime.Now.ToFileTime().ToString();
+			string second = filetime.Substring(filetime.Length - 10, 10);
+			return second;
+		}
 	}
 }

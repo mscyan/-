@@ -16,16 +16,16 @@ namespace Model
 		/// <param name="checkPosition">检疫地点</param>
 		/// <param name="checkPerson">检疫人员</param>
 		/// <param name="checkResult">检疫结果</param>
-		/// <param name="animalUniqueCode">牲畜唯一标识码</param>
+		/// <param name="animalID">牲畜唯一标识码</param>
 		/// <param name="animalState">检疫状态</param>
-		public HealthCheck(string checkID,DateTime checkDate,string checkPosition,string checkPerson,string checkResult,string animalUniqueCode,string animalState)
+		public HealthCheck(string checkID,DateTime checkDate,string checkPosition,string checkPerson,string checkResult,string animalID,string animalState)
 		{
 			this.checkID = checkID;
 			this.checkDate = checkDate;
 			this.checkPosition = checkPosition;
 			this.checkPerson = checkPerson;
 			this.checkResult = checkResult;
-			this.animalUniqueCode = animalUniqueCode;
+			this.animalID = animalID;
 			this.animalState = animalState;
 		}
 
@@ -34,7 +34,7 @@ namespace Model
 		private string checkPosition;
 		private string checkPerson;
 		private string checkResult;
-		private string animalUniqueCode;
+		private string animalID;
 		private string animalState;
 
 		/// <summary>
@@ -85,10 +85,10 @@ namespace Model
 		/// <summary>
 		/// 牲畜唯一标识码
 		/// </summary>
-		public string AnimalUniqueCode
+		public string AnimalID
 		{
-			get { return animalUniqueCode; }
-			set { animalUniqueCode = value; }
+			get { return animalID; }
+			set { animalID = value; }
 		}
 
 		/// <summary>

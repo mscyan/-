@@ -43,6 +43,7 @@
     <Compile Include="AnimalDataAccess.cs" />
     <Compile Include="ButchFactoryDataAccess.cs" />
     <Compile Include="ButchWorkDataAccess.cs" />
+    <Compile Include="CheckDataAccess.cs" />
     <Compile Include="FarmDataAccess.cs" />
     <Compile Include="FeedDataAccess.cs" />
     <Compile Include="FeedTypeDataAccess.cs" />

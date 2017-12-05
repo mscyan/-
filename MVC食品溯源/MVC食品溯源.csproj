@@ -149,6 +149,7 @@
     <Compile Include="Controllers\AnimalManagementController.cs" />
     <Compile Include="Controllers\BackSystemController.cs" />
     <Compile Include="Controllers\ButchWorkController.cs" />
+    <Compile Include="Controllers\CheckController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\FarmController.cs" />
@@ -934,6 +935,9 @@
     <Content Include="Views\Medicine\AddMedicinePage.cshtml" />
     <Content Include="Views\Medicine\MedicineUsePage.cshtml" />
     <Content Include="Views\Medicine\AddMedicineUsePage.cshtml" />
+    <Content Include="Views\Check\CheckIndex.cshtml" />
+    <Content Include="Views\Check\AddCheckPage.cshtml" />
+    <Content Include="Views\Check\AlterCheckPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

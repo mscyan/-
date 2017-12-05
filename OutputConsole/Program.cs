@@ -13,16 +13,7 @@ namespace OutputConsole
 		static void Main(string[] args)
 		{
 
-			AnimalDataAccess ada = new AnimalDataAccess();
-			var s = ada.GetPaginationAnimals(5, 1);
-			Console.WriteLine(s.Count);
-			Console.WriteLine(ada.GetPaginationAnimals(5,2).Count);
-			Console.WriteLine(ada.GetPaginationAnimals(5,3).Count);
-
-			foreach (var item in s)
-			{
-				Console.WriteLine(item.AnimalID);
-			}
+			Console.WriteLine();
 
 			Console.Read();
 		}

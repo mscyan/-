@@ -1,0 +1,196 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CheckIndex</title>
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
+	<link href="~/Content/themes/icon.css" rel="stylesheet" />
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/icon.css" rel="stylesheet" />
+	<script src="~/Content/js/common.js"></script>
+	<link href="~/Content/themes/table.css" rel="stylesheet" />
+	<style>
+		body {
+			font-family: 'Microsoft YaHei';
+		}
+	</style>
+	<script>
+		$(document).ready(function () {
+			$("#this_table").datagrid({
+				url: "/Check/GetPaginationCheckAction",
+				striped: true,
+				rownumbers: true,
+				pagination: true,
+				singleSelect: true,
+				pageSize: 5,
+				idField: 'CheckID',
+				pageList: [5, 10, 20, 30],
+				columns: [[
+					{ field: "CheckID", title: "检疫ID", width: 100 },
+					{ field: "CheckDate", title: "检疫日期", width: 150 },
+					{ field: "CheckPosition", title: "检疫地点", width: 100 },
+					{ field: "CheckPerson", title: "检疫人员", width: 150 },
+					{ field: "CheckResult", title: "检疫结果", width: 100 },
+					{ field: "AnimalID", title: "牲畜ID", width: 100 },
+					{ field: "AnimalState", title: "牲畜当前状态", width: 100 },
+				]],
+				toolbar: [
+					{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
+					{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
+					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
+				]
+			})
+		})
+		function add() {
+			$("<div/>").dialog({
+				id: "addCheck_id",
+				href: "/Check/AddCheckPage",
+				title: "添加检疫信息",
+				width: 300,
+				height: 220,
+				modal: true,
+				buttons: [{
+					id: 'certain',
+					text: '添 加',
+					handler: function () {
+						var check_position = $("#check_position").val();
+						var check_person = $("#check_person").val();
+						var check_result = $("#check_result").val();
+						var animal_id = $("#animal_id").val();
+						var animal_state = $("#animal_state").val();
+						$.ajax({
+							url: "/Check/AddCheckAction",
+							data: {
+								"check_position": check_position,
+								"check_person": check_person,
+								"check_result": check_result,
+								"animal_id": animal_id,
+								"animal_state": animal_state,
+							},
+							type: "POST",
+							dataType: "Json",
+							success: function (data) {
+								alert(data);
+								$("#addCheck_id").dialog("destroy");
+								$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+							}
+						})
+					}
+				}, {
+					text: '取消',
+					handler: function () {
+						$("#addCheck_id").dialog("destroy");
+					}
+				}],
+				onLoad: function () {
+					// do nothing
+				},
+				onClose: function () {
+					$("#addCheck_id").dialog("destroy");
+				}
+			})
+		}
+		function edit() {
+			//编辑
+			var row = $("#this_table").datagrid("getChecked");
+			if (row.length < 1) {
+				$.messager.alert("Notification", "Please choose the button");
+				return;
+			}
+			else {
+				$("<div/>").dialog({
+					id: "alterCheck_div",
+					href: "/Check/AlterCheckPage",
+					title: "修改检疫信息",
+					width: 300,
+					height: 220,
+					modal: true,
+					buttons: [{
+						id: 'certain',
+						text: '添 加',
+						handler: function () {
+							var rows = $("#this_table").datagrid("getChecked");
+							var check_id = "";
+							$.each(rows, function (i, row) {
+								check_id = row.CheckID + ",";
+							});
+							check_id = check_id.substring(0, check_id.length - 1);
+							var check_person = $("#check_person").val();
+							var check_result = $("#check_result").val();
+							var animal_state = $("#animal_state").val();
+							$.ajax({
+								url: "/Check/UpdateCheckByIdAction",
+								data: {
+									"check_id": check_id,
+									"check_person": check_person,
+									"check_result": check_result,
+									"animal_state": animal_state
+								},
+								type: "POST",
+								dataType: "Json",
+								success: function (data) {
+									alert(data);
+									$("#alterCheck_div").dialog("destroy");
+									$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+								}
+							})
+						}
+					}, {
+						text: '取消',
+						handler: function () {
+							$("#alterCheck_div").dialog("destroy");
+						}
+					}],
+					onLoad: function () {
+						// do nothing
+					},
+					onClose: function () {
+						$("#alterCheck_div").dialog("destroy");
+					}
+				})
+			}
+		}
+
+		function deleteRow() {
+			//删除行
+			var rows = $("#this_table").datagrid("getChecked");
+			if (rows.length < 1) {
+				$.messager.confirm("提示", "请先选中要删除的列");
+				return;
+			}
+			$.messager.confirm("提示", "确定删除此列？", function (r) {
+				if (r) {
+					var CheckID = "";
+					$.each(rows, function (i, row) {
+						CheckID = row.CheckID + ",";
+					});
+					CheckID = CheckID.substring(0, CheckID.length - 1);
+					$.ajax({
+						url: "/Check/DeleteCheckById",
+						data: { 'check_id': CheckID },
+						type: "POST",
+						dataType: "Json",
+						success: function (data) {
+							alert(data);
+							$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+						}
+					})
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+    <div>
+		<table id="this_table"></table>
+    </div>
+</body>
+</html>
