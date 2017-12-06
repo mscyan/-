@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DataAccessLibrary;
+using Newtonsoft.Json;
 
 namespace MVC食品溯源.Controllers
 {
@@ -66,9 +67,12 @@ namespace MVC食品溯源.Controllers
 		//获取所有的饲料种类
 		public ActionResult GetAllFeedTypeAction()
 		{
+			int pageindex = Request["page"] == null ? 1 : Convert.ToInt32(Request["page"]);
+			int pagesize = Request["rows"] == null ? 0 : Convert.ToInt32(Request["rows"]);
+
 			FeedTypeDataAccess ftda = new FeedTypeDataAccess();
-			var fts = ftda.GetAllFeedType();
-			return Json(fts);
+			var fts = ftda.GetPaginationFeedType(pagesize, pageindex);
+			return Content("{\"total\": " + ftda.GetCount().ToString() + ",\"rows\":" + JsonConvert.SerializeObject(fts) + "}");
 		}
 
 		//更新饲料种类
@@ -107,9 +111,11 @@ namespace MVC食品溯源.Controllers
 		//获得所有饲料
 		public ActionResult GetAllFeedAction()
 		{
+			int pageindex = Request["page"] == null ? 1 : Convert.ToInt32(Request["page"]);
+			int pagesize = Request["rows"] == null ? 0 : Convert.ToInt32(Request["rows"]);
 			FeedDataAccess fda = new FeedDataAccess();
-			var fs = fda.GetAllFeedInfo();
-			return Json(fs);
+			var fs = fda.GetPaginationFeed(pagesize,pageindex);
+			return Content("{\"total\": " + fda.GetCount().ToString() + ",\"rows\":" + JsonConvert.SerializeObject(fs) + "}");
 		}
 
 		//更新饲料表
@@ -146,9 +152,11 @@ namespace MVC食品溯源.Controllers
 		//获得所有喂养记录
 		public ActionResult GetAllFeedUseAction()
 		{
+			int pageindex = Request["page"] == null ? 1 : Convert.ToInt32(Request["page"]);
+			int pagesize = Request["rows"] == null ? 0 : Convert.ToInt32(Request["rows"]);
 			FeedUseDataAccess fuda = new FeedUseDataAccess();
 			var fus = fuda.GetAllFeedUseData();
-			return Json(fus);
+			return Content("{\"total\": " + fuda.GetCount().ToString() + ",\"rows\":" + JsonConvert.SerializeObject(fus) + "}");
 		}
 
 		//更新喂养记录表

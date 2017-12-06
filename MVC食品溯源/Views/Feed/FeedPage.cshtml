@@ -27,7 +27,7 @@
 			$("#this_table").datagrid({
 				url: "/Feed/GetAllFeedAction",
 				striped: true,
-				rownumber: true,
+				rownumbers: true,
 				pagination: true,
 				singleSelect: true,
 				idField: 'FeedID',
@@ -45,7 +45,7 @@
 				]],
 				toolbar: [
 					{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
-					{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
+					//{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
 					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
 				]
 			})

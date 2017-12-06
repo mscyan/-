@@ -905,7 +905,7 @@
     <Content Include="Views\AnimalManagement\AnimalIndex.cshtml" />
     <Content Include="Views\AnimalManagement\AddAnimal.cshtml" />
     <Content Include="Views\AnimalManagement\AlterAnimal.cshtml" />
-    <Content Include="Views\Sales\Index.cshtml" />
+    <Content Include="Views\Sales\SaleIndex.cshtml" />
     <Content Include="Views\ManuWork\ManuWorkIndex.cshtml" />
     <Content Include="Views\ButchWork\ButchWorkIndex.cshtml" />
     <Content Include="Views\Role\RoleIndex.cshtml" />
@@ -941,6 +941,8 @@
     <Content Include="Views\Medicine\AlterMedicineTypePage.cshtml" />
     <Content Include="Views\Medicine\AlterMedicinePage.cshtml" />
     <Content Include="Views\Medicine\AlterMedicineUsePage.cshtml" />
+    <Content Include="Views\Sales\AddSalePage.cshtml" />
+    <Content Include="Views\Sales\AlterSalepage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

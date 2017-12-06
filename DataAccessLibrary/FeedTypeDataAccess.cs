@@ -58,6 +58,31 @@ namespace DataAccessLibrary
 			}
 		}
 
+		public List<FeedType> GetPaginationFeedType(int pagesize,int pageindex)
+		{
+			List<FeedType> list = new List<FeedType>();
+			string sql = string.Format("select top {0} * from FeedType where FeedTypeID not in (select top {1} FeedTypeID from FeedType)",pagesize,(pageindex-1)*pagesize);
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			if (dt.Rows.Count > 0)
+			{
+				for (int i = 0; i < dt.Rows.Count; i++)
+				{
+					FeedType ft = new FeedType(dt.Rows[i][0].ToString(), dt.Rows[i][1].ToString().Trim());
+					list.Add(ft);
+				}
+				return list;
+			}
+			else
+				return null;
+		}
+
+		public int GetCount()
+		{
+			string sql = "select count(*) from FeedType";
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			return int.Parse(dt.Rows[0][0].ToString());
+		}
+
 		//更新饲料名称
 		public bool UpdateNameByID(string id,string newName)
 		{

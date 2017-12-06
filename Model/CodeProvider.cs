@@ -34,14 +34,15 @@ namespace Model
 		}
 
 		//为商品生成标识码
-		public static string getCodeForSales(string animalUniqueCode,string marketID)
+		public static string getCodeForSales()
 		{
-			//string marketID, string animalUniqueCode, DateTime saleDate,string salePosition,string saleType
+			//string filetime = DateTime.Now.ToFileTime().ToString();
+			//string second = filetime.Substring(filetime.Length - 3, 3);
+			//string code = animalUniqueCode.Substring(0, 2) + marketID.Substring(0,2)+ (new Random().Next() % 9).ToString() + second + (new Random().Next() % 9).ToString()+ (new Random().Next() % 9).ToString();
+			//return code.ToUpper();
 			string filetime = DateTime.Now.ToFileTime().ToString();
-			string second = filetime.Substring(filetime.Length - 3, 3);
-			//2 2 1 3
-			string code = animalUniqueCode.Substring(0, 2) + marketID.Substring(0,2)+ (new Random().Next() % 9).ToString() + second + (new Random().Next() % 9).ToString()+ (new Random().Next() % 9).ToString();
-			return code.ToUpper();
+			string second = filetime.Substring(filetime.Length - 10, 10);
+			return second;
 		}
 
 		//为饲料种类生成标识码

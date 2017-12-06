@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>加工页面</title>
+    <title>售卖页</title>
 	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
 	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
 	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
@@ -25,21 +25,22 @@
 	<script>
 		$(document).ready(function () {
 			$("#this_table").datagrid({
-				url:"/ManuWork/GetAllManuWorkInfo",
+				url: "/Sales/GetPaginationSaleAction",
 				striped: true,
 				rownumbers: true,
 				pagination: true,
 				singleSelect: true,
-				idField: 'ManuWorkInfoID',
-				//sortName: 'ButchFactoryID',
-				sortOrder: "asc",
+				pageSize: 5,
+				idField: 'SaleID',
 				pageList: [5, 10, 20, 30],
 				columns: [[
-					{ field: "ManuWorkInfoID", title: "操作ID", width: 100 },
-					{ field: "ManuFactoryID", title: "加工厂编号", width: 100 },
-					{ field: "ManuDate", title: "加工日期", width: 150 },
-					{ field: "AnimalUniqueCode", title: "牲畜ID", width: 150 },
-					{ field: "ManuInfo", title: "加工信息", width: 150 }
+					{ field: "SaleID", title: "销售ID", width: 100 },
+					{ field: "MarketID", title: "零售点ID", width: 100 },
+					{ field: "SaleDate", title: "售卖时间", width: 150 },
+					{ field: "SalePosition", title: "售卖地点", width: 80 },
+					{ field: "AnimalID", title: "牲畜ID", width: 150 },
+					{ field: "SaleType", title: "商品类型", width: 100 },
+					{ field: "HasSaled", title: "是否已售出", width: 100 },
 				]],
 				toolbar: [
 					{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
@@ -49,27 +50,39 @@
 			})
 		})
 		function add() {
+			//增加
+			//alert('Open the Add Window')
 			$("<div/>").dialog({
-				id: "addManuWork_div",
-				href: "/ManuWork/AddManuWorkPage",
-				title: "添加加工信息",
-				width: 300,
+				id: "addSale_div",
+				href: "/Sales/AddSalePage",
+				title: "添加信息",
+				width: 280,
 				height: 200,
 				modal: true,
 				buttons: [{
 					id: 'certain',
 					text: '添 加',
 					handler: function () {
+						@* string market_id, string sale_position, string animal_id, string sale_type, string has_saled *@
+						var market_id = "HPJLF782CS";/////~~~~~~~~!!!!!!!!!!!!!!
+						var sale_position = $("#sale_position").val();
+						var sale_type = $("#sale_type").val();
+						var has_saled = $("#has_saled").val();
 						var animal_id = $("#animal_id").val();
-						var manu_info = $("#manu_info").val();
 						$.ajax({
-							url: "/ManuWork/AddManuWorkAction",
-							data: { 'animal_id': animal_id, 'manu_info': manu_info },
+							url: "/Sales/AddSaleAction",
+							data: {
+								"market_id":market_id,
+								"sale_position": sale_position,
+								"sale_type": sale_type,
+								"has_saled": has_saled,
+								"animal_id": animal_id
+							},
 							type: "POST",
 							dataType: "Json",
 							success: function (data) {
 								alert(data);
-								$("#addManuWork_div").dialog("destroy");
+								$("#addSale_div").dialog("destroy");
 								$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
 							}
 						})
@@ -77,14 +90,14 @@
 				}, {
 					text: '取消',
 					handler: function () {
-						$("addManuWork_div").dialog("destroy");
+						$("#addSale_div").dialog("destroy");
 					}
 				}],
 				onLoad: function () {
 					// do nothing
 				},
 				onClose: function () {
-					$("#addManuWork_div").dialog("destroy");
+					$("#addSale_div").dialog("destroy");
 				}
 			})
 		}
@@ -97,30 +110,36 @@
 			}
 			else {
 				$("<div/>").dialog({
-					id: "alterManuWork_div",
-					href: "/ManuWork/AlterManuWorkPage",
-					title: "修改加工信息",
+					id: "alterSale_div",
+					href: "/Sales/AlterSalePage",
+					title: "修改用药记录信息",
 					width: 300,
-					height: 200,
+					height: 220,
 					modal: true,
 					buttons: [{
 						id: 'certain',
 						text: '修  改',
 						handler: function () {
 							var rows = $("#this_table").datagrid("getChecked");
-							var manu_id = "";
+							var sale_id = "";
 							$.each(rows, function (i, row) {
-								manu_id = row.ManuWorkInfoID;
+								sale_id = row.SaleID + ",";
 							});
-							var manu_info = $("#manu_info").val();
+							sale_id = sale_id.substring(0, sale_id.length - 1);
+							var has_saled = $("#has_saled").val();
+							var sale_time = $("#sale_time").val();
 							$.ajax({
-								url: "/ManuWork/AlterManuWorkByIdAction",
-								data: { 'manu_id': manu_id, 'manu_info': manu_info },
+								url: "/Sales/UpdateSaleByIdAction",
+								data: {
+									"sale_id": sale_id,
+									"has_saled": has_saled,
+									"sale_time": sale_time
+								},
 								type: "POST",
 								dataType: "Json",
 								success: function (data) {
 									alert(data);
-									$("#alterManuWork_div").dialog("destroy");
+									$("#alterSale_div").dialog("destroy");
 									$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
 								}
 							})
@@ -128,14 +147,14 @@
 					}, {
 						text: '取消',
 						handler: function () {
-							$("alterManuWork_div").dialog("destroy");
+							$("#alterSale_div").dialog("destroy");
 						}
 					}],
 					onLoad: function () {
 						// do nothing
 					},
 					onClose: function () {
-						$("#alterManuWork_div").dialog("destroy");
+						$("#alterSale_div").dialog("destroy");
 					}
 				})
 			}
@@ -144,43 +163,35 @@
 		function deleteRow() {
 			//删除行
 			var rows = $("#this_table").datagrid("getChecked");
-			if (rows.length < 1)
-			{
+			if (rows.length < 1) {
 				$.messager.confirm("提示", "请先选中要删除的列");
 				return;
 			}
-			else {
-				$.messager.confirm("提示", "确定删除此列？", function (r) {
-					if (r) {
-						var ManuWorkID = "";
-						$.each(rows, function (i, row) {
-							ManuWorkID = row.ManuWorkInfoID;
-						});
-						$.ajax({
-							url: "/ManuWork/DeleteManuWorkByIdAction",
-							data: { 'manu_id': ManuWorkID },
-							type: "POST",
-							dataType: "Json",
-							success: function (data) {
-								alert(data);
-								$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
-							}
-						})
-					}
-				});
-			}
+			$.messager.confirm("提示", "确定删除此列？", function (r) {
+				if (r) {
+					var sale_id = "";
+					$.each(rows, function (i, row) {
+						sale_id = row.SaleID + ",";
+					});
+					sale_id = sale_id.substring(0, sale_id.length - 1);
+					$.ajax({
+						url: "/Sales/DeleteSaleByIdAction",
+						data: { 'sale_id': sale_id },
+						type: "POST",
+						dataType: "Json",
+						success: function (data) {
+							alert(data);
+							$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+						}
+					})
+				}
+			});
 		}
 	</script>
 </head>
 <body>
-	<div class="easyui-layout" style="width:100%;height:700px;">
-		<div data-options="region:'north'" style="height:100px">
-			牲畜加工管理平台
-		</div>
-		<div data-options="region:'south',split:true" style="height:50px;"></div>
-		<div data-options="region:'center',title:'牲畜加工管理页面'">
-			<table id="this_table"></table>
-		</div>
-	</div>
+    <div> 
+		<table id="this_table"></table>
+    </div>
 </body>
 </html>

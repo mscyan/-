@@ -40,7 +40,7 @@
 				]],
 				toolbar: [
 					{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
-					{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
+					//{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
 					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
 				]
 			})
@@ -107,8 +107,6 @@
 			}
 			$.messager.confirm("提示", "确定删除此列？", function (r) {
 				if (r) {
-					// 参数r是提示框的按钮（确定-> true 取消->false）
-					//alert(r + "***");
 					var FeedTypeID = "";
 					$.each(rows, function (i, row) {
 						FeedTypeID = row.FeedTypeID + ",";

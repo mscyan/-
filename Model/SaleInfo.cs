@@ -13,15 +13,15 @@ namespace Model
 		/// </summary>
 		/// <param name="saleID">订单号</param>
 		/// <param name="marketID">零售点编号</param>
-		/// <param name="animalUniqueCode">牲畜唯一标识码</param>
+		/// <param name="animalID">牲畜唯一标识码</param>
 		/// <param name="saleDate">销售日期</param>
 		/// <param name="salePosition">销售地点</param>
 		/// <param name="saleType">商品类型</param>
-		public SaleInfo(string saleID, string marketID, DateTime saleDate, string salePosition, string animalUniqueCode, string saleType,string hasSaled)
+		public SaleInfo(string saleID, string marketID, DateTime saleDate, string salePosition, string animalID, string saleType,string hasSaled)
 		{
 			this.saleID = saleID;
 			this.marketID = marketID;
-			this.animalUniqueCode = animalUniqueCode;
+			this.animalID = animalID;
 			this.saleDate = saleDate;
 			this.salePosition = salePosition;
 			this.saleType = saleType;
@@ -62,14 +62,14 @@ namespace Model
 			set { marketID = value; }
 		}
 
-		private string animalUniqueCode;
+		private string animalID;
 		/// <summary>
 		/// 牲畜唯一标识码
 		/// </summary>
-		public string AnimalUniqueCode
+		public string AnimalID
 		{
-			get { return animalUniqueCode; }
-			set { animalUniqueCode = value; }
+			get { return animalID; }
+			set { animalID = value; }
 		}
 
 		private DateTime saleDate;

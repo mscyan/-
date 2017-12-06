@@ -27,7 +27,7 @@
 			$("#this_table").datagrid({
 				url:"/ButchWork/GetAllButchWorkAction",
 				striped: true,
-				rownumber: true,
+				rownumbers: true,
 				pagination: true,
 				singleSelect: true,
 				idField: 'ButchWorkInfoID',
@@ -36,7 +36,7 @@
 				pageList: [5, 10, 20, 30],
 				columns: [[
 					{ field: "ButchWorkInfoID", title: "操作ID", width: 100 },
-					{ field: "ButchFactoryID", title: "屠宰场编号",sortable:true, width: 100 },
+					{ field: "ButchFactoryID", title: "屠宰场编号", width: 100 },
 					{ field: "ButchDate", title: "屠宰日期", width: 150 },
 					{ field: "ButchInfo", title: "屠宰信息", width: 150 },
 					{ field: "AnimalUniqueCode", title: "牲畜ID", width: 100 },
@@ -50,8 +50,6 @@
 			})
 		})
 		function add() {
-			//增加
-			//alert('Open the Add Window')
 			$("<div/>").dialog({
 				id: "addButchWork_div",
 				href: "/ButchWork/AddButchWorkPage",
@@ -81,7 +79,7 @@
 				}, {
 					text: '取消',
 					handler: function () {
-						$("addButchWork_div").dialog("destroy");
+						$("#addButchWork_div").dialog("destroy");
 					}
 				}],
 				onLoad: function () {
@@ -118,7 +116,6 @@
 							});
 							var butch_info = $("#butch_info").val();
 							var animal_state = $("#animal_state").val();
-							//var butch_id = row.ButchWorkInfoID;
 							$.ajax({
 								url: "/ButchWork/AlterButchWorkInfoById",
 								data: { 'butch_id': butch_id, 'butch_info': butch_info, 'animal_state': animal_state },
@@ -158,7 +155,6 @@
 			else {
 				$.messager.confirm("提示", "确定删除此列？", function (r) {
 					if (r) {
-						// 参数r是提示框的按钮（确定-> true 取消->false）
 						var ButchWorkID = "";
 						$.each(rows, function (i, row) {
 							ButchWorkID = row.ButchWorkInfoID;

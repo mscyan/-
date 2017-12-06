@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DataAccessLibrary;
+using Newtonsoft.Json;
 
 namespace MVC食品溯源.Controllers
 {
@@ -28,9 +29,11 @@ namespace MVC食品溯源.Controllers
 
 		public ActionResult GetAllManuWorkInfo()
 		{
+			int pageindex = Request["page"] == null ? 1 : Convert.ToInt32(Request["page"]);
+			int pagesize = Request["rows"] == null ? 0 : Convert.ToInt32(Request["rows"]);
 			ManuWorkDataAccess mwda = new ManuWorkDataAccess();
 			var mws = mwda.GetAllManuWork();
-			return Json(mws);
+			return Content("{\"total\": " + mwda.GetCount().ToString() + ",\"rows\":" + JsonConvert.SerializeObject(mws) + "}");
 		}
 
 		public ActionResult AddManuWorkAction(string animal_id,string manu_info)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DataAccessLibrary;
+using Newtonsoft.Json;
 
 namespace MVC食品溯源.Controllers
 {
@@ -31,9 +32,12 @@ namespace MVC食品溯源.Controllers
 		//返回所有屠宰操作
 		public ActionResult GetAllButchWorkAction()
 		{
+			int pageindex = Request["page"] == null ? 1 : Convert.ToInt32(Request["page"]);
+			int pagesize = Request["rows"] == null ? 0 : Convert.ToInt32(Request["rows"]);
+
 			ButchWorkDataAccess bwda = new ButchWorkDataAccess();
-			var bws = bwda.GetAllButchWorkInfo();
-			return Json(bws);
+			var bws = bwda.GetPaginationButchWorkInfo(pagesize,pageindex);
+			return Content("{\"total\": " + bwda.GetCount().ToString() + ",\"rows\":" + JsonConvert.SerializeObject(bws) + "}");
 		}
 
 		//根据id删除指定操作

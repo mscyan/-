@@ -47,6 +47,37 @@ namespace DataAccessLibrary
 				return null;
 		}
 
+		public List<ManuWorkInfo> GetAllManuWork(int pagesize,int pageindex)
+		{
+			string sql = string.Format("select top {0} * from ManuWork where ManuWorkID not in (select top {1} ManuWorkID from ManuWork)", pagesize, (pageindex - 1) * pagesize);
+			List<ManuWorkInfo> list = new List<ManuWorkInfo>();
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			if (dt.Rows.Count > 0)
+			{
+				for (int i = 0; i < dt.Rows.Count; i++)
+				{
+					ManuWorkInfo mwi = new ManuWorkInfo(
+						dt.Rows[i][0].ToString(),
+						dt.Rows[i][1].ToString(),
+						DateTime.Parse(dt.Rows[i][2].ToString()),
+						dt.Rows[i][3].ToString(),
+						dt.Rows[i][4].ToString()
+						);
+					list.Add(mwi);
+				}
+				return list;
+			}
+			else
+				return null;
+		}
+
+		public int GetCount()
+		{
+			string sql = "select count(*) from ManuWork";
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			return int.Parse(dt.Rows[0][0].ToString());
+		}
+
 		//更新表
 		public bool UpdateManuWorkInfoById(string id,string manuInfo)
 		{

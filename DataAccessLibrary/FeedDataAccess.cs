@@ -74,6 +74,39 @@ namespace DataAccessLibrary
 				return null;
 		}
 
+		public List<Feed> GetPaginationFeed(int pagesize, int pageindex)
+		{
+			List<Feed> list = new List<Feed>();
+			string sql = string.Format("select top {0} * from Feed where FeedID not in (select top {1} FeedID from Feed)", pagesize, (pageindex - 1) * pagesize);
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			if (dt.Rows.Count > 0)
+			{
+				for (int i = 0; i < dt.Rows.Count; i++)
+				{
+					Feed feed = new Feed(
+						dt.Rows[i][0].ToString(),
+						dt.Rows[i][1].ToString(),
+						dt.Rows[i][2].ToString(),
+						dt.Rows[i][3].ToString(),
+						int.Parse(dt.Rows[i][4].ToString()),
+						dt.Rows[i][5].ToString(),
+						int.Parse(dt.Rows[i][6].ToString()),
+						DateTime.Parse(dt.Rows[i][7].ToString())
+						);
+					list.Add(feed);
+				}
+				return list;
+			}
+			return null;
+		}
+
+		public int GetCount()
+		{
+			string sql = "select count(*) from Feed";
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			return int.Parse(dt.Rows[0][0].ToString());
+		}
+
 		//通过ID更新饲料
 		public bool UpdateFeedInfoById(string id,int Usedamount)
 		{
