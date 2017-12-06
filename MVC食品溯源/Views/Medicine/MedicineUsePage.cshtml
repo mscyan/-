@@ -112,7 +112,56 @@
 				return;
 			}
 			else {
-
+				$("<div/>").dialog({
+					id: "alterMedicineUse_div",
+					href: "/Medicine/AlterMedicineUsePage",
+					title: "修改用药记录信息",
+					width: 300,
+					height: 220,
+					modal: true,
+					buttons: [{
+						id: 'certain',
+						text: '修  改',
+						handler: function () {
+							var rows = $("#this_table").datagrid("getChecked");
+							var medicineuse_id = "";
+							$.each(rows, function (i, row) {
+								medicineuse_id = row.MedicineUseID + ",";
+							});
+							medicineuse_id = medicineuse_id.substring(0, medicineuse_id.length - 1);
+							var amount = $("#amount").val();
+							var reason = $("#reason").val();
+							var medicine_person = $("#medicine_person").val();
+							$.ajax({
+								url: "/Medicine/UpdateMedicineUseByIdAction",
+								data: {
+									"medicineuse_id": medicineuse_id,
+									"amount": amount,
+									"reason": reason,
+									"medicine_person": medicine_person
+								},
+								type: "POST",
+								dataType: "Json",
+								success: function (data) {
+									alert(data);
+									$("#alterMedicineUse_div").dialog("destroy");
+									$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+								}
+							})
+						}
+					}, {
+						text: '取消',
+						handler: function () {
+							$("#alterMedicineUse_div").dialog("destroy");
+						}
+					}],
+					onLoad: function () {
+						// do nothing
+					},
+					onClose: function () {
+						$("#alterMedicineUse_div").dialog("destroy");
+					}
+				})
 			}
 		}
 

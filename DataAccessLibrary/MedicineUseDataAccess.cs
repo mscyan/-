@@ -60,6 +60,18 @@ namespace DataAccessLibrary
 			return int.Parse(dt.Rows[0][0].ToString());
 		}
 
+		public bool UpdateMedicineUseById(string id,string medicinePerson,string reason,int amount)
+		{
+			string sql = string.Format("update MedicineUse set " +
+				"MedicinePerson = '{0}',Reason = '{1}',MedicineAmount = '{2}' where MedicineUseID = '{3}'",
+				 medicinePerson, reason, amount, id);
+			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
+			if (Convert.ToInt32(obj) > 0)
+				return true;
+			else
+				return false;
+		}
+
 		//根据ID删除用药记录
 		public bool DeleteMedicineUseById(string id)
 		{

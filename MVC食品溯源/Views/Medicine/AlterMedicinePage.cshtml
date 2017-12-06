@@ -1,0 +1,40 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AlterMedicinePage</title>
+</head>
+<body>
+    <div> 
+		@* string medicine_name,int duration,string provider,int amount,string addtime *@
+		<table>
+			<tr>
+				<td>药品名称</td>
+				<td><input type="text" id="medicine_name" /></td>
+			</tr>
+			<tr>
+				<td>保质期(月)</td>
+				<td><input type="number" id="duration" min="1"/></td>
+			</tr>
+			<tr>
+				<td>生产商</td>
+				<td><input type="text" id="provider" /></td>
+			</tr>
+			<tr>
+				<td>剂量(克)</td>
+				<td><input type="number" id="amount" min="1"/></td>
+			</tr>
+			<tr>
+				<td>添加时间</td>
+				<td><input type="datetime" id="addtime" /></td>
+			</tr>
+		</table>
+    </div>
+</body>
+</html>

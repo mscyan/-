@@ -86,7 +86,7 @@
 					$("#addMedicineType_div").dialog("destroy");
 				}
 			})
-		}
+		} 
 		function edit() {
 			//编辑
 			var row = $("#this_table").datagrid("getChecked");
@@ -95,7 +95,52 @@
 				return;
 			}
 			else {
-
+				$("<div/>").dialog({
+					id: "alterMedicineType_div",
+					href: "/Medicine/AlterMedicineTypePage",
+					title: "修改药品种类信息",
+					width: 300,
+					height: 220,
+					modal: true,
+					buttons: [{
+						id: 'certain',
+						text: '添 加',
+						handler: function () {
+							var rows = $("#this_table").datagrid("getChecked");
+							var medicinetype_id = "";
+							$.each(rows, function (i, row) {
+								medicinetype_id = row.MedicineTypeID + ",";
+							});
+							medicinetype_id = medicinetype_id.substring(0, medicinetype_id.length - 1);
+							var medicinetype_name = $("#medicinetype_name").val();
+							$.ajax({
+								url: "/Medicine/UpdateMedicineTypeByIdAction",
+								data: {
+									"medicinetype_name": medicinetype_name,
+									"medicinetype_id": medicinetype_id,
+								},
+								type: "POST",
+								dataType: "Json",
+								success: function (data) {
+									alert(data);
+									$("#alterMedicineType_div").dialog("destroy");
+									$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+								}
+							})
+						}
+					}, {
+						text: '取消',
+						handler: function () {
+							$("#alterMedicineType_div").dialog("destroy");
+						}
+					}],
+					onLoad: function () {
+						// do nothing
+					},
+					onClose: function () {
+						$("#alterMedicineType_div").dialog("destroy");
+					}
+				})
 			}
 		}
 

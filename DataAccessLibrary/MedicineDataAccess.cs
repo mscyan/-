@@ -123,6 +123,18 @@ namespace DataAccessLibrary
 				return false;
 		}
 
+		public bool UpdateMedicineById(string medicine_id, string medicine_name, int duration, string provider, int amount, DateTime addtime)
+		{
+			string sql = string.Format("update Medicine set " +
+				"MedicineName = '{0}', Duration = '{1}' ,MedicineProvider = '{2}',Amount = '{3}',AddTime = '{4}' where MedicineID = '{5}'",
+				medicine_name,duration,provider,amount,addtime,medicine_id);
+			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
+			if (Convert.ToInt32(obj) > 0)
+				return true;
+			else
+				return false;
+		}
+
 		//根据ID删除指定药品
 		public bool DeleteMedicineById(string id)
 		{

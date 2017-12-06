@@ -938,6 +938,9 @@
     <Content Include="Views\Check\CheckIndex.cshtml" />
     <Content Include="Views\Check\AddCheckPage.cshtml" />
     <Content Include="Views\Check\AlterCheckPage.cshtml" />
+    <Content Include="Views\Medicine\AlterMedicineTypePage.cshtml" />
+    <Content Include="Views\Medicine\AlterMedicinePage.cshtml" />
+    <Content Include="Views\Medicine\AlterMedicineUsePage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

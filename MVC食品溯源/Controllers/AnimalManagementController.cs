@@ -17,8 +17,6 @@ namespace MVC食品溯源.Controllers
 		// 此控制器主要用于牲畜养殖管理过程中的数据操作。
 		public ActionResult AnimalIndex()
 		{
-
-
 			return View();
 		}
 
@@ -32,10 +30,10 @@ namespace MVC食品溯源.Controllers
 			return View();
 		}
 
-		public ActionResult AddOneAnimal(string AnimalType,string FeedType)
+		public ActionResult AddOneAnimal(string AnimalType,string FeedType,string AnimalState)
 		{
 			AnimalDataAccess ada = new AnimalDataAccess();
-			bool isaddsuccess = ada.AddAnimal(AnimalType, "HBRH7823SC", FeedType);
+			bool isaddsuccess = ada.AddAnimal(AnimalType, "HBRH7823SC", FeedType,AnimalState);
 			if (isaddsuccess)
 				return Json("添加成功");
 			else
@@ -48,6 +46,16 @@ namespace MVC食品溯源.Controllers
 			var animals = ada.getAllAnimals();
 
 			return Json(animals);
+		}
+
+		public ActionResult UpdateAnimalById(string animal_id,string animal_state)
+		{
+			AnimalDataAccess ada = new AnimalDataAccess();
+			bool isaltersuccess = ada.UpdateAnimalById(animal_id, animal_state);
+			if (isaltersuccess)
+				return Json("修改成功");
+			else
+				return Json("修改失败");
 		}
 
 		public ActionResult GetPaginationAnimals()

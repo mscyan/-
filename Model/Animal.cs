@@ -16,13 +16,14 @@ namespace Model
 		/// <param name="birth">入栏时间</param>
 		/// <param name="farmID">养殖场ID</param>
 		/// <param name="feedType">适用饲料种类</param>
-		public Animal(string uniqueCode,string animalType,DateTime birth,string farmID,string feedType)
+		public Animal(string uniqueCode,string animalType,DateTime birth,string farmID,string feedType,string animalState)
 		{
 			this.animalID = uniqueCode;
 			this.animalType = animalType;
 			this.animalBirth = birth;
 			this.farmID = farmID;
 			this.feedType = feedType;
+			this.animalState = animalState;
 		}
 
 		public Animal()
@@ -79,6 +80,11 @@ namespace Model
 			set { feedType = value; }
 		}
 
-		
+		private string animalState;
+		public string AnimalState
+		{
+			get { return animalState; }
+			set { animalState = value; }
+		}
 	}
 }

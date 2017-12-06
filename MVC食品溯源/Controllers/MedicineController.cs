@@ -46,6 +46,21 @@ namespace MVC食品溯源.Controllers
 			return View();
 		}
 
+		public ActionResult AlterMedicineTypePage()
+		{
+			return View();
+		}
+
+		public ActionResult AlterMedicinePage()
+		{
+			return View();
+		}
+
+		public ActionResult AlterMedicineUsePage()
+		{
+			return View();
+		}
+
 		public ActionResult AddMedicineTypeAction(string medicinetype_name)
 		{
 			MedicineTypeDataAccess mtda = new MedicineTypeDataAccess();
@@ -74,6 +89,36 @@ namespace MVC食品溯源.Controllers
 				return Json("删除成功");
 			else
 				return Json("删除失败");
+		}
+
+		public ActionResult UpdateMedicineTypeByIdAction(string medicinetype_id,string medicinetype_name)
+		{
+			MedicineTypeDataAccess mtda = new MedicineTypeDataAccess();
+			bool isaltersuccess = mtda.UpdateMedicineTypeID(medicinetype_id, medicinetype_name);
+			if(isaltersuccess)
+				return Json("修改成功");
+			else
+				return Json("修改失败");
+		}
+
+		public ActionResult UpdateMedicineByIdAction(string medicine_id,string medicine_name,int duration,string provider,int amount,DateTime addtime)
+		{
+			MedicineDataAccess mda = new MedicineDataAccess();
+			bool isaltersuccess = mda.UpdateMedicineById(medicine_id, medicine_name, duration, provider, amount, addtime);
+			if (isaltersuccess)
+				return Json("修改成功");
+			else
+				return Json("修改失败");
+		}
+
+		public ActionResult UpdateMedicineUseByIdAction(string medicineuse_id,string medicine_person,string reason,int amount)
+		{
+			MedicineUseDataAccess muda = new MedicineUseDataAccess();
+			bool isaltersuccess = muda.UpdateMedicineUseById(medicineuse_id, medicine_person, reason, amount);
+			if (isaltersuccess)
+				return Json("修改成功");
+			else
+				return Json("修改失败");
 		}
 
 		public ActionResult AddMedicineAction(string medicine_name,string medicinetype_id,string medicinetype_name,int duration,string provider,int amount)

@@ -12,22 +12,33 @@ namespace DataAccessLibrary
 	public class AnimalDataAccess
 	{
 		//添加一条动物记录
-		public bool AddAnimal(string animalType,string farmID,string feedType)
+		public bool AddAnimal(string animalType,string farmID,string feedType,string animalState)
 		{
 			string uniqueCode = CodeProvider.getCodeForAnimal(farmID).ToUpper();
 			DateTime birth = DateTime.Now.ToLocalTime();
-			string sql = string.Format("insert into Animal values ('{0}','{1}','{2}','{3}','{4}')",uniqueCode,animalType,birth,farmID,feedType);
+			string sql = string.Format("insert into Animal values ('{0}','{1}','{2}','{3}','{4}','{5}')",uniqueCode,animalType,birth,farmID,feedType,animalState);
 			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, 
 				CommandType.Text, sql, 
 				new SqlParameter("@AnimalID", uniqueCode),
 				new SqlParameter("@AnimalType",animalType),
 				new SqlParameter("@AnimalBirth",birth),
 				new SqlParameter("@FarmID",farmID),
-				new SqlParameter("@FeedType",feedType));
+				new SqlParameter("@FeedType",feedType),
+				new SqlParameter("@AnimalState",animalState));
 			if(Convert.ToInt32(obj)>0)
 			{
 				return true;
 			}
+			else
+				return false;
+		}
+
+		public bool UpdateAnimalById(string animalID,string animalState)
+		{
+			string sql = string.Format("update Animal set AnimalState = '{0}' where AnimalID = '{1}'", animalState, animalID);
+			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
+			if (Convert.ToInt32(obj) > 0)
+				return true;
 			else
 				return false;
 		}
@@ -48,7 +59,8 @@ namespace DataAccessLibrary
 					dt.Rows[i][1].ToString().Trim(),
 					DateTime.Parse(dt.Rows[i][2].ToString()),
 					dt.Rows[i][3].ToString(),
-					dt.Rows[i][4].ToString()
+					dt.Rows[i][4].ToString(),
+					dt.Rows[i][5].ToString()
 					);
 					list.Add(animal);
 				}
@@ -74,7 +86,8 @@ namespace DataAccessLibrary
 					dt.Rows[i][1].ToString().Trim(),
 					DateTime.Parse(dt.Rows[i][2].ToString()),
 					dt.Rows[i][3].ToString(),
-					dt.Rows[i][4].ToString()
+					dt.Rows[i][4].ToString(),
+					dt.Rows[i][5].ToString()
 					);
 					list.Add(animal);
 				}
@@ -106,7 +119,8 @@ namespace DataAccessLibrary
 					dt.Rows[0][1].ToString().Trim(),
 					DateTime.Parse(dt.Rows[0][2].ToString()),
 					dt.Rows[0][3].ToString(),
-					dt.Rows[0][4].ToString()
+					dt.Rows[0][4].ToString(),
+					dt.Rows[0][5].ToString()
 					);
 				return animal ;
 			}

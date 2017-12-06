@@ -109,7 +109,61 @@
 				return;
 			}
 			else {
-
+				$("<div/>").dialog({
+					id: "alterMedicine_div",
+					href: "/Medicine/AlterMedicinePage",
+					title: "修改药品信息",
+					width: 300,
+					height: 220,
+					modal: true,
+					buttons: [{
+						@* string medicine_name, int duration, string provider, int amount, string addtime *@
+						id: 'certain',
+						text: '修  改',
+						handler: function () {
+							var rows = $("#this_table").datagrid("getChecked");
+							var medicine_id = "";
+							$.each(rows, function (i, row) {
+								medicine_id = row.MedicineID + ",";
+							});
+							medicine_id = medicine_id.substring(0, medicine_id.length - 1);
+							var medicine_name = $("#medicine_name").val();
+							var duration = $("#duration").val();
+							var provider = $("#provider").val();
+							var amount = $("#amount").val();
+							var addtime = $("#addtime").val();
+							$.ajax({
+								url: "/Medicine/UpdateMedicineByIdAction",
+								data: {
+									"medicine_id": medicine_id,
+									"medicine_name": medicine_name,
+									"duration": duration,
+									"provider": provider,
+									"amount": amount,
+									"addtime": addtime
+								},
+								type: "POST",
+								dataType: "Json",
+								success: function (data) {
+									alert(data);
+									$("#alterMedicine_div").dialog("destroy");
+									$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+								}
+							})
+						}
+					}, {
+						text: '取消',
+						handler: function () {
+							$("#alterMedicine_div").dialog("destroy");
+						}
+					}],
+					onLoad: function () {
+						// do nothing
+					},
+					onClose: function () {
+						$("#alterMedicine_div").dialog("destroy");
+					}
+				})
 			}
 		}
 

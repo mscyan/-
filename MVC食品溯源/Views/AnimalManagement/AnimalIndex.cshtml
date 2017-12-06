@@ -33,14 +33,14 @@
 				pageSize: 5,
 				idField: 'AnimalID',
 				sortName: 'AnimalType',
-				//sortOrder: "asc",
 				pageList: [5, 10, 20, 30],
 				columns: [[
 					{ field: "AnimalID", title: "标识码", width: 100 },
 					{ field: "AnimalType", title: "动物品种", width: 100 },
 					{ field: "AnimalBirth", title: "入栏时间", width: 150 },
 					{ field: "FarmID", title: "养殖场ID", width: 150 },
-					{ field: "FeedType", title: "适用饲料类型", width: 100 }
+					{ field: "FeedType", title: "适用饲料类型", width: 100 },
+					{ field: "AnimalState", title: "牲畜当前状态", width: 150 }
 				]],
 				toolbar: [
 					{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
@@ -65,9 +65,14 @@
 					handler: function () {
 						var animal_type = $("#animal_type").val();
 						var feed_type = $("#feed_type").val();
+						var animal_state = $("#animal_state").val();
 						$.ajax({
 							url: "/AnimalManagement/AddOneAnimal",
-							data: { 'AnimalType': animal_type, 'FeedType': feed_type },
+							data: {
+								'AnimalType': animal_type,
+								'FeedType': feed_type,
+								'AnimalState': animal_state
+							},
 							type: "POST",
 							dataType: "Json",
 							success: function (data) {
@@ -99,7 +104,52 @@
 				return;
 			}
 			else {
-				
+				$("<div/>").dialog({
+					id: "alterAnimal_div",
+					href: "/AnimalManagement/AlterAnimal",
+					title: "修改牲畜状态信息",
+					width: 300,
+					height: 220,
+					modal: true,
+					buttons: [{
+						id: 'certain',
+						text: '修  改',
+						handler: function () {
+							var rows = $("#this_table").datagrid("getChecked");
+							var animal_id = "";
+							$.each(rows, function (i, row) {
+								animal_id = row.AnimalID + ",";
+							});
+							animal_id = animal_id.substring(0, animal_id.length - 1);
+							var animal_state = $("#animal_state").val();
+							$.ajax({
+								url: "/AnimalManagement/UpdateAnimalById",
+								data: {
+									"animal_id": animal_id,
+									"animal_state": animal_state,
+								},
+								type: "POST",
+								dataType: "Json",
+								success: function (data) {
+									alert(data);
+									$("#alterAnimal_div").dialog("destroy");
+									$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+								}
+							})
+						}
+					}, {
+						text: '取消',
+						handler: function () {
+							$("#alterAnimal_div").dialog("destroy");
+						}
+					}],
+					onLoad: function () {
+						// do nothing
+					},
+					onClose: function () {
+						$("#alterAnimal_div").dialog("destroy");
+					}
+				})
 			}
 		}
 
@@ -113,14 +163,11 @@
 			}
 			$.messager.confirm("提示", "确定删除此列？", function (r) {
 				if (r) {
-					// 参数r是提示框的按钮（确定-> true 取消->false）
-					//alert(r + "***");
 					var AnimalID = "";
 					$.each(rows, function (i, row) {
 						AnimalID = row.AnimalID + ",";
 					});
 					AnimalID = AnimalID.substring(0, AnimalID.length - 1);
-					//alert(AnimalID+" "+typeof(AnimalID));
 					$.ajax({
 						url: "/AnimalManagement/DeleteAnimalById",
 						data: { 'ids': AnimalID },
