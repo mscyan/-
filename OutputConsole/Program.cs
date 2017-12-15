@@ -12,7 +12,6 @@ namespace OutputConsole
 	{
 		static void Main(string[] args)
 		{
-
 			Console.WriteLine();
 
 			Console.Read();

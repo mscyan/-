@@ -41,6 +41,10 @@ namespace MVC食品溯源.Controllers
 			return View();
 		}
 
+		public ActionResult AddFeedForAnimal()
+		{
+			return View();
+		}
 
 		// 添加饲料种类
 		public ActionResult AddFeedTypeAction(string feedtype_name)

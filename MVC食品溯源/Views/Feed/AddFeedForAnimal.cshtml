@@ -1,0 +1,41 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddFeedForAnimal</title>
+</head>
+<body>
+    <div> 
+		<table align="center">
+			<tr>
+				<td>饲料</td>
+				<td>
+					<select name="feedselection" id="feed_selection">
+						@{
+							var list = new DataAccessLibrary.FeedDataAccess().GetAllFeedInfo();
+							foreach (var item in list)
+							{
+								<option value="@item.FeedID"> @item.FeedName</option>
+							}
+						}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>喂养人员</td>
+				<td><input type="text" id="feed_person" /></td>
+			</tr>
+			<tr>
+				<td>喂养剂量(公斤)</td>
+				<td><input type="number" id="feed_amount" /></td>
+			</tr>
+		</table>
+    </div>
+</body>
+</html>

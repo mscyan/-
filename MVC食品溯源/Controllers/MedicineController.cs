@@ -61,6 +61,11 @@ namespace MVC食品溯源.Controllers
 			return View();
 		}
 
+		public ActionResult AddMedicineForAnimalPage()
+		{
+			return View();
+		}
+
 		public ActionResult AddMedicineTypeAction(string medicinetype_name)
 		{
 			MedicineTypeDataAccess mtda = new MedicineTypeDataAccess();

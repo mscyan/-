@@ -26,6 +26,11 @@ namespace MVC食品溯源.Controllers
 			return View();
 		}
 
+		public ActionResult AddCheckForAnimal()
+		{
+			return View();
+		}
+
 		public ActionResult AddCheckAction(string check_position,string check_person,string check_result,string animal_id,string animal_state)
 		{
 			CheckDataAccess cda = new CheckDataAccess();

@@ -13,10 +13,10 @@
 	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
 	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
 	<script src="~/Scripts/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
-	<link href="~/Content/themes/icon.css" rel="stylesheet" />
+	@*<link href="~/Content/themes/icon.css" rel="stylesheet" />*@
 	<link href="~/Scripts/jquery-easyui-1.4.4/themes/icon.css" rel="stylesheet" />
-	<script src="~/Content/js/common.js"></script>
-	<link href="~/Content/themes/table.css" rel="stylesheet" />
+	@*<script src="~/Content/js/common.js"></script>
+	<link href="~/Content/themes/table.css" rel="stylesheet" />*@
 	<style>
 		body{
 			font-family:'Microsoft YaHei';
@@ -43,12 +43,202 @@
 					{ field: "AnimalState", title: "牲畜当前状态", width: 150 }
 				]],
 				toolbar: [
-					{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
-					{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
-					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
+					{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
+					{ text: '编辑', iconCls: 'icon-edit', handler: function () { edit(); } },
+					{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } },
+					{ text: '喂养', iconCls: 'icon-add', handler: function () { addFeed(); } },
+					{ text: '喂药', iconCls: 'icon-add', handler: function () { addMedicine(); } },
+					{ text: '检疫', iconCls: 'icon-add', handler: function () { addCheck(); } }
 				]
 			})
 		})
+
+		function addMedicine() {
+			var row = $("#this_table").datagrid("getChecked");
+			if (row.length < 1) {
+				$.messager.alert("Notification", "Please choose the button");
+				return;
+			}
+			else {
+				$("<div/>").dialog({
+					id: "addMedicine_div",
+					href: "/Medicine/AddMedicineForAnimalPage",
+					title: "添加用药信息",
+					width: 300,
+					height: 220,
+					modal: true,
+					buttons: [{
+						id: 'certain',
+						text: '添 加',
+						handler: function () {
+							var rows = $("#this_table").datagrid("getChecked");
+							var animal_id = "";
+							$.each(rows, function (i, row) {
+								animal_id = row.AnimalID + ",";
+							});
+							animal_id = animal_id.substring(0, animal_id.length - 1);
+							var medicine_id = $("#medicineid_selection option:selected").val();
+							var medicine_person = $("#medicine_person").val();
+							var medicine_amount = $("#medicine_amount").val();
+							var reason = $("#reason").val();
+							$.ajax({
+								url: "/Medicine/AddMedicineUseAction",
+								data: {
+									"animal_id": animal_id,
+									"medicine_id": medicine_id,
+									"medicine_person": medicine_person,
+									"medicine_amount": medicine_amount,
+									"reason": reason
+								},
+								type: "POST",
+								dataType: "Json",
+								success: function (data) {
+									alert(data);
+									$("#addMedicine_div").dialog("destroy");
+									$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+								}
+							})
+						}
+					}, {
+						text: '取消',
+						handler: function () {
+							$("#addMedicine_div").dialog("destroy");
+						}
+					}],
+					onLoad: function () {
+						// do nothing
+					},
+					onClose: function () {
+						$("#addMedicine_div").dialog("destroy");
+					}
+				})
+			}
+		}
+
+		function addFeed() {
+			var row = $("#this_table").datagrid("getChecked");
+			if (row.length < 1) {
+				$.messager.alert("Notification", "Please choose the button");
+				return;
+			}
+			else {
+				$("<div/>").dialog({
+					id: "addFeed_div",
+					href: "/Feed/AddFeedForAnimal",
+					title: "添加用药信息",
+					width: 300,
+					height: 220,
+					modal: true,
+					buttons: [{
+						id: 'certain',
+						text: '添 加',
+						handler: function () {
+							var rows = $("#this_table").datagrid("getChecked");
+							var animal_id = "";
+							$.each(rows, function (i, row) {
+								animal_id = row.AnimalID + ",";
+							});
+							animal_id = animal_id.substring(0, animal_id.length - 1);
+							var feed_id = $("#feed_selection option:selected").val();
+							var feed_person = $("#feed_person").val();
+							var feed_amount = $("#feed_amount").val();
+							$.ajax({
+								url: "/Feed/AddFeedUseAction",
+								data: {
+									"feed_id": feed_id,
+									"animal_id": animal_id,
+									"feed_person": feed_person,
+									"feed_amount": feed_amount
+								},
+								type: "POST",
+								dataType: "Json",
+								success: function (data) {
+									alert(data);
+									$("#addFeed_div").dialog("destroy");
+									$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+								},
+							})
+
+						}
+					}, {
+						text: '取消',
+						handler: function () {
+							$("#addFeed_div").dialog("destroy");
+						}
+					}],
+					onLoad: function () {
+						// do nothing
+					},
+					onClose: function () {
+						$("#addFeed_div").dialog("destroy");
+					}
+				})
+			}
+		}
+
+		function addCheck() {
+			var row = $("#this_table").datagrid("getChecked");
+			if (row.length < 1) {
+				$.messager.alert("Notification", "Please choose the button");
+				return;
+			}
+			else {
+				$("<div/>").dialog({
+					id: "addCheck_div",
+					href: "/Check/AddCheckForAnimal",
+					title: "添加检疫信息",
+					width: 300,
+					height: 220,
+					modal: true,
+					buttons: [{
+						id: 'certain',
+						text: '添 加',
+						handler: function () {
+							var rows = $("#this_table").datagrid("getChecked");
+							var animal_id = "";
+							$.each(rows, function (i, row) {
+								animal_id = row.AnimalID + ",";
+							});
+							animal_id = animal_id.substring(0, animal_id.length - 1);
+
+							var check_position = $("#check_position").val();
+							var check_person = $("#check_person").val();
+							var check_result = $("#check_result").val();
+							var animal_state = $("#animal_state").val();
+							$.ajax({
+								url: "/Check/AddCheckAction",
+								data: {
+									"check_position": check_position,
+									"check_person": check_person,
+									"check_result": check_result,
+									"animal_id": animal_id,
+									"animal_state": animal_state,
+								},
+								type: "POST",
+								dataType: "Json",
+								success: function (data) {
+									alert(data);
+									$("#addCheck_div").dialog("destroy");
+									$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+								}
+							})
+						}
+					}, {
+						text: '取消',
+						handler: function () {
+							$("#addCheck_div").dialog("destroy");
+						}
+					}],
+					onLoad: function () {
+						// do nothing
+					},
+					onClose: function () {
+						$("#addCheck_div").dialog("destroy");
+					}
+				})
+			}
+		}
+
 		function add() {
 			//增加
 			//alert('Open the Add Window')
