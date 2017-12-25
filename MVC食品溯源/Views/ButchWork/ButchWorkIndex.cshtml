@@ -40,7 +40,8 @@
 					{ field: "ButchDate", title: "屠宰日期", width: 150 },
 					{ field: "ButchInfo", title: "屠宰信息", width: 150 },
 					{ field: "AnimalUniqueCode", title: "牲畜ID", width: 100 },
-					{ field: "AnimalState", title: "牲畜状态", width: 120 }
+					{ field: "AnimalState", title: "牲畜状态", width: 120 },
+					{ field: "VideoSource", title: "视频路径", width: 200 }
 				]],
 				toolbar: [
 					{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
@@ -55,7 +56,7 @@
 				href: "/ButchWork/AddButchWorkPage",
 				title: "添加屠宰信息",
 				width: 300,
-				height: 200,
+				height: 260,
 				modal: true,
 				buttons: [{
 					id: 'certain',

@@ -5,11 +5,13 @@ using System.Web;
 using System.Web.Mvc;
 using DataAccessLibrary;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace MVC食品溯源.Controllers
 {
     public class ButchWorkController : Controller
     {
+		static string videopath = "";
 		// GET: ButchWork
 		// 屠宰场管理平台的各项操作
 		public ActionResult ButchWorkIndex()
@@ -54,7 +56,7 @@ namespace MVC食品溯源.Controllers
 		public ActionResult AddOneButchWorkInfo(string butch_info,string animal_id,string animal_state)
 		{
 			ButchWorkDataAccess bwda = new ButchWorkDataAccess();
-			bool isaddsuccess = bwda.AddButchWork("JHBY8237TZ", butch_info, animal_id, animal_state);
+			bool isaddsuccess = bwda.AddButchWork("JHBY8237TZ", butch_info, animal_id, animal_state,videopath);
 			if (isaddsuccess)
 				return Json("添加成功");
 			else
@@ -69,6 +71,41 @@ namespace MVC食品溯源.Controllers
 				return Json("修改成功");
 			else
 				return Json("修改失败");
+		}
+
+		public ActionResult Upload(FormCollection form)
+		{
+			string len = "";
+			if (Request.Files.Count == 0)
+			{
+				//return Json("文件数为0");
+				return this.JavaScript("alert('caozuochenggong');");
+			}
+			var file = Request.Files[0];
+			if (file.ContentLength == 0)
+			{
+				return Json("文件大小为0");
+				//return "filelen_0";
+			}
+			else
+			{
+				file = Request.Files[0];
+				string target = Server.MapPath("/") + ("/Videos/");
+				string filename = file.FileName;
+				string path = target + filename;
+				file.SaveAs(path);
+
+				byte[] temp = new byte[file.InputStream.Length];
+				file.InputStream.Read(temp, 0, (int)file.InputStream.Length);
+				FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+				fs.Write(temp, 0, temp.Length);
+				len = temp.Length.ToString();
+				videopath = path;
+				fs.Close();
+			}
+			//return "上传成功" + len;
+			//return JavaScript("$.dialog.alert('上传成功')");
+			return Content("<script>alert('操作成功')</script>");
 		}
     }
 }

@@ -11,10 +11,10 @@ namespace DataAccessLibrary
 	public class ButchWorkDataAccess
 	{
 		//添加屠宰信息
-		public bool AddButchWork(string butchID,string butchInfo,string animalID,string animalstate)
+		public bool AddButchWork(string butchID,string butchInfo,string animalID,string animalstate,string videoSource)
 		{
 			string code = CodeProvider.getCodeForButchWork(butchID,animalID);
-			string sql = string.Format("insert into ButchWork values ('{0}','{1}','{2}','{3}','{4}','{5}')", code, butchID, DateTime.Now.ToLocalTime(), butchInfo, animalID, animalstate);
+			string sql = string.Format("insert into ButchWork values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", code, butchID, DateTime.Now.ToLocalTime(), butchInfo, animalID, animalstate,videoSource);
 			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
 			if (Convert.ToInt32(obj) > 0)
 				return true;
@@ -33,12 +33,13 @@ namespace DataAccessLibrary
 				for (int i = 0; i < dt.Rows.Count; i++)
 				{
 					ButchWorkInfo bwi = new ButchWorkInfo(
-						dt.Rows[i][0].ToString(),
-						dt.Rows[i][1].ToString(),
+						dt.Rows[i][0].ToString().Trim(),
+						dt.Rows[i][1].ToString().Trim(),
 						DateTime.Parse(dt.Rows[i][2].ToString()),
-						dt.Rows[i][3].ToString(),
+						dt.Rows[i][3].ToString().Trim(),
 						dt.Rows[i][4].ToString().Trim(),
-						dt.Rows[i][5].ToString().Trim()
+						dt.Rows[i][5].ToString().Trim(),
+						dt.Rows[i][6].ToString().Trim()
 						);
 					list.Add(bwi);
 				}
@@ -63,7 +64,8 @@ namespace DataAccessLibrary
 						DateTime.Parse(dt.Rows[i][2].ToString()),
 						dt.Rows[i][3].ToString(),
 						dt.Rows[i][4].ToString().Trim(),
-						dt.Rows[i][5].ToString().Trim()
+						dt.Rows[i][5].ToString().Trim(),
+						dt.Rows[i][6].ToString().Trim()
 						);
 					list.Add(bwi);
 				}

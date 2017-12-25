@@ -17,7 +17,7 @@ namespace Model
 		/// <param name="butchInfo">屠宰信息</param>
 		/// <param name="animalUniqueCode">牲畜唯一标识码</param>
 		/// <param name="animalState">牲畜当前状态信息</param>
-		public ButchWorkInfo(string butchWorkInfoID,string butchFactoryID,DateTime butchDate,string butchInfo,string animalUniqueCode,string animalState)
+		public ButchWorkInfo(string butchWorkInfoID,string butchFactoryID,DateTime butchDate,string butchInfo,string animalUniqueCode,string animalState,string videoSource)
 		{
 			this.butchWorkInfoID = butchWorkInfoID;
 			this.butchFactoryID = butchFactoryID;
@@ -25,6 +25,7 @@ namespace Model
 			this.butchInfo = butchInfo;
 			this.animalUniqueCode = animalUniqueCode;
 			this.animalState = animalState;
+			this.videoSource = videoSource;
 		}
 
 		private string butchWorkInfoID;
@@ -85,6 +86,13 @@ namespace Model
 		{
 			get { return animalState; }
 			set { animalState = value; }
+		}
+
+		private string videoSource;
+		public string VideoSource
+		{
+			get { return videoSource; }
+			set { videoSource = value; }
 		}
 	}
 }
