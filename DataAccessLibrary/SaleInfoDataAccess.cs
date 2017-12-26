@@ -83,6 +83,27 @@ namespace DataAccessLibrary
 				return null;
 		}
 
+		public SaleInfo GetSaleInfoById(string saleID)
+		{
+			string sql = string.Format("select * from Sales where SaleID = '{0}'",saleID);
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			if (dt.Rows.Count > 0)
+			{
+				SaleInfo saleinfo = new SaleInfo(
+					dt.Rows[0][0].ToString(),
+					dt.Rows[0][1].ToString(),
+					DateTime.Parse(dt.Rows[0][2].ToString()),
+					dt.Rows[0][3].ToString().Trim(),
+					dt.Rows[0][4].ToString().Trim(),
+					dt.Rows[0][5].ToString().Trim(),
+					dt.Rows[0][6].ToString().Trim(),
+					dt.Rows[0][7].ToString().Trim());
+				return saleinfo;
+			}
+			else
+				return null;
+		}
+
 		//修改商品记录的信息
 		public bool UpdateSaleInfo(string id,string hasSaled,DateTime saletime)
 		{

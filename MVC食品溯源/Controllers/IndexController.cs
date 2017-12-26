@@ -35,8 +35,11 @@ namespace MVC食品溯源.Controllers
 		public ActionResult SearchByCode(string sales_Code)
 		{
 			SaleInfoDataAccess sda = new SaleInfoDataAccess();
-			
-			return Json("result**");
+			var saleinfo = sda.GetSaleInfoById(sales_Code);
+
+
+			//return Json("没有查到此条记录");
+			return Json("aba");
 		}
     }
 }

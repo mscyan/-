@@ -35,16 +35,37 @@
 					$.ajax({
 						type: "POST",
 						url: "/Index/SearchByCode",
-						//data: {  },
+						data: { "sales_Code":procode },
 						datatype: Text,
 						success: function (data) {
-							alert(data);
+							if (data == "没有查到此条记录") {
+								alert(data);
+							}
+							else {
+								//弹框显示牲畜来源
+								$("#hide_div").show();
+							}
 						}
 					})
 				}
 			})
 		})
 	</script>
+	<style>
+		#hide_div {
+			display:none;
+			width:500px;
+			margin:20px auto;
+			height:300px;
+			background:rgba(255,255,255,1);
+			position:absolute;
+			align-self:center;
+			clear:both;
+			z-index:999;
+			left:200px;
+			top:200px;
+		}
+	</style>
 </head>
 <body>
 	<div class="logo-box">
@@ -120,6 +141,11 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<div id="hide_div" >
+		<table>
+
+		</table>
 	</div>
 </body>
 </html>
