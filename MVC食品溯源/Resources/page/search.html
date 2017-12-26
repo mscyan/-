@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../css/style.css" />
+		<link rel="stylesheet" href="../css/search.css" />
+		
+	</head>
+	<body>
+		
+		<form>
+			<div id="search-box">
+				<div id="s-tit">
+					<div id="s-tab">
+						<ul id="s-tab-ul">
+							<li class="s-tab-cur">商品条码</li>
+							<li class="s-tab-else">商品条码+批次号</li>
+							<li class="s-tab-else">追溯码</li>
+							<li class="s-tab-else">商品条码+批次号(境外)</li>
+						</ul>
+					</div>
+				</div>
+				<div id="s-con">
+					<div class="s-con-input">
+						<ul id="s-con-ul">
+							<li><input type="text" id="productCode"/></li>
+							<li><input type="text" id="productCode1"/> + <input type="text" id="batchNo1"/></li>
+							<li><input type="text" id="traceCode"/></li>
+							<li><input type="text" id="productCode2"/> + <input type="text" id="batchNo2"/></li>
+						</ul>
+					</div>
+					<div class="s-con-input"><input type="button" value="查询"/></div>
+					<div class="s-con-input"><input type="button" value="查询"/> </div>
+					<div class="s-con-input"><input type="button" value="查询"/></div>
+				</div>
+			</div>
+		</form>
+		
+		
+		<script type="text/javascript" src="../js/jquery.min.js" ></script>
+		<script type="text/javascript" src="../js/search.js" ></script>
+	</body>
+</html>

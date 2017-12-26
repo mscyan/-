@@ -5,20 +5,121 @@
 
 <html>
 <head>
+	<meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
+	<script src="~/Resources/js/content.js"></script>
+	<script src="~/Resources/js/jquery.min.js"></script>
+	<script src="~/Resources/js/search.js"></script>
+	<link rel="stylesheet" href="~/Resources/css/style.css" />
+	<link rel="stylesheet" href="~/Resources/css/index.css" />
+	<link rel="stylesheet" href="~/Resources/css/logo.css" />
+	<link rel="stylesheet" href="~/Resources/css/search.css" />
+	<link rel="stylesheet" href="~/Resources/css/content.css" />
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
+	<link href="~/Content/themes/icon.css" rel="stylesheet" />
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/icon.css" rel="stylesheet" />
+	<script src="~/Content/js/common.js"></script>
+	<link href="~/Content/themes/table.css" rel="stylesheet" />
+	<script>
+		$(document).ready(function () {
+			$("#search_bt").click(function () {
+				var procode = $("#productCode").val();
+				var animal_id = $("#productCode2").val();
+				if (procode.length != 10)
+					alert("请输入合法的溯源码，正确的溯源码为10位");
+				else {
+					$.ajax({
+						type: "POST",
+						url: "/Index/SearchByCode",
+						//data: {  },
+						datatype: Text,
+						success: function (data) {
+							alert(data);
+						}
+					})
+				}
+			})
+		})
+	</script>
 </head>
 <body>
-    <div> 
-		<div>Hello world</div>
-    </div>
-	<form action="~/Index/TransPage" method="get">
-		<div>
-			UserName:<input type="text" name="_username" /><br />
-			Password:<input type="password" name="_password" /><br />
+	<div class="logo-box">
+		<div class="logo"><img src="~/Resources/img/logo.jpg" /> </div>
+		<div class="nav">
+			<ul>
+				<li><a href="#">首页</a></li>
+				<li><a href="#">新闻动态</a></li>
+				<li><a href="#">应用案例</a></li>
+				<li><a href="#">政策法规</a></li>
+				<li><a href="#">新增企业</a></li>
+				<li><a href="#">第三方追溯平台</a></li>
+			</ul>
 		</div>
-		<button type="submit">确定</button>
+	</div>
+	<form>
+		<div id="search-box">
+			<div id="s-tit">
+				<div id="s-tab">
+					<ul id="s-tab-ul">
+						<li class="s-tab-cur">商品条码</li>
+						<li class="s-tab-else">商品条码+批次号</li>
+					</ul>
+				</div>
+			</div>
+			<div id="s-con">
+				<div class="s-con-input">
+					<ul id="s-con-ul">
+						<li><input type="text" id="productCode" /></li>
+						<li><input type="text" id="productCode1" /> + <input type="text" id="batchNo1" /></li>
+					</ul>
+				</div>
+				<div class="s-con-input"><input type="button" id="search_bt" value="查询" /></div>
+			</div>
+		</div>
 	</form>
-	<a href="~/Index/About">关于我们</a>
+
+	<div class="content-bg">
+		<div class="content">
+			<div class="content-pic">
+				<div><a href="#"><img src="~/Resources/img/pt001.gif" id="img1" /></a></div>
+				<div><a href="#"><img src="~/Resources/img/pt002.gif" id="img2" /></a></div>
+				<div><a href="#"><img src="~/Resources/img/pt003.gif" id="img3" /></a></div>
+				<div><a href="#"><img src="~/Resources/img/pt004.gif" id="img4" /></a></div>
+			</div>
+
+			<div class="info-list">
+				<div class="news">
+					<ul>
+						<li><span class="list_no1">01</span><a href="#">“标签连接中国 服务千县万企”走进丹东市</a></li>
+						<li><span class="list_no1">02</span><a href="#">企业可通过国家食品（产品）安全追溯平台自动生成物流...</a></li>
+						<li><span class="list_no1">03</span><a href="#">“标签连接中国 服务千县万企”走进仪征——中国物品编...</a></li>
+						<li><span class="list_no2">04</span><a href="#">中国自动识别技术协会代理秘书长唐成带队赴仪征市开展...</a></li>
+						<li><span class="list_no2">05</span><a href="#">全国GS1标准供应链体系建设培训在京举办</a></li>
+						<li><span class="list_no2">06</span><a href="#">国家重点食品质量安全追溯物联网应用示范工程企业平台...</a></li>
+					</ul>
+				</div>
+				<div class="append">
+					<ul>
+						<li><a href="#">石家庄市制酒厂</a></li>
+						<li><a href="#">辽宁凯韵实业有限公司</a></li>
+						<li><a href="#">金寨先徽农副产品开发有限公司</a></li>
+						<li><a href="#">青岛普洛菲利食品有限公司</a></li>
+						<li><a href="#">肇东市东发鑫禾米业加工厂</a></li>
+						<li><a href="#">吉林省禧延参业有限公司</a></li>
+						<li><a href="#">铁力农场农垦人酿酒厂</a></li>
+						<li><a href="#">河南张老大粮油调味品有限公司</a></li>
+						<li><a href="#">广州市圣民生物科技有限公司</a></li>
+						<li><a href="#">福安市顶艺食品有限公司</a></li>
+						<li><a href="#">山东尚润日用品有限公司</a></li>
+						<li><a href="#">江西五壶醇酒业有限公司</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

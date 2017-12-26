@@ -1,0 +1,9 @@
+body,a,div,span,ul,li,table,tr,td,form,img{
+	margin: 0;
+	padding: 0;
+}
+a{
+	text-decoration: none;
+	color:#fff;
+	font-family: "微软雅黑";
+}
