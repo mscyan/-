@@ -41,17 +41,18 @@
 					{ field: "AnimalID", title: "牲畜ID", width: 150 },
 					{ field: "SaleType", title: "商品类型", width: 100 },
 					{ field: "HasSaled", title: "是否已售出", width: 100 },
+					{ field: "SaleState", title: "商品状态", width: 100 }
 				]],
 				toolbar: [
 					{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
 					{ text: '修改', iconCls: 'icon-edit', handler: function () { edit(); } },
-					{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
+					{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } },
+					{ text: '标注问题批次', iconCls: '', handler: function () { markUnsafe(); } }
 				]
 			})
-		})
+		});
+
 		function add() {
-			//增加
-			//alert('Open the Add Window')
 			$("<div/>").dialog({
 				id: "addSale_div",
 				href: "/Sales/AddSalePage",
@@ -177,6 +178,33 @@
 					$.ajax({
 						url: "/Sales/DeleteSaleByIdAction",
 						data: { 'sale_id': sale_id },
+						type: "POST",
+						dataType: "Json",
+						success: function (data) {
+							alert(data);
+							$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+						}
+					})
+				}
+			});
+		}
+
+		function markUnsafe() {
+			var rows = $("#this_table").datagrid("getChecked");
+			if (rows.length < 1) {
+				$.messager.confirm("提示", "请先选中要标注的列");
+				return;
+			}
+			$.messager.confirm("提示", "确定标注？", function (r) {
+				if (r) {
+					var animal_id = "";
+					$.each(rows, function (i, row) {
+						animal_id = row.AnimalID + ",";
+					});
+					animal_id = animal_id.substring(0, animal_id.length - 1);
+					$.ajax({
+						url: "/Sales/MarkUnsafeProductByAnimalIdAction",
+						data: { 'animal_id': animal_id },
 						type: "POST",
 						dataType: "Json",
 						success: function (data) {

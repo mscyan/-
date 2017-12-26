@@ -17,7 +17,7 @@ namespace Model
 		/// <param name="saleDate">销售日期</param>
 		/// <param name="salePosition">销售地点</param>
 		/// <param name="saleType">商品类型</param>
-		public SaleInfo(string saleID, string marketID, DateTime saleDate, string salePosition, string animalID, string saleType,string hasSaled)
+		public SaleInfo(string saleID, string marketID, DateTime saleDate, string salePosition, string animalID, string saleType,string hasSaled,string saleState)
 		{
 			this.saleID = saleID;
 			this.marketID = marketID;
@@ -26,6 +26,7 @@ namespace Model
 			this.salePosition = salePosition;
 			this.saleType = saleType;
 			this.hasSaled = hasSaled;
+			this.saleState = saleState;
 		}
 
 		private string hasSaled;
@@ -90,6 +91,13 @@ namespace Model
 		{
 			get { return salePosition; }
 			set { salePosition = value; }
+		}
+
+		private string saleState;
+		public string SaleState
+		{
+			get { return saleState; }
+			set { saleState = value; }
 		}
 	}
 }

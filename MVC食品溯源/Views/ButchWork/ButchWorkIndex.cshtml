@@ -9,6 +9,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>牲畜屠宰</title>
+	<script src="~/Content/jquery.form.3.23.js"></script>
 	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
 	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
 	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
@@ -41,7 +42,7 @@
 					{ field: "ButchInfo", title: "屠宰信息", width: 150 },
 					{ field: "AnimalUniqueCode", title: "牲畜ID", width: 100 },
 					{ field: "AnimalState", title: "牲畜状态", width: 120 },
-					{ field: "VideoSource", title: "视频路径", width: 200 }
+					{ field: "VideoSource", title: "视频路径", width: 350 }
 				]],
 				toolbar: [
 					{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
@@ -65,9 +66,11 @@
 						var butch_info = $("#butch_info").val();
 						var animal_id = $("#animal_id").val();
 						var animal_state = $("#animal_state").val();
+						var video_source = $("#video_source").text();
+						alert(video_source),
 						$.ajax({
 							url: "/ButchWork/AddOneButchWorkInfo",
-							data: { 'butch_info': butch_info, 'animal_id': animal_id, 'animal_state': animal_state },
+							data: { 'butch_info': butch_info, 'animal_id': animal_id, 'animal_state': animal_state, 'video_source': video_source },
 							type: "POST",
 							dataType: "Json",
 							success: function (data) {

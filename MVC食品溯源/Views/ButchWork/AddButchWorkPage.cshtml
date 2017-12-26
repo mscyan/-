@@ -5,36 +5,112 @@
 
 <!DOCTYPE html>
 
-<html>
+@*<html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>AddButchWorkPage</title>
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
+	<link href="~/Content/themes/icon.css" rel="stylesheet" />
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/icon.css" rel="stylesheet" />
+	<script src="~/Content/js/common.js"></script>
+	<link href="~/Content/themes/table.css" rel="stylesheet" />
+	<script src="~/Content/jquery.form.3.23.js"></script>
 </head>
-<body>
-    <div> 
-		<table align="center">
-			<tr>
-				<td>屠宰信息</td>
-				<td><input type="text" id="butch_info" /></td>
-			</tr>
-			<tr>
-				<td>牲畜ID</td>
-				<td><input type="text" id="animal_id" /></td>
-			</tr>
-			<tr>
-				<td>牲畜状态</td>
-				<td><input type="text" id="animal_state" /></td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					@using (Html.BeginForm("Upload", "ButchWork", FormMethod.Post, new { enctype = "multipart/form-data" }))
-					{
-						<text>选择上传文件:</text><input name="file" type="file" id="file" />
-						<input type="submit" name="Upload" value="上传" />
+<body>*@ 
+	
+	<table align="center">
+		<tr>
+			<td>屠宰信息</td>
+			<td><input type="text" id="butch_info" /></td>
+		</tr>
+		<tr>
+			<td>牲畜ID</td>
+			<td><input type="text" id="animal_id" /></td>
+		</tr>
+		<tr>
+			<td>牲畜状态</td>
+			<td><input type="text" id="animal_state" /></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<form id="form1">
+					<input type="button" value="选择需要上传的文件" onclick="uploads()" id="Upload" />
+				</form>
+				@*控制器地址*@
+				<form action="/ButchWork/Upload" method="post" id="Upload_form" enctype="multipart/form-data" style="position: relative; display: none">
+					<input type="file" name="file" id="files" onchange="change_Submit(this)" />
+					<input type="submit" value="上 传" class="btnSubmit" />
+				</form>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<div id="video_source"></div>
+			</td>
+		</tr>
+	</table>
+	<script src="~/Content/jquery.form.3.23.js"></script>
+	<script>
+		var IsUpload = false;
+		$(document).ready(function () {
+			//弹出文件选择
+			//$("#Upload").click(function () {
+			//	$("#Upload_form").find("input[type='file']").click();
+			//});
+			uploads = function () {
+				//$("#Upload_form").find("input[type='file']").click();
+				$("#files").click();
+			}
+		});
+		(function ($) {
+			//上传文件控件发生改变触发
+			change_Submit = function (obj) {
+				//获取文件后缀，用于判断文件格式
+				var aryimg = $(obj).val().toString().split(".");
+				//将达写后缀变成小写
+				aryimg[aryimg.length - 1] = aryimg[aryimg.length - 1].toLowerCase();
+				//判断文件上传类型，不要可以删除，这里是测试上传图片
+				if (aryimg[aryimg.length - 1] == "mkv" || aryimg[aryimg.length - 1] == "mp4"
+					|| aryimg[aryimg.length - 1] == "avi" || aryimg[aryimg.length - 1] == "rmvb") {
+					//这个判断可用户判断之前文件是否上传完成，如果之前文件未上传完成，再次提交有可能会覆盖掉之前的文件
+					if (!IsUpload) {
+						//获取上传表单的请求地址
+						var url = $("#Upload_form").attr("action");
+						$("#Upload_form").ajaxSubmit({
+							type: "post",
+							dataType: "json",
+							url: "/ButchWork/Upload",
+							beforeSubmit: function () {//提交前处理事件
+								$("#Upload").val("正在上传，请稍候...");
+								IsUpload = true;
+							},
+							success: function (msg) {
+								//alert("上传成功");
+								//if (msg.Code == "200") {
+								$("#Upload").val("上传成功");
+								alert("上传成功");
+								$("#video_source").text(msg);
+								//}
+								//else {
+								//	alert("上传失败");
+								//}
+								IsUpload = false;
+							},
+							error: function () {
+								$("#Upload").val("重新选择需要上传的文件");
+								IsUpload = false;
+							}
+						});
 					}
-				</td>
-			</tr>
-		</table>
-    </div>
-</body>
-</html>
+				}
+				else {
+					alert("您选择的文件格式不正确");
+				}
+			}
+		})(jQuery);
+	</script>
+@*</body>
+</html>*@

@@ -67,5 +67,15 @@ namespace MVC食品溯源.Controllers
 			else
 				return Json("删除失败");
 		}
+
+		public ActionResult MarkUnsafeProductByAnimalIdAction(string animal_id)
+		{
+			SaleInfoDataAccess sda = new SaleInfoDataAccess();
+			bool isdeletesuccess = sda.MarkUnsafeSaleByAnimalId(animal_id);
+			if (isdeletesuccess)
+				return Json("标注成功");
+			else
+				return Json("标注失败");
+		}
     }
 }

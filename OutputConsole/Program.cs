@@ -14,6 +14,8 @@ namespace OutputConsole
 		{
 			Console.WriteLine();
 
+			bool sab = new DataAccessLibrary.SaleInfoDataAccess().MarkUnsafeSaleByAnimalId("B312898RH7");
+			Console.WriteLine(sab);
 			Console.Read();
 		}
 	}

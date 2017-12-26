@@ -15,7 +15,7 @@ namespace DataAccessLibrary
 		public bool AddSaleInfo(string marketID, string animalUniqueCode, string saleDate, string salePosition, string saleType)
 		{
 			string code = CodeProvider.getCodeForSales();
-			string sql = string.Format("insert into Sales values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}')",code,marketID,null,salePosition,animalUniqueCode,saleType,"尚未售出");
+			string sql = string.Format("insert into Sales values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')",code,marketID,null,salePosition,animalUniqueCode,saleType,"尚未售出","无");
 			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
 			if (Convert.ToInt32(obj) > 0)
 				return true;
@@ -40,8 +40,9 @@ namespace DataAccessLibrary
 						dt.Rows[i][3].ToString().Trim(),
 						dt.Rows[i][4].ToString().Trim(),
 						dt.Rows[i][5].ToString().Trim(),
-						dt.Rows[i][6].ToString().Trim());
-					list.Add(saleinfo);
+						dt.Rows[i][6].ToString().Trim(),
+						dt.Rows[i][7].ToString().Trim());
+				list.Add(saleinfo);
 				}
 				return list;
 			}
@@ -72,7 +73,8 @@ namespace DataAccessLibrary
 						dt.Rows[i][3].ToString().Trim(),
 						dt.Rows[i][4].ToString().Trim(),
 						dt.Rows[i][5].ToString().Trim(),
-						dt.Rows[i][6].ToString().Trim());
+						dt.Rows[i][6].ToString().Trim(),
+						dt.Rows[i][7].ToString().Trim());
 					list.Add(saleinfo);
 				}
 				return list;
@@ -96,6 +98,16 @@ namespace DataAccessLibrary
 		public bool DeleteSaleInfoById(string id)
 		{
 			string sql = string.Format("delete from Sales where SaleID = '{0}'", id);
+			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
+			if (Convert.ToInt32(obj) > 0)
+				return true;
+			else
+				return false;
+		}
+
+		public bool MarkUnsafeSaleByAnimalId(string id)
+		{
+			string sql = string.Format("update Sales set SaleState = '出问题' where AnimalID = '{0}'", id);
 			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
 			if (Convert.ToInt32(obj) > 0)
 				return true;

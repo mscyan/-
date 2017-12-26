@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Runtime.Serialization;
 using DataAccessLibrary;
 using Newtonsoft.Json;
 using System.IO;
@@ -53,10 +54,10 @@ namespace MVC食品溯源.Controllers
 				return Json("删除失败");
 		}
 
-		public ActionResult AddOneButchWorkInfo(string butch_info,string animal_id,string animal_state)
+		public ActionResult AddOneButchWorkInfo(string butch_info,string animal_id,string animal_state,string video_source)
 		{
 			ButchWorkDataAccess bwda = new ButchWorkDataAccess();
-			bool isaddsuccess = bwda.AddButchWork("JHBY8237TZ", butch_info, animal_id, animal_state,videopath);
+			bool isaddsuccess = bwda.AddButchWork("JHBY8237TZ", butch_info, animal_id, animal_state, video_source);
 			if (isaddsuccess)
 				return Json("添加成功");
 			else
@@ -75,22 +76,55 @@ namespace MVC食品溯源.Controllers
 
 		public ActionResult Upload(FormCollection form)
 		{
+			//if (Request.IsAjaxRequest())
+			//{
+			//	JsonResult json = new JsonResult();
+			//	try
+			//	{
+			//		var file = Request.Files.Get(Request.Files[0].FileName);
+			//		//项目地址保存
+			//		string FilePath = Server.MapPath("/Videos");
+			//		using (var inputStream = file.InputStream)
+			//		{
+			//			if (!Directory.Exists(FilePath))
+			//				Directory.CreateDirectory(FilePath);
+			//			FilePath += "\\" + file.FileName;
+			//			using (var flieStream = new FileStream(FilePath, FileMode.CreateNew, FileAccess.ReadWrite))
+			//			{
+			//				inputStream.CopyTo(flieStream);
+			//			}
+			//		}
+			//		var result = new ServiceErrorArgs("200", FilePath);
+			//		json.Data = result;
+			//	}
+			//	catch (Exception ex)
+			//	{
+			//		var result = new ServiceErrorArgs("500", ex.ToString());
+			//		json.Data = result;
+			//	}
+
+			//	return json;
+			//}
+			//return View();
+
 			string len = "";
 			if (Request.Files.Count == 0)
 			{
-				//return Json("文件数为0");
-				return this.JavaScript("alert('caozuochenggong');");
+				return Json("文件数为0");
+				//return this.JavaScript("alert('caozuochenggong');");
+				//return "hello";
 			}
 			var file = Request.Files[0];
 			if (file.ContentLength == 0)
 			{
 				return Json("文件大小为0");
 				//return "filelen_0";
+				//return "hi";
 			}
 			else
 			{
 				file = Request.Files[0];
-				string target = Server.MapPath("/") + ("/Videos/");
+				string target = Server.MapPath("/") + ("Videos/");
 				string filename = file.FileName;
 				string path = target + filename;
 				file.SaveAs(path);
@@ -102,10 +136,31 @@ namespace MVC食品溯源.Controllers
 				len = temp.Length.ToString();
 				videopath = path;
 				fs.Close();
+				videopath = videopath.Substring(52,videopath.Length-52);
 			}
-			//return "上传成功" + len;
-			//return JavaScript("$.dialog.alert('上传成功')");
-			return Content("<script>alert('操作成功')</script>");
+			return Json(videopath);	
 		}
-    }
+	}
+
+	public class ServiceErrorArgs
+	{
+
+		public ServiceErrorArgs()
+		{
+			this.Code = "0";
+			this.Message = string.Empty;
+		}
+
+		public ServiceErrorArgs(string code, string message = "")
+		{
+			this.Code = code;
+			this.Message = message;
+		}
+
+		//[DataMember]
+		public string Code { get; set; }
+
+		//[DataMember]
+		public string Message { get; set; }
+	}
 }
