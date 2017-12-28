@@ -49,10 +49,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj">
-      <Project>{3a3d36c7-39a6-47fb-a935-eb67e9c9f806}</Project>
-      <Name>BusinessLogicLayer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataAccessLibrary\DataAccessLibrary.csproj">
       <Project>{9a8cd1b4-bc27-413a-bb70-b3f0d45b4834}</Project>
       <Name>DataAccessLibrary</Name>

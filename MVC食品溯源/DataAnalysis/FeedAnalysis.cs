@@ -9,7 +9,7 @@ namespace MVC食品溯源.DataAnalysis
 	{
 		public int MaxReduce(int[] arra)
 		{
-			int a =0;
+			int a = 0;
 
 			return a;
 		}
