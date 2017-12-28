@@ -102,5 +102,26 @@ namespace DataAccessLibrary
 			else
 				return false;
 		}
+
+		public ButchWorkInfo GetButchWorkInfoByAnimalId(string animalID)
+		{
+			string sql = string.Format("select * from ButchWork where AnimalID = '{0}'",animalID);
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			if (dt.Rows.Count > 0)
+			{
+				ButchWorkInfo bwi = new ButchWorkInfo(
+					dt.Rows[0][0].ToString(),
+					dt.Rows[0][1].ToString(),
+					DateTime.Parse(dt.Rows[0][2].ToString()),
+					dt.Rows[0][3].ToString(),
+					dt.Rows[0][4].ToString().Trim(),
+					dt.Rows[0][5].ToString().Trim(),
+					dt.Rows[0][6].ToString().Trim()
+					);
+				return bwi;
+			}
+			else
+				return null;
+		}
 	}
 }

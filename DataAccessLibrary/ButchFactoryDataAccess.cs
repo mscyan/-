@@ -39,6 +39,24 @@ namespace DataAccessLibrary
 				return null;
 		}
 
+		public ButchFactory GetButchFactoryById(string id)
+		{
+			string sql = string.Format("select * from [ButchTable] where ButchID = '{0}'",id);
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			if (dt.Rows.Count > 0)
+			{
+				ButchFactory bf = new ButchFactory(
+					dt.Rows[0][0].ToString(),
+					dt.Rows[0][1].ToString(),
+					dt.Rows[0][2].ToString(),
+					dt.Rows[0][3].ToString(),
+					dt.Rows[0][4].ToString());
+				return bf;
+			}
+			else
+				return null;
+		}
+
 		//根据id删除指定屠宰场
 		public bool DeleteButchFactoryById(string id)
 		{

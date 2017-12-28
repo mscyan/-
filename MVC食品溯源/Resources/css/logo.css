@@ -1,26 +1,26 @@
-.logo-box{
+.logo-box-cyan{
 	 height: 54px;
 	 width: 1000px;
 	 padding-top: 28px;
 	 margin-left: auto;
 	 margin-right: auto;
 }
-.logo-box .logo{
+.logo-box-cyan .logo-cyan{
 	width: 430px;
 	height: 52px;
 	float: left;
 }
-.logo-box .logo img{
+.logo-box-cyan .logo-cyan img{
 }
-.logo-box .nav{
+.logo-box-cyan .nav-cyan{
 	float: right;
 	width: 536px;
 }
-.logo-box .nav ul{
+.logo-box-cyan .nav-cyan ul {
 	list-style: none;
 	line-height: 32px;
 }
-.logo-box .nav ul li{
+.logo-box-cyan .nav-cyan ul li {
 	float: left;
 	display: block;
 	color: #fff;
@@ -29,7 +29,7 @@
 	padding-left: 15px;
 	padding-right: 15px;
 }
-.logo-box .nav ul li:hover{
+.logo-box-cyan .nav-cyan ul li:hover {
 	cursor: pointer;
 	background-color: #2EF0B3;
 	border-radius: 6px;

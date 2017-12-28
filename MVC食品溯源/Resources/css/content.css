@@ -1,4 +1,4 @@
-.content-bg{
+.content-bg-cyan {
 	width: 970px;
 	height: 450px;
 	margin: 20px auto 0 auto;
@@ -6,72 +6,88 @@
 	background-color: #EAEAEA;
 	border-radius: 8px;
 }
-.content-bg .content{
+
+.content-bg-cyan .content-cyan {
 	width: 970px;
 	height: 450px;
 }
-.content-bg .content .content-pic{
+
+.content-bg-cyan .content-cyan .content-pic-cyan {
 	height: 200px;
 }
-.content-bg .content .content-pic img{
+
+.content-bg-cyan .content-cyan .content-pic-cyan img {
 	float: left;
 	margin: 0 5.5px 0 5.5px;
 }
-.content-bg .content .content-pic img:hover{
+
+.content-bg-cyan .content-cyan .content-pic-cyan img:hover {
 	cursor: pointer;
 	background-image: url(../img/pt001_hover.gif);
 }
-.content-bg .content .info-list{
+
+.content-bg-cyan .content-cyan .info-list-cyan {
 	width: 970px;
 	height: 250px;
 }
-.content-bg .content .info-list ul{
+
+.content-bg-cyan .content-cyan .info-list-cyan ul {
 	list-style: none;
 	font-size: 13px;
 }
-.content-bg .content .info-list li a{
+
+.content-bg-cyan .content-cyan .info-list-cyan li a {
 	color: #606060;
 }
-.content-bg .content .info-list li a:hover{
-	color: 	#FF702D;
+
+.content-bg-cyan .content-cyan .info-list-cyan li-cyan a:hover {
+	color: #FF702D;
 }
-.content-bg .content .info-list .news{
+
+.content-bg-cyan .content-cyan .info-list-cyan .news-cyan {
 	float: left;
 	width: 400px;
 	height: 250px;
 }
-.content-bg .content .info-list .news ul li{
+
+.content-bg-cyan .content-cyan .info-list-cyan .news-cyan ul li {
 	float: left;
 	padding-top: 10px;
 	padding-right: 5px;
 	padding-bottom: 5px;
 	width: 400px;
 }
-.content-bg .content .info-list .news ul li a{
+
+.content-bg-cyan .content-cyan .info-list-cyan .news-cyan ul li a {
 	padding-left: 6px;
 }
-.content-bg .content .info-list .news ul li span{
+
+.content-bg-cyan .content-cyan .info-list-cyan .news-cyan ul li span {
 	padding: 6px 4px 7px 4px;
 	text-align: center;
 	width: 10px;
 	color: #fff;
 }
-.list_no1{
+
+.list_no1-cyan {
 	background-image: url(../img/bj_pic001.gif);
 	background-repeat: no-repeat;
 	background-position: 0px 4px;
 }
-.list_no2{
+
+.list_no2-cyan {
 	background-image: url(../img/bj_pic002.gif);
 	background-repeat: no-repeat;
 	background-position: 0px 4px;
 }
-.content-bg .content .info-list .append{
+
+.content-bg-cyan .content-cyan .info-list-cyan .append-cyan {
 	float: right;
 	width: 500px;
 	height: 250px;
 }
-.content-bg .content .info-list .append ul li{
+
+.content-bg-cyan .content-cyan .info-list-cyan .append-cyan ul li {
 	float: left;
 	width: 41%;
 	height: 20px;

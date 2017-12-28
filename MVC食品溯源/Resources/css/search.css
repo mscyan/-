@@ -1,4 +1,4 @@
-form #search-box{
+form #search-box-cyan{
 	margin-top: 0px;
 	width: 1000px;
 	height: 130px;
@@ -8,7 +8,7 @@ form #search-box{
 	margin-right: auto;
 	border-radius: 8px;
 }
-form #search-box #s-tit{
+form #search-box-cyan #s-tit-cyan{
 	padding-top: 19px;
 	width: 1000px;
 	height: 32px;
@@ -17,16 +17,16 @@ form #search-box #s-tit{
 	background-color: #ccc;
 	
 }
-form #search-box #s-tit #s-tab{
+form #search-box-cyan #s-tit-cyan #s-tab-cyan{
 	width: 552px;
 	height: 32px;
 }
-form #search-box #s-tit #s-tab ul{
+form #search-box-cyan #s-tit-cyan #s-tab-cyan ul{
 	list-style: none;
 	background-color: #fff;
 	padding-left: 40px;
 }
-form #search-box #s-tit #s-tab ul li{
+form #search-box-cyan #s-tit-cyan #s-tab-cyan ul li{
 	float: left;
 	line-height: 32px;
 	font-size: 14px;
@@ -34,19 +34,19 @@ form #search-box #s-tit #s-tab ul li{
 	padding-left: 10px;
 	padding-right: 10px;	
 }
-form #search-box #s-tit #s-tab ul li:hover{
+form #search-box-cyan #s-tit-cyan #s-tab-cyan ul li:hover{
 	cursor: pointer;
 }
-.s-tab-cur{
+.s-tab-cur-cyan{
 	border-radius:5px 5px 0 0;
 	background-color:#3a9130;
 	color:#fff;
 }
-.s-tab-else{
+.s-tab-else-cyan{
 	color: #3a9130;
 	background-color:#ccc;
 }
-form #search-box #s-con{
+form #search-box-cyan #s-con-cyan {
 	width: 960px;
 	height: 58px;
 	background-color: #3a9130;
@@ -55,31 +55,31 @@ form #search-box #s-con{
 	border-top: 1px solid #ccc;
 	border-radius: 5px;
 }
-form #search-box #s-con .s-con-input{
+form #search-box-cyan #s-con-cyan .s-con-input-cyan {
 	float: left;
 	margin-left: 15px;
 	margin-top: 10px;
 }
-form #search-box #s-con ul{
+form #search-box-cyan #s-con-cyan ul {
 	list-style: none;
 	margin-left: 25px;
 }
-form #search-box #s-con ul li{
+form #search-box-cyan #s-con-cyan ul li {
 	display: none;
 	color: #fff;
 	font-weight: bold;
 }
-/*form #search-box #s-con #s-con-randomcode{
+	/*form #search-box #s-con #s-con-randomcode{
 	float: left;
 	margin-top: 10px;
 }form #search-box #s-con #s-con-img{
 	float: left;
-	margin-top: 10px;
+	margin-top: 10px;productCode
 }form #search-box #s-con #s-con-btn{
 	float: left;
 	margin-top: 10px;
 }*/
-form #search-box #s-con input{
+form #search-box-cyan #s-con-cyan input{
 	height: 36px;
 	border-radius: 3px;
 	border-width: 0;

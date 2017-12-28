@@ -16,17 +16,52 @@
 	<link rel="stylesheet" href="~/Resources/css/logo.css" />
 	<link rel="stylesheet" href="~/Resources/css/search.css" />
 	<link rel="stylesheet" href="~/Resources/css/content.css" />
-	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
-	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
-	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
-	<script src="~/Scripts/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
-	<link href="~/Content/themes/icon.css" rel="stylesheet" />
-	<link href="~/Scripts/jquery-easyui-1.4.4/themes/icon.css" rel="stylesheet" />
-	<script src="~/Content/js/common.js"></script>
-	<link href="~/Content/themes/table.css" rel="stylesheet" />
+
+	<link href="~/Resources/js/jquery.my-modal.1.1.winStyle.css" rel="stylesheet" />
+	<script src="~/Resources/js/jquery.minn.js"></script>
+
+	<script src="~/Scripts/jquery-3.2.1.js"></script>
 	<script>
+		var MyModal = (function () {
+			function modal(fn) {
+				this.fn = fn;
+				this._addClickListen();
+			}
+			modal.prototype = {
+				show: function () {
+					$('.m-modal').fadeIn(100);
+					$('.m-modal').children('.m-modal-dialog').animate({
+						"margin-top": "150px"
+					}, 250);
+				},
+				_addClickListen: function () {
+					var that = this;
+					$(".m-modal").find('*').on("click", function (event) {
+						event.stopPropagation();
+					});
+					$(".m-modal,.m-modal-close,.m-btn-cancel").on("click", function (event) {
+						that.hide();
+					});
+					$(".m-btn-sure").on("click", function (event) {
+						that.fn();
+						that.hide();
+					});
+				},
+				hide: function () {
+					var $modal = $('.m-modal');
+					$modal.children('.m-modal-dialog').animate({
+						"margin-top": "-100%"
+					}, 500);
+					$modal.fadeOut(100);
+				}
+
+			};
+			return {
+				modal: modal
+			}
+		})();
 		$(document).ready(function () {
-			$("#search_bt").click(function () {
+			$("#search_bt-cyan").click(function () {
 				var procode = $("#productCode").val();
 				var animal_id = $("#productCode2").val();
 				if (procode.length != 10)
@@ -43,34 +78,176 @@
 							}
 							else {
 								//弹框显示牲畜来源
-								$("#hide_div").show();
+								var m1 = new MyModal.modal(function () {
+									
+								})
+								var animal = data["animal"];
+								var butchwork = data["butchworkinfo"];
+								var manuwork = data["manuworkinfo"];
+								var healthcheck = data["healthcheck"];
+								$("#farm_date").text(new Date(parseInt(animal["AnimalBirth"].replace(/\D/igm, ""))).toLocaleString()+"-入栏 ");
+								$("#farm_place").text(animal["FarmID"]+" ");
+
+								//屠宰显示
+								if (butchwork == undefined) {
+									$("#butch_date").text("无屠宰记录");
+									$("#butch_place").text("");
+								} else {
+									$("#butch_date").text(new Date(parseInt(butchwork["ButchDate"].replace(/\D/igm, ""))).toLocaleString()+"-屠宰 ");
+									$("#butch_place").text(butchwork["ButchInfo"]);
+								}
+
+								//加工显示
+								if (manuwork == undefined) {
+									$("#manu_date").text("无加工记录");
+									$("#manu_place").text("");
+								} else {
+									$("#manu_date").text(new Date(parseInt(manuwork["ManuDate"].replace(/\D/igm, ""))).toLocaleString()+"-加工 ");
+									$("#manu_place").text(manuwork["ManuInfo"]);
+								}
+
+
+								//检疫显示
+								if (healthcheck == undefined){
+									$("#check_date").text("无检疫记录");
+									$("#check_place").text("");
+								} else {
+									$("#check_date").text(new Date(parseInt(healthcheck["CheckDate"].replace(/\D/igm, ""))).toLocaleString() + "-检疫");
+									$("#check_place").text(healthcheck["CheckPosition"]);
+								}
+
+								m1.show();
 							}
+						},
+						error: function () {
+							alert("查询失败，网络故障");
 						}
 					})
 				}
 			})
 		})
+
 	</script>
 	<style>
-		#hide_div {
-			display:none;
-			width:500px;
-			margin:20px auto;
-			height:300px;
-			background:rgba(255,255,255,1);
-			position:absolute;
-			align-self:center;
-			clear:both;
-			z-index:999;
-			left:200px;
-			top:200px;
+		.m-modal {
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			display: none;
+			z-index: 1000;
+			overflow: auto;
+			background-color: rgba(0, 0, 0, .2);
+		}
+
+		.m-modal-dialog {
+			font-family: "microsoft yahei", "宋体";
+			position: relative;
+			margin: 0 auto;
+			margin-top: -100%;
+			width: 600px;
+			background-color: #ffffff;
+			box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+		}
+
+		.m-top {
+			background-color: rgb(20, 55, 70);
+		}
+
+		.m-modal-title {
+			margin: 0;
+			color: #fff;
+			padding: 10px 20px 10px 20px;
+			font-size: 20px;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+
+		.m-modal-close {
+			position: absolute;
+			right: 3px;
+			top: 3px;
+			display: inline-block;
+			font-size: 35px;
+			line-height: 20px;
+			color: #555;
+			cursor: pointer;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			color: #fff;
+		}
+
+		.m-modal-close:hover {
+			color: #555;
+		}
+
+		.m-middle {
+			padding: 30px 50px 30px 30px;
+			font-size: 15px;
+		}
+
+		.m-bottom {
+			padding: 0 6px 6px;
+			overflow: hidden;
+		}
+
+		.m-bottom button {
+			font-family: "microsoft yahei", "宋体";
+			cursor: pointer;
+			border: 1px solid #ccc;
+			background-color: #fff;
+			padding: 5px 15px;
+			float: right;
+			margin: 0 0 0 10px;
+			outline: none;
+			font-size: 14px;
+			color: #333;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+
+		.m-bottom button:hover {
+			color: #333;
+			background-color: #e6e6e6;
+			border-color: #adadad;
+		}
+
+		.m-bottom button:active {
+			color: #333;
+			background-color: #d4d4d4;
+			border-color: #8c8c8c;
+		}
+
+		.m-bottom .m-btn-sure {
+			color: #fff;
+			background-color: #337ab7;
+			border-color: #2e6da4;
+		}
+
+		.m-bottom .m-btn-sure:hover {
+			color: #fff;
+			background-color: #286090;
+			border-color: #204d74;
+		}
+
+		.m-bottom .m-btn-sure:active {
+			color: #fff;
+			background-color: #204d74;
+			border-color: #122b40;
 		}
 	</style>
 </head>
 <body>
-	<div class="logo-box">
-		<div class="logo"><img src="~/Resources/img/logo.jpg" /> </div>
-		<div class="nav">
+	<div class="logo-box-cyan">
+		<div class="logo-cyan"><img src="~/Resources/img/logo.jpg" /> </div>
+		<div class="nav-cyan">
 			<ul>
 				<li><a href="#">首页</a></li>
 				<li><a href="#">新闻动态</a></li>
@@ -82,48 +259,85 @@
 		</div>
 	</div>
 	<form>
-		<div id="search-box">
-			<div id="s-tit">
-				<div id="s-tab">
-					<ul id="s-tab-ul">
-						<li class="s-tab-cur">商品条码</li>
-						<li class="s-tab-else">商品条码+批次号</li>
+		<div id="search-box-cyan">
+			<div id="s-tit-cyan">
+				<div id="s-tab-cyan">
+					<ul id="s-tab-ul-cyan">
+						<li class="s-tab-cur-cyan">商品条码</li>
+						<li class="s-tab-else-cyan">商品条码+批次号</li>
 					</ul>
 				</div>
 			</div>
-			<div id="s-con">
-				<div class="s-con-input">
-					<ul id="s-con-ul">
+			<div id="s-con-cyan">
+				<div class="s-con-input-cyan">
+					<ul id="s-con-ul-cyan">
 						<li><input type="text" id="productCode" /></li>
-						<li><input type="text" id="productCode1" /> + <input type="text" id="batchNo1" /></li>
+						<li><input type="text" id="productCode1" /> + <input type="text" id="batchNo1-cyan" /></li>
 					</ul>
 				</div>
-				<div class="s-con-input"><input type="button" id="search_bt" value="查询" /></div>
+				<div class="s-con-input-cyan"><input type="button" id="search_bt-cyan" value="查询" /></div>
 			</div>
+			<div class="m-modal">
+				<div class="m-modal-dialog">
+					<div class="m-top">
+						<h4 class="m-modal-title">
+							查询结果
+						</h4>
+						<span class="m-modal-close">&times;</span>
+					</div>
+					<div class="m-middle">
+						<!--content-->
+						<ul>
+							<li>
+								<span id="farm_date">入栏时间</span>
+								<span id="farm_place">养殖地点</span>
+							</li>
+							<li>
+								<span id="butch_date">屠宰日期</span>
+								<span id="butch_place">屠宰地点</span>
+							</li>
+							<li>
+								<span id="manu_date">加工时间</span>
+								<span id="manu_place">加工地点</span>
+							</li>
+							<li>
+								<span id="check_date">检疫时间</span>
+								<span id="check_place">检疫地点</span>
+							</li>
+						</ul>
+
+					</div>
+					<div class="m-bottom">
+						@*<button class="m-btn-sure">确定</button>*@
+						<button class="m-btn-cancel">关闭</button>
+					</div>
+				</div>
+			</div>
+
 		</div>
 	</form>
 
-	<div class="content-bg">
-		<div class="content">
-			<div class="content-pic">
+	<div class="content-bg-cyan">
+		<div class="content-cyan">
+			<div class="content-pic-cyan">
 				<div><a href="#"><img src="~/Resources/img/pt001.gif" id="img1" /></a></div>
 				<div><a href="#"><img src="~/Resources/img/pt002.gif" id="img2" /></a></div>
 				<div><a href="#"><img src="~/Resources/img/pt003.gif" id="img3" /></a></div>
 				<div><a href="#"><img src="~/Resources/img/pt004.gif" id="img4" /></a></div>
 			</div>
 
-			<div class="info-list">
-				<div class="news">
+			<div class="info-list-cyan">
+				<div class="news-cyan">
 					<ul>
-						<li><span class="list_no1">01</span><a href="#">“标签连接中国 服务千县万企”走进丹东市</a></li>
-						<li><span class="list_no1">02</span><a href="#">企业可通过国家食品（产品）安全追溯平台自动生成物流...</a></li>
-						<li><span class="list_no1">03</span><a href="#">“标签连接中国 服务千县万企”走进仪征——中国物品编...</a></li>
-						<li><span class="list_no2">04</span><a href="#">中国自动识别技术协会代理秘书长唐成带队赴仪征市开展...</a></li>
-						<li><span class="list_no2">05</span><a href="#">全国GS1标准供应链体系建设培训在京举办</a></li>
-						<li><span class="list_no2">06</span><a href="#">国家重点食品质量安全追溯物联网应用示范工程企业平台...</a></li>
+						<li><span class="list_no1-cyan">01</span><a href="#">“标签连接中国 服务千县万企”走进丹东市</a></li>
+						<li><span class="list_no1-cyan">02</span><a href="#">企业可通过国家食品（产品）安全追溯平台自动生成物流...</a></li>
+						<li><span class="list_no1-cyan">03</span><a href="#">“标签连接中国 服务千县万企”走进仪征——中国物品编...</a></li>
+						<li><span class="list_no2-cyan">04</span><a href="#">中国自动识别技术协会代理秘书长唐成带队赴仪征市开展...</a></li>
+						<li><span class="list_no2-cyan">05</span><a href="#">全国GS1标准供应链体系建设培训在京举办</a></li>
+						<li><span class="list_no2-cyan">06</span><a href="#">国家重点食品质量安全追溯物联网应用示范工程企业平台...</a></li>
 					</ul>
 				</div>
-				<div class="append">
+				<div class="append-cyan">
 					<ul>
 						<li><a href="#">石家庄市制酒厂</a></li>
 						<li><a href="#">辽宁凯韵实业有限公司</a></li>
@@ -142,10 +356,8 @@
 			</div>
 		</div>
 	</div>
-	<div id="hide_div" >
-		<table>
 
-		</table>
-	</div>
+	
+	
 </body>
 </html>

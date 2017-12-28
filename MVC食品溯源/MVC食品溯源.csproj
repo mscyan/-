@@ -169,11 +169,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\favicon.ico" />
     <Content Include="Content\jquery.form.3.23.js" />
     <Content Include="Content\jquery.form.js" />
+    <Content Include="Content\modal.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -187,6 +190,7 @@
     <Content Include="Resources\img\bj_pic002.gif" />
     <Content Include="Resources\img\dot003.gif" />
     <Content Include="Resources\img\logo.jpg" />
+    <Content Include="Resources\img\Logo.png" />
     <Content Include="Resources\img\pt001.gif" />
     <Content Include="Resources\img\pt001_hover.gif" />
     <Content Include="Resources\img\pt002.gif" />
@@ -197,17 +201,30 @@
     <Content Include="Resources\img\pt004_hover.gif" />
     <Content Include="Resources\js\content.js" />
     <Content Include="Resources\js\jquery.min.js" />
+    <Content Include="Resources\js\jquery.minn.js" />
+    <Content Include="Resources\js\jquery.my-modal.1.1.winStyle.css" />
     <Content Include="Resources\js\search.js" />
     <Content Include="Resources\page\logo.html" />
     <Content Include="Resources\page\search.html" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Scripts\jquery-3.2.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.2.1.js" />
+    <Content Include="Scripts\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.js" />
     <Content Include="Scripts\jquery-easyui-1.4.4\demo\accordion\datagrid_data1.json" />
     <Content Include="Scripts\jquery-easyui-1.4.4\demo\combobox\combobox_data1.json" />
     <Content Include="Scripts\jquery-easyui-1.4.4\demo\combobox\combobox_data2.json" />
@@ -228,6 +245,8 @@
     <Content Include="Scripts\jquery-easyui-1.4.4\demo\treegrid\treegrid_data3.json" />
     <Content Include="Scripts\jquery-easyui-1.4.4\demo\tree\tree_data1.json" />
     <Content Include="Scripts\jquery-easyui-1.4.4\demo\tree\tree_data2.json" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.2.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-easyui-1.4.4\demo-mobile\accordion\basic.html" />
     <Content Include="Scripts\jquery-easyui-1.4.4\demo-mobile\accordion\header.html" />
@@ -972,25 +991,16 @@
     <Content Include="Views\Medicine\AddMedicineForAnimalPage.cshtml" />
     <Content Include="Views\Feed\AddFeedForAnimal.cshtml" />
     <Content Include="Views\Check\AddCheckForAnimal.cshtml" />
+    <Content Include="Views\Index\modal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Menu\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj">
