@@ -13,15 +13,15 @@ namespace Model
 
 		}
 
-		private string id;
+		private string roleid;
 		private string roleName;
 		private string description;
 		private string givenBy;
 
-		public string ID
+		public string RoleID
 		{
-			get { return id; }
-			set { id = value; }
+			get { return roleid; }
+			set { roleid = value; }
 		}
 
 		public string RoleName

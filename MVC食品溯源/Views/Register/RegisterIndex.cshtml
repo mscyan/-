@@ -1,0 +1,152 @@
+﻿
+@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
+
+	<style>
+		* {
+			font-size: 13px;
+		}
+
+		.tableForm {
+			border-collapse: collapse;
+		}
+
+			.tableForm th {
+				text-align: right;
+				border: 1px solid #ccc;
+				padding: 3px;
+				background-color: #F5F5F5;
+				height: 25px;
+			}
+
+			.tableForm td {
+				text-align: left;
+				border: 1px solid #ccc;
+				padding: 3px;
+				background-color: white;
+				height: 25px;
+			}
+	</style>
+	<script type="text/javascript">
+        $(function () {
+            $("#registerDialog").dialog({
+                title: "用户注册",
+                closable: false,
+                modal: true,
+                width: 310,
+                height: 300,
+                buttons: [
+                    {
+                        id: "registerBtn",
+                        text: "注 册",
+                        handler: function () {
+                            register();
+                        }
+                    },
+                    {
+                        id: "loginBtn",
+                        text: "登 录",
+                        handler: function () {
+                            window.location.href = "/Login/LoginIndex";
+                        }
+                    }
+                ]
+            });
+        })
+        function register() {
+            if ($("#registerValidPwd").val() == $("#registerPwd").val()) {
+                var postData = {
+                    Username: $("#registerName").val(),
+                    Password: $("#registerPwd").val(),
+                    Tel: $("#registerTel").val(),
+                    CompanyID: $("#userRegisterCompany").combobox('getValue')
+                }
+                $.post("/Register/CheckUserRegister", postData, function (data) {
+                    if (data == "OK") {
+                        alert("注册成功");
+                        window.location.href = "/Login/LoginIndex";
+                    }
+                    else {
+                        alert(data);
+                        window.location.href = "/Register/RegisterIndex";
+                    }
+                });
+            }
+
+        }
+        $.extend($.fn.validatebox.defaults.rules, {
+            /*必须和某个字段相等*/
+            equalTo: { validator: function (value, param) { return $(param[0]).val() == value; }, message: '字段不匹配' }
+        });
+	</script>
+
+
+	<title>注册页面</title>
+</head>
+<body>
+	<div id="registerDialog" style="padding:15px;text-align:center">
+
+		<form id="registerForm" method="post">
+			<table class="tableForm" style="width:100%">
+				<tr>
+					<th>
+						用户名：
+					</th>
+					<td>
+						<input type="text" id="registerName" name="registerName" class="easyui-validatebox textbox" data-options="required:true,validType:'length[2,20]'" style="width:170px;height:22px" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						密 码：
+					</th>
+					<td>
+						<input type="password" id="registerPwd" name="registerPwd" class="easyui-validatebox textbox" data-options="required:true,validType:'length[6,18]'" style="width:170px;height:22px" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						确认密码：
+					</th>
+					<td>
+						<input type="password" id="registerValidPwd" name="registerValidPwd" class="easyui-validatebox textbox" data-options="required:true" validType="equalTo['#registerPwd']" invalidMessage="密码不一致" style="width:170px;height:22px" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						电话：
+					</th>
+					<td>
+						<input type="tel" id="registerTel" name="registerTel" class="easyui-validatebox textbox" data-options="required:true,validType:'length[11,11]'" style="width:170px;height:22px" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						所属机构：
+					</th>
+					<td>
+						<select id="userRegisterCompany" name="userRegisterCompany" class="easyui-combobox" data-options="panelHeight:'auto',editable:false" style="width:75px;height:22px">
+							<option value="养殖场">养殖场</option>
+							<option value="屠宰场">屠宰场</option>
+							<option value="加工厂">加工厂</option>
+							<option value="零售点">零售点</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+		</form>
+
+	</div>
+</body>
+</html>

@@ -26,86 +26,107 @@
 		}
 	</style>
 	<script>
-		//增加
-		function add() {
-			//alert('Open the Add Window')
-			$("<div/>").dialog({
-				id: "addAnimal_id",
-				href: "/AnimalManagement/AddAnimal",
-				title: "添加牲畜信息",
-				width: 300,
-				height: 200,
-				modal: true,
-				buttons: [{
-					id: 'certain',
-					text: '添 加',
-					handler: function () {
-						var animal_type = $("#animal_type").val();
-						var feed_type = $("#feed_type").val();
-						$.ajax({
-							url: "/AnimalManagement/AddOneAnimal",
-							data: { 'AnimalType': animal_type, 'FeedType': feed_type },
-							type: "POST",
-							dataType: "Json",
-							success: function (data) {
-								alert(data);
-								$("#addAnimal_id").dialog("destroy");
-								$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
-							}
-						})
-					}
-				}, {
-					text: '取消',
-					handler: function () {
-						$("addAnimal_id").dialog("destroy");
-					}
-				}],
-				onLoad: function () {
-					// do nothing
-				},
-				onClose: function () {
-					$("#addAnimal_id").dialog("destroy");
-				}
-			})
-		}
-
-		//编辑
-		function edit() {
-
-
-		}
-
-		//删除行
-		function deleteRow() {
-			var rows = $("#this_table").datagrid("getChecked");
-			if (rows.length < 1)
-			{
-				$.messager.confirm("提示", "请先选中要删除的列");
-				return;
-			}
-			$.messager.confirm("提示", "确定删除此列？", function (r) {
+		//退出登录
+		function loginOut() {
+			$.messager.confirm("提示", "确定退出系统？", function (r) {
 				if (r) {
-					// 参数r是提示框的按钮（确定-> true 取消->false）
-					//alert(r + "***");
-					var AnimalID = "";
-					$.each(rows, function (i, row) {
-						AnimalID = row.AnimalID + ",";
-					});
-					AnimalID = AnimalID.substring(0, AnimalID.length - 1);
-					//alert(AnimalID+" "+typeof(AnimalID));
 					$.ajax({
-						url: "/AnimalManagement/DeleteAnimalById",
-						data: { 'ids': AnimalID },
-						type: "POST",
+						url: "/Login/LoginOut",
+						type: "post",
+						data: { "action": "logout" },
 						dataType: "Json",
-						success: function (data) {
-							alert(data);
-							$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+						success: function (result) {
+							if (result.success) {
+								window.location.href = "/Login/LoginIndex";
+							}
+							else {
+								$.messager.alert("提示", result.msg);
+							}
 						}
 					})
 				}
 			});
 		}
+		////增加
+		//function add() {
+		//	//alert('Open the Add Window')
+		//	$("<div/>").dialog({
+		//		id: "addAnimal_id",
+		//		href: "/AnimalManagement/AddAnimal",
+		//		title: "添加牲畜信息",
+		//		width: 300,
+		//		height: 200,
+		//		modal: true,
+		//		buttons: [{
+		//			id: 'certain',
+		//			text: '添 加',
+		//			handler: function () {
+		//				var animal_type = $("#animal_type").val();
+		//				var feed_type = $("#feed_type").val();
+		//				$.ajax({
+		//					url: "/AnimalManagement/AddOneAnimal",
+		//					data: { 'AnimalType': animal_type, 'FeedType': feed_type },
+		//					type: "POST",
+		//					dataType: "Json",
+		//					success: function (data) {
+		//						alert(data);
+		//						$("#addAnimal_id").dialog("destroy");
+		//						$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+		//					}
+		//				})
+		//			}
+		//		}, {
+		//			text: '取消',
+		//			handler: function () {
+		//				$("addAnimal_id").dialog("destroy");
+		//			}
+		//		}],
+		//		onLoad: function () {
+		//			// do nothing
+		//		},
+		//		onClose: function () {
+		//			$("#addAnimal_id").dialog("destroy");
+		//		}
+		//	})
+		//}
+
+		////编辑
+		//function edit() {
+
+
+		//}
+
+		////删除行
+		//function deleteRow() {
+		//	var rows = $("#this_table").datagrid("getChecked");
+		//	if (rows.length < 1)
+		//	{
+		//		$.messager.confirm("提示", "请先选中要删除的列");
+		//		return;
+		//	}
+		//	$.messager.confirm("提示", "确定删除此列？", function (r) {
+		//		if (r) {
+		//			// 参数r是提示框的按钮（确定-> true 取消->false）
+		//			//alert(r + "***");
+		//			var AnimalID = "";
+		//			$.each(rows, function (i, row) {
+		//				AnimalID = row.AnimalID + ",";
+		//			});
+		//			AnimalID = AnimalID.substring(0, AnimalID.length - 1);
+		//			//alert(AnimalID+" "+typeof(AnimalID));
+		//			$.ajax({
+		//				url: "/AnimalManagement/DeleteAnimalById",
+		//				data: { 'ids': AnimalID },
+		//				type: "POST",
+		//				dataType: "Json",
+		//				success: function (data) {
+		//					alert(data);
+		//					$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+		//				}
+		//			})
+		//		}
+		//	});
+		//}
 
 		//添加选项卡
 		function addTab(subtitle, url, icon) {
@@ -149,8 +170,14 @@
 </head>
 <body>
 	<div class="easyui-layout" style="width:100%;height:650px;">
-		<div data-options="region:'north'" style="height:100px">
-			食品溯源后台管理
+		<div data-options="region:'north'" style="height:70px">
+			<img src="~/Resources/img/Logo.png" style="margin-top:10px;margin-left:10px" /> <span style="font-size:18px;line-height:30px;">食品溯源管理后台</span>
+			<div style="position: absolute; right: 5px; top: 10px;">
+				欢迎您：<span style="color: #0082ff; ">@Session["Username"]</span> @DateTime.Now.ToLongDateString()@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)
+			</div>
+			<div style="position: absolute; right: 0px; top: 30px;">
+				<a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true" onclick="loginOut();">退出登录</a>
+			</div>
 		</div>
 		<div data-options="region:'south',split:true" style="height:50px;"></div>
 		<div data-options="region:'west',split:true" title="系统设置" style="width:180px;height:100%">

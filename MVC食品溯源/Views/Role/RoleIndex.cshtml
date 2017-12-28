@@ -1,14 +1,14 @@
 ﻿
 @{
-    Layout = null;
+	Layout = null;
 }
 
 <!DOCTYPE html>
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>角色管理</title>
+	<meta name="viewport" content="width=device-width" />
+	<title>角色管理</title>
 	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
 	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
 	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
@@ -25,7 +25,7 @@
 	<script>
 		$(document).ready(function () {
 			$("#role_table").datagrid({
-				url:"/Role/GetAllRoles",
+				url: "/Role/GetAllRoles",
 				striped: true,
 				rownumber: true,
 				pagination: true,
@@ -105,8 +105,7 @@
 		function deleteRow() {
 			//删除行
 			var rows = $("#role_table").datagrid("getChecked");
-			if (rows.length < 1)
-			{
+			if (rows.length < 1) {
 				$.messager.confirm("提示", "请先选中要删除的列");
 				return;
 			}
@@ -136,10 +135,8 @@
 	</script>
 </head>
 <body>
-    <div> 
-		<table id="role_table">
-
-		</table>
-    </div>
+	<div>
+		<table id="role_table"></table>
+	</div>
 </body>
 </html>

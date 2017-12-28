@@ -1,14 +1,14 @@
 ﻿
 @{
-    Layout = null;
+	Layout = null;
 }
 
 <!DOCTYPE html>
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>UserIndex</title>
+	<meta name="viewport" content="width=device-width" />
+	<title>UserIndex</title>
 	<meta name="viewport" content="width=device-width" />
 	<title>角色管理</title>
 	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
@@ -25,30 +25,64 @@
 		}
 	</style>
 	<script>
+		getToolBar = function (data) {
+			if (data.toolbar != undefined && data.toolbar != '') {
+				var toolbar = [];
+				$.each(data.toolbar, function (index, row) {
+					var handler = row.handler;
+					row.handler = function () { eval(handler); };
+					toolbar.push(row);
+				});
+				toolbar.push({ text: '角色设置', iconCls: 'icon-add', handler: function () { giveRole(); } });
+				return toolbar;
+			} else {
+				return [];
+			}
+		}
 		$(document).ready(function () {
-			$("#user_table").datagrid({
-				url:"/User/GetAllUserAction",
-				striped: true,
-				rownumber: true,
-				pagination: true,
-				singleSelect: true,
-				idField: 'Username',
-				//sortName: 'AnimalType',
-				sortOrder: "asc",
-				pageList: [5, 10, 20, 30],
-				columns: [[
-					{ field: "Username", title: "用户名ID", width: 100 },
-					{ field: "Tel", title: "电话", width: 100 },
-					{ field: "CompanyID", title: "所属公司", width: 100 },
-				]],
-				toolbar: [
-					//{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
-					//{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
-					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
-				]
-			})
+			$.ajax({
+				url: "/Role/GetUserPowerButton",
+				data: { "KeyName": "User" },
+				dataType: "Json",
+				type: "POST",
+				success: function (data) {
+					if (data.success) {
+						var toolbar = getToolBar(data);
+						$("#user_table").datagrid({
+							url: "/User/GetAllUserAction",
+							striped: true,
+							rownumber: true,
+							pagination: true,
+							singleSelect: true,
+							idField: 'Username',
+							//sortName: 'AnimalType',
+							sortOrder: "asc",
+							pageList: [5, 10, 20, 30],
+							columns: [[
+								{ field: "Username", title: "用户名ID", width: 100 },
+								{ field: "Tel", title: "电话", width: 100 },
+								{ field: "CompanyID", title: "所属公司", width: 100 },
+							]],
+							toolbar: toolbar.length == 0 ? null : toolbar
+							//toolbar: [
+							//    //{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
+							//    //{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
+							//    { text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } },
+							//    { text: '角色设置', iconCls: 'icon-add', handler: function () { giveRole(); } }
+							//]
+						})
+					} else {
+						$.messager.alert("错误", data.msg);
+					}
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+					alert(XMLHttpRequest.readyState);
+					alert(textStatus);
+				}
+			});
 		})
-		function add() {
+		function addUser() {
 			//注册页面
 			//alert('Open the Add Window')
 			$("<div/>").dialog({
@@ -91,7 +125,7 @@
 				}
 			})
 		}
-		function edit() {
+		function updateUser() {
 			//编辑
 			var row = $("#user_table").datagrid("getChecked");
 			if (row.length < 1) {
@@ -103,11 +137,10 @@
 			}
 		}
 
-		function deleteRow() {
+		function deleteUser() {
 			//删除行
 			var rows = $("#user_table").datagrid("getChecked");
-			if (rows.length < 1)
-			{
+			if (rows.length < 1) {
 				$.messager.confirm("提示", "请先选中要删除的列");
 				return;
 			}
@@ -134,13 +167,93 @@
 				}
 			});
 		}
+		//给用户赋予角色
+		function giveRole() {
+			var row = $("#user_table").datagrid("getChecked");
+			if (row.length < 1) {
+				$.messager.alert("提示", "请先选择要赋予角色的用户");
+				return;
+			}
+			if (row.length > 1) {
+				$.messager.alert("提示", "不支持批量操作");
+				return;
+			}
+			//初始化dialog
+			$("<div/>").dialog({
+				id: "treeRoleDialog",
+				href: "/User/TreeRole",
+				title: "设置角色",
+				width: 300,
+				height: 200,
+				modal: true,
+				buttons: [{
+					id: "giveRoleBtn",
+					text: "确 定",
+					handler: function () {
+						//$.ajax({
+						//    url: "/User/AddUserRole",
+						//    data: {
+						//        Username: $("#role_username").textbox('getValue'),
+						//        RoleIds: $("#comboxrole").combobox('getValues')
+						//    },
+						//    traditional: true,
+						//    dataType: "Json",
+						//    type: "POST",
+						$("#userRoleForm").form("submit", {
+							url: "/User/AddUserRole",
+							onSubmit: function (param) {
+								$('#giveRoleBtn').linkbutton('disable');
+								param.Username = $("#role_username").val();
+								param.RoleIds = $("#comboxrole").combobox('getValues');
+							},
+							success: function (data) {
+								var dataJson = eval('(' + data + ')')
+								if (dataJson.success) {
+									$("#treeRoleDialog").dialog("destroy");
+									$.messager.alert("提示", dataJson.msg);
+								} else {
+									$("#giveRoleBtn").linkbutton("enable");
+									$.messager.alert("提示", dataJson.msg);
+								}
+							},
+							error: function () {
+								alert("错误")
+							}
+						});
+					}
+				},
+				{
+					id: "clearRoleBtn",
+					text: "清空角色",
+					handler: function () {
+						$("#comboxrole").combobox("clear");
+					}
+				}],
+				onLoad: function () {
+					var username = row[0].Username.trim();
+					$("#role_username").textbox({ value: username });
+					$.ajax({
+						url: "/User/GetUserCurrentRole",
+						data: { "Username": username },
+						dataType: "Json",
+						type: "POST",
+						success: function (result) {
+							$('#comboxrole').combobox('setValues', result);
+						}
+					});
+					//var url = '/User/GetUserCurrentRole?Username=' + row[0].Username;
+					//$('#comboxrole').combobox('setValues', url);
+				},
+				onClose: function () {
+					$("#treeRoleDialog").dialog("destroy");
+				}
+			});
+		}
 	</script>
 </head>
 <body>
-    <div> 
-		<table id="user_table">
-
-		</table>
-    </div>
+	<div>
+		<table id="user_table"></table>
+	</div>
 </body>
 </html>

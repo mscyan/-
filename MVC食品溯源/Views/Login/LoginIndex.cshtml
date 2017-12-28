@@ -1,0 +1,128 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
+	<style>
+		* {
+			font-size: 13px;
+		}
+
+		/*body {
+			background: #D2E0F2;
+		}*/
+
+		.tableForm {
+			border-collapse: collapse;
+		}
+
+		.tableForm th {
+			text-align: right;
+			border: 1px solid #ccc;
+			padding: 3px;
+			background-color: #F5F5F5;
+			height: 25px;
+		}
+
+		.tableForm td {
+			text-align: left;
+			border: 1px solid #ccc;
+			padding: 3px;
+			background-color: white;
+			height: 25px;
+		}
+	</style>
+	<script type="text/javascript">
+		if (window.parent.window != window) {
+			window.top.location.href = "Login/LoginIndex";
+		}
+		$(function () {
+			$("#loginDialog").dialog({
+				title: "用户登录",
+				closable: false,
+				modal: true,
+				width: 310,
+				height: 220,
+				buttons: [
+					{
+						id: "loginBtn",
+						text: "登 录",
+						handler: function () {
+							login();
+						}
+					},
+					{
+						id: "registerBtn",
+						text: "注 册",
+						handler: function () {
+							window.location.href = "/Register/RegisterIndex";
+						}
+					}
+				]
+			});
+		})
+
+		function login() {
+			var dataLogin = {
+				Username: $("#loginName").val(),
+				Password: $("#loginPwd").val()
+			}
+			$.post("/Login/CheckUserLogin", dataLogin, function (data) {
+				if (data == "OK") {
+					window.location.href = "/BackSystem/Index";
+				} else {
+					alert(data);
+					window.location.href = "/Login/LoginIndex";
+				}
+			})
+		}
+
+
+	</script>
+
+	<title>后台登录</title>
+</head>
+<body>
+	<div id="loginDialog" style="padding:15px;text-align:center">
+		<form id="loginForm" method="post">
+			<table class="tableForm" style="width:100%">
+				<tr>
+					<th>
+						用户名：
+					</th>
+					<td>
+						<input type="text" id="loginName" name="loginName" class="easyui-validatebox textbox" style="width:170px;height:22px" data-options="prompt:'UserName',required:true,validType:'length[2,20]'" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						密码：
+					</th>
+					<td>
+						<input type="password" id="loginPwd" name="loginPwd" class="easyui-validatebox textbox" style="width:170px;height:22px;" data-options="prompt:'Password',required:true" />
+					</td>
+				</tr>
+				@*<tr>
+					<th>
+						验证码：
+					</th>
+					<td>
+						<input type="text" class="easyui-validatebox textbox" name="loginVerifiactionCode" id="loginVerificationCode" style="width:100px;height:22px;vertical-align:middle;" />*@
+				@*<img id="valiCode" style="vertical-align:middle;" src="@Url.Action("GetValidatorGraphics","Validator")" title="看不清？点击更换图片"/>*@
+				@*<img src="~/Content/img/GetValidatorGraphics.jpg" title="看不清？点击更换图片"/>
+						</td>
+					</tr>*@
+			</table>
+		</form>
+	</div>
+</body>
+</html>
+

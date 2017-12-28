@@ -8,7 +8,7 @@ namespace Model
 {
 	public class User
 	{
-		public User(string username,string password,string tel)
+		public User(string username, string password, string tel)
 		{
 			this.username = username;
 			this.password = password;
