@@ -77,5 +77,11 @@ namespace MVC食品溯源.Controllers
 			else
 				return Json("删除失败");
 		}
+
+		public ActionResult GetFeedDetail(string animal_id)
+		{
+
+			return Json("");
+		}
     }
 }

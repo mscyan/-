@@ -224,6 +224,9 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
+    <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\Chart.min.js" />
+    <Content Include="Scripts\highcharts.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
     <Content Include="Scripts\jquery-3.2.1.slim.js" />
@@ -998,6 +1001,7 @@
     <Content Include="Views\Register\RegisterIndex.cshtml" />
     <Content Include="Views\User\TreeRole.cshtml" />
     <Content Include="Views\Role\TreePower.cshtml" />
+    <Content Include="Views\Index\SearchResultPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

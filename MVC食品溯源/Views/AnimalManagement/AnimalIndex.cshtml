@@ -13,10 +13,8 @@
 	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
 	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
 	<script src="~/Scripts/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
-	@*<link href="~/Content/themes/icon.css" rel="stylesheet" />*@
 	<link href="~/Scripts/jquery-easyui-1.4.4/themes/icon.css" rel="stylesheet" />
-	@*<script src="~/Content/js/common.js"></script>
-	<link href="~/Content/themes/table.css" rel="stylesheet" />*@
+	<script src="~/Scripts/highcharts.js"></script>
 	<style>
 		body{
 			font-family:'Microsoft YaHei';
@@ -30,17 +28,16 @@
 				rownumbers: true,
 				pagination: true,
 				singleSelect: true,
-				pageSize: 5,
+				pageSize: 15,
 				idField: 'AnimalID',
-				sortName: 'AnimalType',
-				pageList: [5, 10, 20, 30],
+				pageList: [5, 10, 15],
 				columns: [[
 					{ field: "AnimalID", title: "标识码", width: 100 },
-					{ field: "AnimalType", title: "动物品种", width: 100 },
+					{ field: "AnimalType", title: "动物品种", width: 70 },
 					{ field: "AnimalBirth", title: "入栏时间", width: 150 },
-					{ field: "FarmID", title: "养殖场ID", width: 150 },
+					{ field: "FarmID", title: "养殖场ID", width: 120 },
 					{ field: "FeedType", title: "适用饲料类型", width: 100 },
-					{ field: "AnimalState", title: "牲畜当前状态", width: 150 }
+					{ field: "AnimalState", title: "牲畜当前状态", width: 100 }
 				]],
 				toolbar: [
 					{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
@@ -48,7 +45,8 @@
 					{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } },
 					{ text: '喂养', iconCls: 'icon-add', handler: function () { addFeed(); } },
 					{ text: '喂药', iconCls: 'icon-add', handler: function () { addMedicine(); } },
-					{ text: '检疫', iconCls: 'icon-add', handler: function () { addCheck(); } }
+					{ text: '检疫', iconCls: 'icon-add', handler: function () { addCheck(); } },
+					{ text: '喂养详情', iconCls: 'icon-add', handler: function () { feedDetail(); } }
 				]
 			})
 		})
@@ -118,7 +116,7 @@
 		function addFeed() {
 			var row = $("#this_table").datagrid("getChecked");
 			if (row.length < 1) {
-				$.messager.alert("Notification", "Please choose the button");
+				$.messager.alert("通知", "请选择一条记录进行查看");
 				return;
 			}
 			else {
@@ -286,6 +284,7 @@
 				}
 			})
 		}
+
 		function edit() {
 			//编辑
 			var row = $("#this_table").datagrid("getChecked");
@@ -391,11 +390,126 @@
 				addTab(TabName, PageName, null)
 			}
 		}
+
+		function feedDetail() {
+			var row = $("#this_table").datagrid("getChecked");
+			if (row.length < 1) {
+				$.messager.alert("通知", "请选择一条记录进行查看");
+				return;
+			}
+			else {
+				var rows = $("#this_table").datagrid("getChecked");
+				var animal_id = "";
+				$.each(rows, function (i, row) {
+					animal_id = row.AnimalID + ",";
+				});
+				animal_id = animal_id.substring(0, animal_id.length - 1);
+				$.ajax({
+					url: "/AnimalManagement/GetFeedDetail",
+					data: {
+						"animal_id": animal_id,
+					},
+					type: "POST",
+					dataType: "Json",
+					success: function (data) {
+						alert("查询成功");
+						var chart = Highcharts.chart('container', {
+							chart: {
+								type: 'spline'
+							},
+							title: {
+								text: '喂养情况趋势图'
+							},
+							subtitle: {
+								text: '近十次该牲畜喂食饲料情况'
+							},
+							xAxis: {
+								type: 'datetime',
+								labels: {
+									overflow: 'justify'
+								}
+							},
+							yAxis: {
+								title: {
+									text: '饲 料 (kg)'
+								},
+								min: 0,
+								minorGridLineWidth: 0,
+								gridLineWidth: 0,
+								alternateGridColor: null,
+								plotBands: [{ // Light air
+									from: 0.3,
+									to: 1.5,
+									color: 'rgba(68, 170, 213, 0.1)',
+									label: {
+										text: '0.3-1.5',
+										style: {
+											color: '#606060'
+										}
+									}
+								}, {
+									from: 1.8,
+									to: 3.5,
+									color: 'rgba(68, 170, 213, 0.1)',
+									label: {
+										text: '1.8-3.5',
+										style: {
+											color: '#606060'
+										}
+									}
+								}]
+							},
+							tooltip: {
+								valueSuffix: ' kg'
+							},
+							plotOptions: {
+								spline: {
+									lineWidth: 4,
+									states: {
+										hover: {
+											lineWidth: 5
+										}
+									},
+									marker: {
+										enabled: false
+									},
+									pointInterval: 3600000, // one hour
+									pointStart: Date.UTC(2009, 9, 6, 0, 0, 0)
+								}
+							},
+							series: [{
+								name: '喂食饲料量',
+								data: [4.3, 5.1, 4.3, 5.2, 5.4, 4.7, 3.5, 4.1, 5.6, 7.4]
+								//data: [4.3, 5.1, 4.3, 5.2, 5.4, 4.7, 3.5, 4.1, 5.6, 7.4, 6.9, 7.1,
+								//	7.9, 7.9, 7.5, 6.7, 7.7, 7.7, 7.4, 7.0, 7.1, 5.8, 5.9, 7.4,
+								//	8.2, 8.5, 9.4, 8.1, 10.9, 10.4, 10.9, 12.4, 12.1, 9.5, 7.5,
+								//	7.1, 7.5, 8.1, 6.8, 3.4, 2.1, 1.9, 2.8, 2.9, 1.3, 4.4, 4.2,
+								//	3.0, 3.0]
+							}],
+							navigation: {
+								menuItemStyle: {
+									fontSize: '10px'
+								}
+							}
+						});
+						//$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+					}
+				})
+
+				
+
+			}
+		}
 	</script>
 </head>
 <body>
-	<table id="this_table">
-
-	</table>
+	<div style="width:1300px;">
+		<div style="float:left;position:relative;">
+			<table id="this_table" style="width:700px;float:left;position:relative"></table>
+		</div>
+		<div style="width:580px;height:400px;margin-left:10px;margin-top:30px;float:left;position:relative;background:#ffffff;align-content:center">
+			<div id="container" style="min-width:560px;height:400px"></div>
+		</div>
+	</div>
 </body>
 </html>

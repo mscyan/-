@@ -75,5 +75,10 @@ namespace MVC食品溯源.Controllers
 		{
 			return View();
 		}
+
+		public ActionResult SearchResultPage()
+		{
+			return View();
+		}
     }
 }
