@@ -82,5 +82,26 @@ namespace DataAccessLibrary
 			else
 				return false;
 		}
+
+		public List<MedicineAndAmount> GetAmountPercentage()
+		{
+			string sql = string.Format("select sum(medicineamount), MedicineID from MedicineUse group by Medicineid");
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			if (dt.Rows.Count > 0)
+			{
+				List<MedicineAndAmount> list = new List<MedicineAndAmount>();
+				for (int i = 0; i < dt.Rows.Count; i++)
+				{
+					MedicineAndAmount maa = new MedicineAndAmount(
+						new MedicineDataAccess().GetMedicineById(dt.Rows[i][1].ToString()).MedicineName.Trim(),
+						double.Parse(dt.Rows[i][0].ToString())
+						);
+					list.Add(maa);
+				}
+				return list;
+			}
+			else
+				return null;
+		}
 	}
 }

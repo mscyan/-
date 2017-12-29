@@ -23,7 +23,7 @@
 	<script>
 		$(document).ready(function () {
 			$("#this_table").datagrid({
-				url:"/AnimalManagement/GetPaginationAnimals",
+				url: "/AnimalManagement/GetPaginationAnimals",
 				striped: true,
 				rownumbers: true,
 				pagination: true,
@@ -48,13 +48,38 @@
 					{ text: '检疫', iconCls: 'icon-add', handler: function () { addCheck(); } },
 					{ text: '喂养详情', iconCls: 'icon-add', handler: function () { feedDetail(); } }
 				]
-			})
+			});
+
+			$.ajax({
+				type: "POST",
+				url: "/AnimalManagement/GetUnusualAnimal",
+				datatype: "Json",
+				success: function (data) {
+					if (data == '无异常列') {
+						
+					}
+					else {
+						alert(data.length);
+						$("#this_table").datagrid({
+							rowStyler: function (index, row) {
+								for (var i = 0; i < data.length; i++) {
+									if (row.AnimalID == data[i]) {
+										return 'background-color:#00CED1;color:black;';
+									}
+								}
+							}
+						})
+					}
+				}
+			});
+
+			
 		})
 
 		function addMedicine() {
 			var row = $("#this_table").datagrid("getChecked");
 			if (row.length < 1) {
-				$.messager.alert("Notification", "Please choose the button");
+				$.messager.alert("通知", "请选择一行以进行添加");
 				return;
 			}
 			else {
@@ -116,7 +141,7 @@
 		function addFeed() {
 			var row = $("#this_table").datagrid("getChecked");
 			if (row.length < 1) {
-				$.messager.alert("通知", "请选择一条记录进行查看");
+				$.messager.alert("通知", "请选择一条记录进行添加");
 				return;
 			}
 			else {
@@ -177,7 +202,7 @@
 		function addCheck() {
 			var row = $("#this_table").datagrid("getChecked");
 			if (row.length < 1) {
-				$.messager.alert("Notification", "Please choose the button");
+				$.messager.alert("通知", "请选择一行以进行检疫操作");
 				return;
 			}
 			else {
@@ -289,7 +314,7 @@
 			//编辑
 			var row = $("#this_table").datagrid("getChecked");
 			if (row.length < 1) {
-				$.messager.alert("Notification", "Please choose the button");
+				$.messager.alert("通知", "请选择一行以进行编辑");
 				return;
 			}
 			else {
@@ -412,92 +437,91 @@
 					type: "POST",
 					dataType: "Json",
 					success: function (data) {
-						alert("查询成功");
-						var chart = Highcharts.chart('container', {
-							chart: {
-								type: 'spline'
-							},
-							title: {
-								text: '喂养情况趋势图'
-							},
-							subtitle: {
-								text: '近十次该牲畜喂食饲料情况'
-							},
-							xAxis: {
-								type: 'datetime',
-								labels: {
-									overflow: 'justify'
-								}
-							},
-							yAxis: {
-								title: {
-									text: '饲 料 (kg)'
-								},
-								min: 0,
-								minorGridLineWidth: 0,
-								gridLineWidth: 0,
-								alternateGridColor: null,
-								plotBands: [{ // Light air
-									from: 0.3,
-									to: 1.5,
-									color: 'rgba(68, 170, 213, 0.1)',
-									label: {
-										text: '0.3-1.5',
-										style: {
-											color: '#606060'
-										}
-									}
-								}, {
-									from: 1.8,
-									to: 3.5,
-									color: 'rgba(68, 170, 213, 0.1)',
-									label: {
-										text: '1.8-3.5',
-										style: {
-											color: '#606060'
-										}
-									}
-								}]
-							},
-							tooltip: {
-								valueSuffix: ' kg'
-							},
-							plotOptions: {
-								spline: {
-									lineWidth: 4,
-									states: {
-										hover: {
-											lineWidth: 5
-										}
-									},
-									marker: {
-										enabled: false
-									},
-									pointInterval: 3600000, // one hour
-									pointStart: Date.UTC(2009, 9, 6, 0, 0, 0)
-								}
-							},
-							series: [{
-								name: '喂食饲料量',
-								data: [4.3, 5.1, 4.3, 5.2, 5.4, 4.7, 3.5, 4.1, 5.6, 7.4]
-								//data: [4.3, 5.1, 4.3, 5.2, 5.4, 4.7, 3.5, 4.1, 5.6, 7.4, 6.9, 7.1,
-								//	7.9, 7.9, 7.5, 6.7, 7.7, 7.7, 7.4, 7.0, 7.1, 5.8, 5.9, 7.4,
-								//	8.2, 8.5, 9.4, 8.1, 10.9, 10.4, 10.9, 12.4, 12.1, 9.5, 7.5,
-								//	7.1, 7.5, 8.1, 6.8, 3.4, 2.1, 1.9, 2.8, 2.9, 1.3, 4.4, 4.2,
-								//	3.0, 3.0]
-							}],
-							navigation: {
-								menuItemStyle: {
-									fontSize: '10px'
-								}
+						if (data == "该牲畜无喂养记录")
+							$("#container").text("无喂养记录！");
+						else {
+							var feedAmount = data["feedAmount"];
+							var feedDate = data["feedDate"];
+							for (var i = 0; i < feedDate.length; i++)
+							{
+								feedDate[i] = new Date(parseInt(feedDate[i].replace(/\D/igm, ""))).toLocaleDateString();
 							}
-						});
-						//$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+							var chart = Highcharts.chart('container', {
+								chart: {
+									type: 'spline'
+								},
+								title: {
+									text: '喂养情况趋势图'
+								},
+								subtitle: {
+									text: '近十次该牲畜喂食饲料情况'
+								},
+								xAxis: {
+									type: 'datetime',
+									labels: {
+										overflow: 'justify'
+									},
+									categories: feedDate
+								},
+								yAxis: {
+									title: {
+										text: '饲 料 (kg)'
+									},
+									min: 0,
+									minorGridLineWidth: 0,
+									gridLineWidth: 0,
+									alternateGridColor: null,
+									plotBands: [{ // Light air
+										from: 0.3,
+										to: 1.5,
+										color: 'rgba(68, 170, 213, 0.1)',
+										label: {
+											text: '0.3-1.5',
+											style: {
+												color: '#606060'
+											}
+										}
+									}, {
+										from: 1.8,
+										to: 3.5,
+										color: 'rgba(0, 0, 0, 0.1)',
+										label: {
+											text: '1.8-3.5',
+											style: {
+												color: '#606060'
+											}
+										}
+									}]
+								},
+								tooltip: {
+									valueSuffix: ' kg'
+								},
+								plotOptions: {
+									spline: {
+										lineWidth: 4,
+										states: {
+											hover: {
+												lineWidth: 5
+											}
+										},
+										marker: {
+											enabled: false
+										}
+									}
+								},
+								series: [{
+									name: '喂食饲料量',
+									data: feedAmount
+								}],
+								navigation: {
+									menuItemStyle: {
+										fontSize: '10px'
+									}
+								}
+							});
+						}
 					}
 				})
-
-				
-
 			}
 		}
 	</script>
@@ -507,8 +531,9 @@
 		<div style="float:left;position:relative;">
 			<table id="this_table" style="width:700px;float:left;position:relative"></table>
 		</div>
-		<div style="width:580px;height:400px;margin-left:10px;margin-top:30px;float:left;position:relative;background:#ffffff;align-content:center">
-			<div id="container" style="min-width:560px;height:400px"></div>
+		<div style="width:580px;height:460px;margin-left:10px;margin-top:5px;float:left;position:relative;background:#ffffff;align-content:center">
+			<div style="font-family:宋体">数据表中蓝色行牲畜最近状态异常，建议进行检疫</div>
+			<div id="container" style="min-width:560px;height:430px;font-size:14px"></div>
 		</div>
 	</div>
 </body>

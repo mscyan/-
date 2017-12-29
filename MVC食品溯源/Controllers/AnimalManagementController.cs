@@ -80,8 +80,59 @@ namespace MVC食品溯源.Controllers
 
 		public ActionResult GetFeedDetail(string animal_id)
 		{
+			FeedUseDataAccess fuda = new FeedUseDataAccess();
+			var fus = fuda.GetTopTenFeedUseByAnimalId(animal_id);
+			if(fus == null)
+			{
+				return Json("该牲畜无喂养记录");
+			}
+			else
+			{
+				List<Double> feedAmount = new List<double>();
+				foreach (var item in fus)
+				{
+					feedAmount.Add(item.FeedAmount);
+				}
+				List<DateTime> feedDate = new List<DateTime>();
+				foreach (var item in fus)
+				{
+					feedDate.Add(item.FeedDate);
+				}
+				var result = new
+				{
+					feedAmount = feedAmount,
+					feedDate = feedDate
+				};
+				return Json(result);
+			}
+		}
 
-			return Json("");
+		public ActionResult GetUnusualAnimal()
+		{
+			int pageindex = Request["page"] == null ? 1 : Convert.ToInt32(Request["page"]);
+			int pagesize = Request["rows"] == null ? 10 : Convert.ToInt32(Request["rows"]);
+
+			List<String> list = new List<string>();
+
+			var animalList = new AnimalDataAccess().GetPaginationAnimals(pagesize, pageindex);
+			foreach (var item in animalList)
+			{
+				var animals = new FeedUseDataAccess().GetTopTenFeedUseByAnimalId(item.AnimalID);
+				if (animals != null)
+				{
+					var amounts = from animal in animals
+								  orderby animal.FeedDate
+								  select animal.FeedAmount;
+					int[] abs = amounts.ToArray<int>();
+					int x = DataAnalysis.FeedAnalysis.MaxReduce(abs, abs.Length);
+					if (x > 10)
+					{
+						list.Add(item.AnimalID);
+					}
+				}
+			}
+			
+			return Json(list);
 		}
     }
 }

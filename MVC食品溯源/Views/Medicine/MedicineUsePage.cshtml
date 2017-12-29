@@ -13,10 +13,8 @@
 	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
 	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
 	<script src="~/Scripts/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
-	<link href="~/Content/themes/icon.css" rel="stylesheet" />
 	<link href="~/Scripts/jquery-easyui-1.4.4/themes/icon.css" rel="stylesheet" />
-	<script src="~/Content/js/common.js"></script>
-	<link href="~/Content/themes/table.css" rel="stylesheet" />
+	<script src="~/Scripts/highcharts.js"></script>
 	<style>
 		body {
 			font-family: 'Microsoft YaHei';
@@ -30,20 +28,18 @@
 				rownumbers: true,
 				pagination: true,
 				singleSelect: true,
-				pageSize: 5,
+				pageSize: 15,
 				idField: 'MedicineUseID',
-				//sortName: 'AnimalType',
-				//sortOrder: "asc",
-				pageList: [5, 10, 20, 30],
+				pageList: [5, 10, 15],
 				columns: [[
 					{ field: "MedicineUseID", title: "喂药操作ID", width: 70 },
-					{ field: "MedicineTypeID", title: "药品种类ID", width: 100 },
-					{ field: "MedicineID", title: "药品ID", width: 100 },
-					{ field: "AnimalID", title: "牲畜ID", width: 80 },
-					{ field: "MedicineDate", title: "用药时间", width: 150 },
-					{ field: "MedicinePerson", title: "用药人", width: 100 },
-					{ field: "MedicineAmount", title: "用药量", width: 100 },
-					{ field: "Reason", title: "用药原因", width: 150 },
+					{ field: "MedicineTypeID", title: "药品种类ID", width: 80 },
+					{ field: "MedicineID", title: "药品名称", width: 110 },
+					{ field: "AnimalID", title: "牲畜ID", width: 83 },
+					{ field: "MedicineDate", title: "用药时间", width: 130 },
+					{ field: "MedicinePerson", title: "用药人", width: 80 },
+					{ field: "MedicineAmount", title: "用药量", width: 50 },
+					{ field: "Reason", title: "用药原因", width: 60 }
 
 				]],
 				toolbar: [
@@ -51,11 +47,71 @@
 					{ text: '修改', iconCls: 'icon-edit', handler: function () { edit(); } },
 					{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
 				]
-			})
+			});
+
+			$.ajax({
+				type: "POST",
+				url: "/Medicine/GetMedicineUseCircle",
+				datatype: "Json",
+				success: function (data) {
+					var maa = [];
+					$.each(data, function (i, d) {
+						maa.push([d.Name, d.Amount]);
+					})
+					//alert(data[0].Amount);
+					$(function () {
+						$('#container').highcharts({
+							chart: {
+								plotBackgroundColor: null,
+								plotBorderWidth: null,
+								plotShadow: false
+							},
+							title: {
+								text: '本养殖场牲畜药品使用量占比'
+							},
+							tooltip: {
+								headerFormat: '{series.name}<br>',
+								pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>'
+							},
+							plotOptions: {
+								pie: {
+									allowPointSelect: true,
+									cursor: 'pointer',
+									dataLabels: {
+										enabled: true,
+										format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+										style: {
+											color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+										}
+									}
+								}
+							},
+							series: [{
+								type: 'pie',
+								name: '各药品使用量占比',
+								data: maa
+								//data: [
+								//	{
+								//		name: 'Firefox',
+								//		y: 45.0
+								//	},
+								//	{
+								//		name: 'IE',
+								//		y: 26.8
+								//	},
+								//	{
+								//		name: 'Chrome',
+								//		y: 12.8,
+								//		sliced: true,
+								//		selected: true	
+								//	}]
+							}]
+						});
+					});
+				}
+			});
 		})
 		function add() {
-			//增加
-			//alert('Open the Add Window')
 			$("<div/>").dialog({
 				id: "addMedicineUse_div",
 				href: "/Medicine/AddMedicineUsePage",
@@ -195,8 +251,14 @@
 	</script>
 </head>
 <body>
-    <div> 
-		<table id="this_table"></table>
-    </div>
+	<div style="width:1300px;">
+		<div style="float:left;position:relative;">
+			<table id="this_table" style="width:700px;float:left;position:relative"></table>
+		</div>
+		<div style="width:580px;height:460px;margin-left:10px;margin-top:5px;float:left;position:relative;background:#ffffff;align-content:center">
+			<div style="font-family:宋体"></div>
+			<div id="container" style="min-width:560px;height:430px;font-size:14px"></div>
+		</div>
+	</div>
 </body>
 </html>

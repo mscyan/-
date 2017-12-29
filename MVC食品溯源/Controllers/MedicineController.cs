@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using DataAccessLibrary;
 using Newtonsoft.Json;
+using MVC食品溯源.DataAnalysis;
 
 namespace MVC食品溯源.Controllers
 {
@@ -178,6 +179,10 @@ namespace MVC食品溯源.Controllers
 
 			MedicineUseDataAccess muda = new MedicineUseDataAccess();
 			var mus = muda.GetPaginationMedicineUse(pagesize,pageindex);
+			foreach (var item in mus)
+			{
+				item.MedicineID = new MedicineDataAccess().GetMedicineById(item.MedicineID).MedicineName;
+			}
 			return Content("{\"total\": " + muda.GetCount().ToString() + ",\"rows\":" + JsonConvert.SerializeObject(mus) + "}");
 		}
 
@@ -189,6 +194,12 @@ namespace MVC食品溯源.Controllers
 				return Json("删除成功");
 			else
 				return Json("删除失败");
+		}
+
+		public ActionResult GetMedicineUseCircle()
+		{
+			var list = new MedicineUseDataAccess().GetAmountPercentage();
+			return Json(list);
 		}
 	}
 }

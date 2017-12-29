@@ -55,6 +55,7 @@
     <Compile Include="ManuWorkInfo.cs" />
     <Compile Include="Market.cs" />
     <Compile Include="Medicine.cs" />
+    <Compile Include="MedicineAndAmount.cs" />
     <Compile Include="MedicineType.cs" />
     <Compile Include="MedicineUse.cs" />
     <Compile Include="Menu.cs" />
