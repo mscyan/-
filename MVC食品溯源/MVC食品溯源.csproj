@@ -195,6 +195,7 @@
     <Content Include="Resources\img\dot003.gif" />
     <Content Include="Resources\img\logo.jpg" />
     <Content Include="Resources\img\Logo.png" />
+    <Content Include="Resources\img\order-icons.png" />
     <Content Include="Resources\img\pt001.gif" />
     <Content Include="Resources\img\pt001_hover.gif" />
     <Content Include="Resources\img\pt002.gif" />
