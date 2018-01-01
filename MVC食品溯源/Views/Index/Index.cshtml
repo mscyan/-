@@ -17,112 +17,15 @@
 	<link rel="stylesheet" href="~/Resources/css/search.css" />
 	<link rel="stylesheet" href="~/Resources/css/content.css" />
 
-	<link href="~/Resources/js/jquery.my-modal.1.1.winStyle.css" rel="stylesheet" />
-	<script src="~/Resources/js/jquery.minn.js"></script>
-
 	<script src="~/Scripts/jquery-3.2.1.js"></script>
 	<script>
-		var MyModal = (function () {
-			function modal(fn) {
-				this.fn = fn;
-				this._addClickListen();
-			}
-			modal.prototype = {
-				show: function () {
-					$('.m-modal').fadeIn(100);
-					$('.m-modal').children('.m-modal-dialog').animate({
-						"margin-top": "150px"
-					}, 250);
-				},
-				_addClickListen: function () {
-					var that = this;
-					$(".m-modal").find('*').on("click", function (event) {
-						event.stopPropagation();
-					});
-					$(".m-modal,.m-modal-close,.m-btn-cancel").on("click", function (event) {
-						that.hide();
-					});
-					$(".m-btn-sure").on("click", function (event) {
-						that.fn();
-						that.hide();
-					});
-				},
-				hide: function () {
-					var $modal = $('.m-modal');
-					$modal.children('.m-modal-dialog').animate({
-						"margin-top": "-100%"
-					}, 500);
-					$modal.fadeOut(100);
-				}
-
-			};
-			return {
-				modal: modal
-			}
-		})();
 		$(document).ready(function () {
 			$("#search_bt-cyan").click(function () {
 				var procode = $("#productCode").val();
-				var animal_id = $("#productCode2").val();
 				if (procode.length != 10)
 					alert("请输入合法的溯源码，正确的溯源码为10位");
 				else {
-					$.ajax({
-						type: "POST",
-						url: "/Index/SearchByCode",
-						data: { "sales_Code":procode },
-						datatype: Text,
-						success: function (data) {
-							if (data == "没有查到此条记录") {
-								alert(data);
-							}
-							else {
-								//弹框显示牲畜来源
-								var m1 = new MyModal.modal(function () {
-									
-								})
-								var animal = data["animal"];
-								var butchwork = data["butchworkinfo"];
-								var manuwork = data["manuworkinfo"];
-								var healthcheck = data["healthcheck"];
-								$("#farm_date").text(new Date(parseInt(animal["AnimalBirth"].replace(/\D/igm, ""))).toLocaleString()+"-入栏 ");
-								$("#farm_place").text(animal["FarmID"]+" ");
-
-								//屠宰显示
-								if (butchwork == undefined) {
-									$("#butch_date").text("无屠宰记录");
-									$("#butch_place").text("");
-								} else {
-									$("#butch_date").text(new Date(parseInt(butchwork["ButchDate"].replace(/\D/igm, ""))).toLocaleString()+"-屠宰 ");
-									$("#butch_place").text(butchwork["ButchInfo"]);
-								}
-
-								//加工显示
-								if (manuwork == undefined) {
-									$("#manu_date").text("无加工记录");
-									$("#manu_place").text("");
-								} else {
-									$("#manu_date").text(new Date(parseInt(manuwork["ManuDate"].replace(/\D/igm, ""))).toLocaleString()+"-加工 ");
-									$("#manu_place").text(manuwork["ManuInfo"]);
-								}
-
-
-								//检疫显示
-								if (healthcheck == undefined){
-									$("#check_date").text("无检疫记录");
-									$("#check_place").text("");
-								} else {
-									$("#check_date").text(new Date(parseInt(healthcheck["CheckDate"].replace(/\D/igm, ""))).toLocaleString() + "-检疫");
-									$("#check_place").text(healthcheck["CheckPosition"]);
-								}
-
-								m1.show();
-							}
-						},
-						error: function () {
-							alert("查询失败，网络故障");
-						}
-					})
+					window.location.href = "/Index/SearchResultPage?unicode=" + procode;
 				}
 			})
 		})
@@ -246,7 +149,7 @@
 </head>
 <body>
 	<div class="logo-box-cyan">
-		<div class="logo-cyan"><img src="~/Resources/img/logo.jpg" /> </div>
+		<div class="logo-cyan">国家食品（产品）安全追溯平台 </div>
 		<div class="nav-cyan">
 			<ul>
 				<li><a href="#">首页</a></li>
@@ -264,7 +167,6 @@
 				<div id="s-tab-cyan">
 					<ul id="s-tab-ul-cyan">
 						<li class="s-tab-cur-cyan">商品条码</li>
-						<li class="s-tab-else-cyan">商品条码+批次号</li>
 					</ul>
 				</div>
 			</div>
@@ -272,48 +174,10 @@
 				<div class="s-con-input-cyan">
 					<ul id="s-con-ul-cyan">
 						<li><input type="text" id="productCode" /></li>
-						<li><input type="text" id="productCode1" /> + <input type="text" id="batchNo1-cyan" /></li>
 					</ul>
 				</div>
 				<div class="s-con-input-cyan"><input type="button" id="search_bt-cyan" value="查询" /></div>
 			</div>
-			<div class="m-modal">
-				<div class="m-modal-dialog">
-					<div class="m-top">
-						<h4 class="m-modal-title">
-							查询结果
-						</h4>
-						<span class="m-modal-close">&times;</span>
-					</div>
-					<div class="m-middle">
-						<!--content-->
-						<ul>
-							<li>
-								<span id="farm_date">入栏时间</span>
-								<span id="farm_place">养殖地点</span>
-							</li>
-							<li>
-								<span id="butch_date">屠宰日期</span>
-								<span id="butch_place">屠宰地点</span>
-							</li>
-							<li>
-								<span id="manu_date">加工时间</span>
-								<span id="manu_place">加工地点</span>
-							</li>
-							<li>
-								<span id="check_date">检疫时间</span>
-								<span id="check_place">检疫地点</span>
-							</li>
-						</ul>
-
-					</div>
-					<div class="m-bottom">
-						@*<button class="m-btn-sure">确定</button>*@
-						<button class="m-btn-cancel">关闭</button>
-					</div>
-				</div>
-			</div>
-
 		</div>
 	</form>
 

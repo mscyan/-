@@ -193,8 +193,11 @@
     <Content Include="Resources\img\bj_pic001.gif" />
     <Content Include="Resources\img\bj_pic002.gif" />
     <Content Include="Resources\img\dot003.gif" />
+    <Content Include="Resources\img\ffox.jpg" />
+    <Content Include="Resources\img\icon-node.png" />
     <Content Include="Resources\img\logo.jpg" />
     <Content Include="Resources\img\Logo.png" />
+    <Content Include="Resources\img\node.png" />
     <Content Include="Resources\img\order-icons.png" />
     <Content Include="Resources\img\pt001.gif" />
     <Content Include="Resources\img\pt001_hover.gif" />

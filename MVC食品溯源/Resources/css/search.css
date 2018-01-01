@@ -3,18 +3,18 @@ form #search-box-cyan{
 	width: 1000px;
 	height: 130px;
 	border: 0px;
-	background-color: #ccc;
+	background-color: rgb(255, 255, 255);
 	margin-left: auto;
 	margin-right: auto;
-	border-radius: 8px;
+	border-radius: 0px;
 }
 form #search-box-cyan #s-tit-cyan{
 	padding-top: 19px;
 	width: 1000px;
 	height: 32px;
 	border: 0px;
-	border-radius: 8px 8px 0 0;
-	background-color: #ccc;
+	border-radius: 0px 0px 0 0;
+	background-color: rgb(255, 255, 255);
 	
 }
 form #search-box-cyan #s-tit-cyan #s-tab-cyan{
@@ -39,17 +39,17 @@ form #search-box-cyan #s-tit-cyan #s-tab-cyan ul li:hover{
 }
 .s-tab-cur-cyan{
 	border-radius:5px 5px 0 0;
-	background-color:#3a9130;
+	background-color:#3c7685;
 	color:#fff;
 }
 .s-tab-else-cyan{
-	color: #3a9130;
+	color: #2c737c;
 	background-color:#ccc;
 }
 form #search-box-cyan #s-con-cyan {
 	width: 960px;
 	height: 58px;
-	background-color: #3a9130;
+	background-color: #32bac4;
 	margin-left: auto;
 	margin-right: auto;
 	border-top: 1px solid #ccc;

@@ -4,6 +4,8 @@
 	 padding-top: 28px;
 	 margin-left: auto;
 	 margin-right: auto;
+	 font-size: 28px;
+	 color:#FFF;
 }
 .logo-box-cyan .logo-cyan{
 	width: 430px;
@@ -31,7 +33,7 @@
 }
 .logo-box-cyan .nav-cyan ul li:hover {
 	cursor: pointer;
-	background-color: #2EF0B3;
+	background-color: rgb(45, 140, 163);
 	border-radius: 6px;
 	box-shadow: 0 1px 1px 0 #fff inset,0 3.5px 0 0 #10B66E;
 }

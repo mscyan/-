@@ -36,10 +36,9 @@ namespace MVC食品溯源.Controllers
 		{
 			SaleInfoDataAccess sda = new SaleInfoDataAccess();
 			var saleinfo = sda.GetSaleInfoById(sales_Code);
-
 			if (saleinfo == null)
 			{
-				return Json("没有查到此条记录a");
+				return Json("没有查到此条记录");
 			}
 			else
 			{
@@ -62,9 +61,10 @@ namespace MVC食品溯源.Controllers
 				var JsonData = new
 				{
 					animal = animal,
-					manuworkinfo = (manuworkinfo == null)?null:manuworkinfo,
-					butchworkinfo = (butchworkinfo == null)?null:butchworkinfo,
-					healthcheck = (healthcheck == null)?null:healthcheck
+					manuworkinfo = (manuworkinfo == null) ? null : manuworkinfo,
+					butchworkinfo = (butchworkinfo == null) ? null : butchworkinfo,
+					healthcheck = (healthcheck == null) ? null : healthcheck,
+					saleinfo = saleinfo
 				};
 				
 				return Json(JsonData);

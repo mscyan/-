@@ -10,10 +10,82 @@
 	<meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>查询结果</title>
+	<script src="~/Resources/js/content.js"></script>
+	<script src="~/Resources/js/jquery.min.js"></script>
+	<script src="~/Resources/js/search.js"></script>
+	<link rel="stylesheet" href="~/Resources/css/style.css" />
+	<link rel="stylesheet" href="~/Resources/css/index.css" />
+	<link rel="stylesheet" href="~/Resources/css/logo.css" />
+	<link rel="stylesheet" href="~/Resources/css/search.css" />
+	<link rel="stylesheet" href="~/Resources/css/content.css" />
+	<script src="~/Scripts/jquery-3.2.1.js"></script>
+	<script>
+		$(document).ready(function () {
+			var xa = @Request.Params["unicode"];
+			//alert(xa);
+			$.ajax({
+				type: "POST",
+				url: "/Index/SearchByCode",
+				data: { "sales_Code": xa },
+				datatype: Text,
+				success: function (data) {
+					if (data == "没有查到此条记录") {
+						alert(data);
+					}
+					else {
+						//弹框显示牲畜来源
+						var animal = data["animal"];
+						var butchwork = data["butchworkinfo"];
+						var manuwork = data["manuworkinfo"];
+						var healthcheck = data["healthcheck"];
+						var saleinfo = data["saleinfo"];
+						$("#farm_date").text(new Date(parseInt(animal["AnimalBirth"].replace(/\D/igm, ""))).toLocaleString() + "-入栏 ");
+						$("#farm_place").text(animal["FarmID"] + " ");
+
+						//屠宰显示
+						if (butchwork == undefined) {
+							$("#butch_date").text("无屠宰记录");
+							$("#butch_place").text("");
+						} else {
+							$("#butch_date").text(new Date(parseInt(butchwork["ButchDate"].replace(/\D/igm, ""))).toLocaleString() + "-屠宰 ");
+							$("#butch_place").text(butchwork["ButchInfo"]);
+						}
+
+						//加工显示
+						if (manuwork == undefined) {
+							$("#manu_date").text("无加工记录");
+							$("#manu_place").text("");
+						} else {
+							$("#manu_date").text(new Date(parseInt(manuwork["ManuDate"].replace(/\D/igm, ""))).toLocaleString() + "-加工 ");
+							$("#manu_place").text(manuwork["ManuInfo"]);
+						}
+
+
+						//检疫显示
+						if (healthcheck == undefined) {
+							$("#check_date").text("无检疫记录");
+							$("#check_place").text("");
+						} else {
+							$("#check_date").text(new Date(parseInt(healthcheck["CheckDate"].replace(/\D/igm, ""))).toLocaleString() + "-检疫");
+							$("#check_place").text(healthcheck["CheckPosition"]);
+						}
+
+						$("#sale_date").text(new Date(parseInt(saleinfo["SaleDate"].replace(/\D/igm, ""))).toLocaleString() + "-售出");
+						$("#sale_place").text(saleinfo["SalePosition"]);
+
+						m1.show();
+					}
+				},
+				error: function () {
+					alert("查询失败，网络故障");
+				}
+			})
+		});
+	</script>
 	<style>
 		body {
 			font-family:Consolas;
-			font-size: 12px;
+			font-size: 14px;
 		}
 
 		ul li {
@@ -21,13 +93,16 @@
 		}
 
 		.track-rcol {
-			width: 900px;
+			background:#FFF;
+			width: 1000px;
+			margin:30px auto;
 			border: 1px solid #eee;
+			padding-bottom:30px;
 		}
 
 		.track-list {
 			margin: 20px;
-			padding-left: 5px;
+			padding-left: 35px;
 			position: relative;
 		}
 
@@ -82,52 +157,108 @@
 		.track-list li.first .txt {
 			max-width: 600px;
 		}
+
+		.track-block {
+			padding:30px;
+			background: #FFF;
+			height: 100px;
+		}
+		.repeat_div {
+			float: left;
+			position: relative;
+			margin-left: 10px;
+			margin-top: 50px;
+			padding: 5px;
+			height: 50px;
+			width: 160px;
+			/*background: repeat-x 0px 0px url(../../Resources/img/node.png);*/
+			background:url(../../Resources/img/icon-node.png) -5px -5px repeat-x;
+		}
+		.track-block span {
+			float: left;
+			position: relative;
+		}
+
+		.track-block span img {
+			border-radius: 50px;
+			/*width:80px;*/
+			/*overflow:hidden;*/
+		}
 	</style>
 </head>
 <body>
-    <div> 
-		<div>
-			<!--养殖-屠宰-加工-售卖-->
-
+	<div class="logo-box-cyan">
+		<div class="logo-cyan">国家食品（产品）安全追溯平台 </div>
+		<div class="nav-cyan">
+			<ul>
+				<li><a href="#">首页</a></li>
+				<li><a href="#">新闻动态</a></li>
+				<li><a href="#">应用案例</a></li>
+				<li><a href="#">政策法规</a></li>
+				<li><a href="#">新增企业</a></li>
+				<li><a href="#">第三方追溯平台</a></li>
+			</ul>
 		</div>
-		<div>
-			<div class="track-rcol">
-				<div class="track-list">
-					<ul>
-						<li class="first">
-							<i class="node-icon"></i>
-							<span class="time">2016-03-10 18:07:15</span>
-							<span class="txt">感谢您在京东购物，欢迎您再次光临！</span>
-						</li>
-						<li>
-							<i class="node-icon"></i>
-							<span class="time">2016-03-10 18:07:15</span>
-							<span class="txt">【京东到家】京东配送员【申国龙】已出发，联系电话【18410106883，感谢您的耐心等待，参加评价还能赢取京豆呦】</span>
-						</li>
-						<li>
-							<i class="node-icon"></i>
-							<span class="time">2016-03-10 18:07:15</span>
-							<span class="txt">感谢您在京东购物，欢迎您再次光临！</span>
-						</li>
-						<li>
-							<i class="node-icon"></i>
-							<span class="time">2016-03-10 18:07:15</span>
-							<span class="txt">感谢您在京东购物，欢迎您再次光临！</span>
-						</li>
-						<li>
-							<i class="node-icon"></i>
-							<span class="time">2016-03-10 18:07:15</span>
-							<span class="txt">感谢您在京东购物，欢迎您再次光临！</span>
-						</li>
-						<li>
-							<i class="node-icon"></i>
-							<span class="time">2016-03-10 18:07:15</span>
-							<span class="txt">感谢您在京东购物，欢迎您再次光临！</span>
-						</li>
+	</div>
+	<form>
+		<div id="search-box-cyan">
+			<div id="s-tit-cyan">
+				<div id="s-tab-cyan">
+					<ul id="s-tab-ul-cyan">
+						<li class="s-tab-cur-cyan">商品条码</li>
 					</ul>
 				</div>
 			</div>
+			<div id="s-con-cyan">
+				<div class="s-con-input-cyan">
+					<ul id="s-con-ul-cyan">
+						<li><input type="text" id="productCode" /></li>
+					</ul>
+				</div>
+				<div class="s-con-input-cyan"><input type="button" id="search_bt-cyan" value="查询" /></div>
+			</div>
 		</div>
-    </div>
+	</form>
+	<div class="track-rcol">
+		<div class="track-block">
+			<span><img width="100" src="~/Resources/img/ffox.jpg" /></span>
+			<div class="repeat_div"></div>
+			<span><img width="100" src="~/Resources/img/ffox.jpg" style="left:140px" /></span>
+			<div class="repeat_div"></div>
+			<span><img width="100" src="~/Resources/img/ffox.jpg" style="left:140px" /></span>
+			<div class="repeat_div"></div>
+			<span><img width="100" src="~/Resources/img/ffox.jpg" style="left:140px" /></span>
+		</div>
+		<div class="track-list">
+			<ul>
+				<li class="first">
+					<i class="node-icon"></i>
+					<span id="sale_date" class="time"></span>
+					<span id="sale_place" class="txt"></span>
+				</li>
+				<li>
+					<i class="node-icon"></i>
+					<span id="manu_date" class="time"></span>
+					<span id="manu_place" class="txt"></span>
+				</li>
+				<li>
+					<i class="node-icon"></i>
+					<span id="butch_date" class="time"></span>
+					<span id="butch_place" class="txt"></span>
+				</li>
+				<li>
+					<i class="node-icon"></i>
+					<span id="farm_date" class="time"></span>
+					<span id="farm_place" class="txt"></span>
+				</li>
+				<li>
+					<i class="node-icon"></i>
+					<span id="check_date" class="time"></span>
+					<span id="check_place" class="txt"></span>
+				</li>
+			</ul>
+		</div>
+	</div>
+			@*</div>*@
 </body>
 </html>
