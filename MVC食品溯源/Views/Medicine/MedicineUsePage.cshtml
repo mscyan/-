@@ -21,33 +21,90 @@
 		}
 	</style>
 	<script>
-		$(document).ready(function () {
-			$("#this_table").datagrid({
-				url: "/Medicine/GetPaginationMedicineUseAction",
-				striped: true,
-				rownumbers: true,
-				pagination: true,
-				singleSelect: true,
-				pageSize: 15,
-				idField: 'MedicineUseID',
-				pageList: [5, 10, 15],
-				columns: [[
-					{ field: "MedicineUseID", title: "喂药操作ID", width: 70 },
-					{ field: "MedicineTypeID", title: "药品种类ID", width: 80 },
-					{ field: "MedicineID", title: "药品名称", width: 110 },
-					{ field: "AnimalID", title: "牲畜ID", width: 83 },
-					{ field: "MedicineDate", title: "用药时间", width: 130 },
-					{ field: "MedicinePerson", title: "用药人", width: 80 },
-					{ field: "MedicineAmount", title: "用药量", width: 50 },
-					{ field: "Reason", title: "用药原因", width: 60 }
 
-				]],
-				toolbar: [
-					{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
-					{ text: '修改', iconCls: 'icon-edit', handler: function () { edit(); } },
-					{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
-				]
+		getToolBar = function (data) {
+			if (data.toolbar != undefined && data.toolbar != '') {
+				var toolbar = [];
+				$.each(data.toolbar, function (index, row) {
+					var handler = row.handler;
+					row.handler = function () { eval(handler); };
+					toolbar.push(row);
+				});
+				return toolbar;
+			} else {
+				return [];
+			}
+		}
+		$(document).ready(function () {
+			$.ajax({
+				url: "/Role/GetUserPowerButton",
+				data: { "KeyName": "MedicineUser" },
+				dataType: "Json",
+				type: "POST",
+				success: function (data) {
+					if (data.success) {
+						var toolbar = getToolBar(data);
+						$("#this_table").datagrid({
+							url: "/Medicine/GetPaginationMedicineUseAction",
+							striped: true,
+							rownumbers: true,
+							pagination: true,
+							singleSelect: true,
+							pageSize: 15,
+							idField: 'MedicineUseID',
+							pageList: [5, 10, 15],
+							columns: [[
+								{ field: "MedicineUseID", title: "喂药操作ID", width: 70 },
+								{ field: "MedicineTypeID", title: "药品种类ID", width: 80 },
+								{ field: "MedicineID", title: "药品名称", width: 110 },
+								{ field: "AnimalID", title: "牲畜ID", width: 83 },
+								{ field: "MedicineDate", title: "用药时间", width: 130 },
+								{ field: "MedicinePerson", title: "用药人", width: 80 },
+								{ field: "MedicineAmount", title: "用药量", width: 50 },
+								{ field: "Reason", title: "用药原因", width: 60 }
+
+							]],
+							toolbar: toolbar.length == 0 ? null : toolbar
+						})
+					} else {
+						$.messager.alert("错误", data.msg);
+					}
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+					alert(XMLHttpRequest.readyState);
+					alert(textStatus);
+				}
 			});
+					//})
+
+					//$(document).ready(function () {
+					//	$("#this_table").datagrid({
+					//		url: "/Medicine/GetPaginationMedicineUseAction",
+					//		striped: true,
+					//		rownumbers: true,
+					//		pagination: true,
+					//		singleSelect: true,
+					//		pageSize: 15,
+					//		idField: 'MedicineUseID',
+					//		pageList: [5, 10, 15],
+					//		columns: [[
+					//			{ field: "MedicineUseID", title: "喂药操作ID", width: 70 },
+					//			{ field: "MedicineTypeID", title: "药品种类ID", width: 80 },
+					//			{ field: "MedicineID", title: "药品名称", width: 110 },
+					//			{ field: "AnimalID", title: "牲畜ID", width: 83 },
+					//			{ field: "MedicineDate", title: "用药时间", width: 130 },
+					//			{ field: "MedicinePerson", title: "用药人", width: 80 },
+					//			{ field: "MedicineAmount", title: "用药量", width: 50 },
+					//			{ field: "Reason", title: "用药原因", width: 60 }
+
+					//		]],
+					//		toolbar: [
+					//			{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
+					//			{ text: '修改', iconCls: 'icon-edit', handler: function () { edit(); } },
+					//			{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
+					//		]
+					//	});
 
 			$.ajax({
 				type: "POST",
@@ -111,7 +168,7 @@
 				}
 			});
 		})
-		function add() {
+		function addMedicineUser() {
 			$("<div/>").dialog({
 				id: "addMedicineUse_div",
 				href: "/Medicine/AddMedicineUsePage",
@@ -160,7 +217,7 @@
 				}
 			})
 		}
-		function edit() {
+		function editMedicineUser() {
 			//编辑
 			var row = $("#this_table").datagrid("getChecked");
 			if (row.length < 1) {
@@ -221,7 +278,7 @@
 			}
 		}
 
-		function deleteRow() {
+		function deleteMedicineUser() {
 			//删除行
 			var rows = $("#this_table").datagrid("getChecked");
 			if (rows.length < 1) {

@@ -23,33 +23,88 @@
 		}
 	</style>
 	<script>
+
+		getToolBar = function (data) {
+			if (data.toolbar != undefined && data.toolbar != '') {
+				var toolbar = [];
+				$.each(data.toolbar, function (index, row) {
+					var handler = row.handler;
+					row.handler = function () { eval(handler); };
+					toolbar.push(row);
+				});
+				return toolbar;
+			} else {
+				return [];
+			}
+		}
 		$(document).ready(function () {
-			$("#this_table").datagrid({
-				url: "/Check/GetPaginationCheckAction",
-				striped: true,
-				rownumbers: true,
-				pagination: true,
-				singleSelect: true,
-				pageSize: 5,
-				idField: 'CheckID',
-				pageList: [5, 10, 20, 30],
-				columns: [[
-					{ field: "CheckID", title: "检疫ID", width: 100 },
-					{ field: "CheckDate", title: "检疫日期", width: 150 },
-					{ field: "CheckPosition", title: "检疫地点", width: 100 },
-					{ field: "CheckPerson", title: "检疫人员", width: 150 },
-					{ field: "CheckResult", title: "检疫结果", width: 100 },
-					{ field: "AnimalID", title: "牲畜ID", width: 100 },
-					{ field: "AnimalState", title: "牲畜当前状态", width: 100 },
-				]],
-				toolbar: [
-					{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
-					{ text: '修改', iconCls: 'icon-edit', handler: function () { edit(); } },
-					{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
-				]
-			})
+			$.ajax({
+				url: "/Role/GetUserPowerButton",
+				data: { "KeyName": "Check" },
+				dataType: "Json",
+				type: "POST",
+				success: function (data) {
+					if (data.success) {
+						var toolbar = getToolBar(data);
+						$("#this_table").datagrid({
+							url: "/Check/GetPaginationCheckAction",
+							striped: true,
+							rownumbers: true,
+							pagination: true,
+							singleSelect: true,
+							pageSize: 5,
+							idField: 'CheckID',
+							pageList: [5, 10, 20, 30],
+							columns: [[
+								{ field: "CheckID", title: "检疫ID", width: 100 },
+								{ field: "CheckDate", title: "检疫日期", width: 150 },
+								{ field: "CheckPosition", title: "检疫地点", width: 100 },
+								{ field: "CheckPerson", title: "检疫人员", width: 150 },
+								{ field: "CheckResult", title: "检疫结果", width: 100 },
+								{ field: "AnimalID", title: "牲畜ID", width: 100 },
+								{ field: "AnimalState", title: "牲畜当前状态", width: 100 },
+							]],
+							toolbar: toolbar.length == 0 ? null : toolbar
+						})
+					} else {
+						$.messager.alert("错误", data.msg);
+					}
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+					alert(XMLHttpRequest.readyState);
+					alert(textStatus);
+				}
+			});
 		})
-		function add() {
+
+		//$(document).ready(function () {
+		//	$("#this_table").datagrid({
+		//		url: "/Check/GetPaginationCheckAction",
+		//		striped: true,
+		//		rownumbers: true,
+		//		pagination: true,
+		//		singleSelect: true,
+		//		pageSize: 5,
+		//		idField: 'CheckID',
+		//		pageList: [5, 10, 20, 30],
+		//		columns: [[
+		//			{ field: "CheckID", title: "检疫ID", width: 100 },
+		//			{ field: "CheckDate", title: "检疫日期", width: 150 },
+		//			{ field: "CheckPosition", title: "检疫地点", width: 100 },
+		//			{ field: "CheckPerson", title: "检疫人员", width: 150 },
+		//			{ field: "CheckResult", title: "检疫结果", width: 100 },
+		//			{ field: "AnimalID", title: "牲畜ID", width: 100 },
+		//			{ field: "AnimalState", title: "牲畜当前状态", width: 100 },
+		//		]],
+		//		toolbar: [
+		//			{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
+		//			{ text: '修改', iconCls: 'icon-edit', handler: function () { edit(); } },
+		//			{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
+		//		]
+		//	})
+		//})
+		function addCheck() {
 			$("<div/>").dialog({
 				id: "addCheck_id",
 				href: "/Check/AddCheckPage",
@@ -98,7 +153,7 @@
 				}
 			})
 		}
-		function edit() {
+		function editCheck() {
 			//编辑
 			var row = $("#this_table").datagrid("getChecked");
 			if (row.length < 1) {
@@ -159,7 +214,7 @@
 			}
 		}
 
-		function deleteRow() {
+		function deleteCheck() {
 			//删除行
 			var rows = $("#this_table").datagrid("getChecked");
 			if (rows.length < 1) {

@@ -23,30 +23,82 @@
 		}
 	</style>
 	<script>
+
+		getToolBar = function (data) {
+			if (data.toolbar != undefined && data.toolbar != '') {
+				var toolbar = [];
+				$.each(data.toolbar, function (index, row) {
+					var handler = row.handler;
+					row.handler = function () { eval(handler); };
+					toolbar.push(row);
+				});
+				return toolbar;
+			} else {
+				return [];
+			}
+		}
 		$(document).ready(function () {
-			$("#this_table").datagrid({
-				url: "/Medicine/GetPaginationMedicineTypeAction",
-				striped: true,
-				rownumbers: true,
-				pagination: true,
-				singleSelect: true,
-				pageSize: 5,
-				idField: 'MedicineTypeID',
-				//sortName: 'AnimalType',
-				//sortOrder: "asc",
-				pageList: [5, 10, 20, 30],
-				columns: [[
-					{ field: "MedicineTypeID", title: "药品种类ID", width: 100 },
-					{ field: "MedicineTypeName", title: "药品种类名称", width: 100 },
-				]],
-				toolbar: [
-					{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
-					{ text: '修改', iconCls: 'icon-edit', handler: function () { edit(); } },
-					{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
-				]
-			})
+			$.ajax({
+				url: "/Role/GetUserPowerButton",
+				data: { "KeyName": "MedicineType" },
+				dataType: "Json",
+				type: "POST",
+				success: function (data) {
+					if (data.success) {
+						var toolbar = getToolBar(data);
+						$("#this_table").datagrid({
+							url: "/Medicine/GetPaginationMedicineTypeAction",
+							striped: true,
+							rownumbers: true,
+							pagination: true,
+							singleSelect: true,
+							pageSize: 5,
+							idField: 'MedicineTypeID',
+							//sortName: 'AnimalType',
+							//sortOrder: "asc",
+							pageList: [5, 10, 20, 30],
+							columns: [[
+								{ field: "MedicineTypeID", title: "药品种类ID", width: 100 },
+								{ field: "MedicineTypeName", title: "药品种类名称", width: 100 },
+							]],
+							toolbar: toolbar.length == 0 ? null : toolbar
+						})
+					} else {
+						$.messager.alert("错误", data.msg);
+					}
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+					alert(XMLHttpRequest.readyState);
+					alert(textStatus);
+				}
+			});
 		})
-		function add() {
+
+		//$(document).ready(function () {
+		//	$("#this_table").datagrid({
+		//		url: "/Medicine/GetPaginationMedicineTypeAction",
+		//		striped: true,
+		//		rownumbers: true,
+		//		pagination: true,
+		//		singleSelect: true,
+		//		pageSize: 5,
+		//		idField: 'MedicineTypeID',
+		//		//sortName: 'AnimalType',
+		//		//sortOrder: "asc",
+		//		pageList: [5, 10, 20, 30],
+		//		columns: [[
+		//			{ field: "MedicineTypeID", title: "药品种类ID", width: 100 },
+		//			{ field: "MedicineTypeName", title: "药品种类名称", width: 100 },
+		//		]],
+		//		toolbar: [
+		//			{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
+		//			{ text: '修改', iconCls: 'icon-edit', handler: function () { edit(); } },
+		//			{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
+		//		]
+		//	})
+		//})
+		function addMedicineType() {
 			//增加
 			//alert('Open the Add Window')
 			$("<div/>").dialog({
@@ -87,7 +139,7 @@
 				}
 			})
 		} 
-		function edit() {
+		function editMedicineType() {
 			//编辑
 			var row = $("#this_table").datagrid("getChecked");
 			if (row.length < 1) {
@@ -144,7 +196,7 @@
 			}
 		}
 
-		function deleteRow() {
+		function deleteMedicineType() {
 			//删除行
 			var rows = $("#this_table").datagrid("getChecked");
 			if (rows.length < 1) {

@@ -49,13 +49,13 @@
 					if (data.success) {
 						var toolbar = getToolBar(data);
 						$("#user_table").datagrid({
-							url: "/User/GetAllUserAction",
+							url: "/User/GetPaginationUserAction",
 							striped: true,
 							rownumber: true,
 							pagination: true,
 							singleSelect: true,
 							idField: 'Username',
-							//sortName: 'AnimalType',
+							pagesize: 5,
 							sortOrder: "asc",
 							pageList: [5, 10, 20, 30],
 							columns: [[
@@ -86,9 +86,9 @@
 			//注册页面
 			//alert('Open the Add Window')
 			$("<div/>").dialog({
-				id: "addUser_div_id",
+				id: "addUser_id",
 				href: "/User/AddUser",
-				title: "添加添加用户",
+				title: "添加用户",
 				width: 300,
 				height: 200,
 				modal: true,
@@ -96,46 +96,91 @@
 					id: 'certain',
 					text: '添 加',
 					handler: function () {
-						var role_name = $("#role_name").val();
-						var role_desc = $("#role_desc").val();
-						var giver = 'Admin';
+						var user_name = $("#user_name").val();
+						var user_password = $("#user_password").val();
+						var user_tel = $("#user_tel").val();
+						var user_company = $("#user_company").val();
 						$.ajax({
-							url: "/Role/AddRoleAction",
-							data: { 'AnimalType': animal_type, 'FeedType': feed_type },
+							url: "/User/AddUserAction",
+							data: { 'username': user_name, 'userpassword': user_password, 'usertel': user_tel, 'usercompany': user_company },
 							type: "POST",
 							dataType: "Json",
 							success: function (data) {
 								alert(data);
-								$("#addRole_id").dialog("destroy");
-								$("#role_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+								$("#addUser_div_id").dialog("destroy");
+								$("#user_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
 							}
 						})
 					}
 				}, {
 					text: '取消',
 					handler: function () {
-						$("addRole_id").dialog("destroy");
+						$("#addUser_id").dialog("destroy");
 					}
 				}],
 				onLoad: function () {
 					// do nothing
 				},
 				onClose: function () {
-					$("#addRole_id").dialog("destroy");
+					$("#addUser_id").dialog("destroy");
 				}
 			})
 		}
-		function updateUser() {
+
+		function editUser() {
 			//编辑
 			var row = $("#user_table").datagrid("getChecked");
 			if (row.length < 1) {
-				$.messager.alert("Notification", "Please choose the button");
+				$.messager.alert("提示", "请选择要编辑的行");
 				return;
-			}
-			else {
-
+			} else {
+				$("<div/>").dialog({
+					id: "editUser",
+					href: "/User/EditUser",
+					title: "修改用户信息",
+					width: 300,
+					height: 220,
+					modal: true,
+					buttons: [{
+						id: 'certain',
+						text: '修  改',
+						handler: function () {
+							var user_name = $("#user_name").val();
+							var user_password = $("#user_password").val();
+							var user_tel = $("#user_tel").val();
+							$.ajax({
+								url: "/User/EditUserAction",
+								data: { 'username': user_name, 'userpassword': user_password, 'usertel': user_tel },
+								type: "POST",
+								dataType: "Json",
+								success: function (data) {
+									alert(data);
+									$("#editUser").dialog("destroy");
+									$("#user_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+								},
+								error: function (XMLHttpRequest, textStatus, errorThrown) {
+									alert(XMLHttpRequest.status);
+									alert(XMLHttpRequest.readyState);
+									alert(textStatus);
+								}
+							})
+						}
+					}, {
+						text: '取消',
+						handler: function () {
+							$("#editUser").dialog("destroy");
+						}
+					}],
+					onLoad: function () {
+						// do nothing
+					},
+					onClose: function () {
+						$("#editUser").dialog("destroy");
+					}
+				})
 			}
 		}
+
 
 		function deleteUser() {
 			//删除行
@@ -144,27 +189,28 @@
 				$.messager.confirm("提示", "请先选中要删除的列");
 				return;
 			}
-			$.messager.confirm("提示", "确定删除此列？", function (r) {
-				if (r) {
-					// 参数r是提示框的按钮（确定-> true 取消->false）
-					//alert(r + "***");
-					var AnimalID = "";
-					$.each(rows, function (i, row) {
-						AnimalID = row.AnimalID + ",";
-					});
-					AnimalID = AnimalID.substring(0, AnimalID.length - 1);
-					//alert(AnimalID+" "+typeof(AnimalID));
-					$.ajax({
-						url: "/User/DeleteUserById",
-						data: { 'ids': AnimalID },
-						type: "POST",
-						dataType: "Json",
-						success: function (data) {
-							alert(data);
-							$("#user_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
-						}
-					})
-				}
+			//$.messager.confirm("提示", "确定删除此列？", function (r) {
+				//if (r) {
+				//	// 参数r是提示框的按钮（确定-> true 取消->false）
+				//	//alert(r + "***");
+				//	var AnimalID = "";
+				//	$.each(rows, function (i, row) {
+				//		AnimalID = row.AnimalID + ",";
+				//	});
+				//	AnimalID = AnimalID.substring(0, AnimalID.length - 1);
+				//	//alert(AnimalID+" "+typeof(AnimalID));
+			$.messager.confirm("提示", "确定删除此列？", function () {
+				$.ajax({
+					url: "/User/DeleteUserByUsername",
+					data: { 'username': rows[0].Username },
+					type: "POST",
+					dataType: "Json",
+					success: function (data) {
+						alert(data);
+						$("#user_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+					}
+				})
+				//}
 			});
 		}
 		//给用户赋予角色

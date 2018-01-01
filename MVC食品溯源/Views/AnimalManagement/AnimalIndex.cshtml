@@ -21,34 +21,92 @@
 		}
 	</style>
 	<script>
+
+		getToolBar = function (data) {
+			if (data.toolbar != undefined && data.toolbar != '') {
+				var toolbar = [];
+				$.each(data.toolbar, function (index, row) {
+					var handler = row.handler;
+					row.handler = function () { eval(handler); };
+					toolbar.push(row);
+				});
+				toolbar.push({ text: '喂养', iconCls: 'icon-add', handler: function () { addFeed(); } });
+				toolbar.push({ text: '喂药', iconCls: 'icon-add', handler: function () { addMedicine(); } });
+				toolbar.push({ text: '检疫', iconCls: 'icon-add', handler: function () { addCheck(); } });
+				toolbar.push({ text: '喂养详情', iconCls: 'icon-add', handler: function () { feedDetail(); } });
+				return toolbar;
+			} else {
+				return [];
+			}
+		}
 		$(document).ready(function () {
-			$("#this_table").datagrid({
-				url: "/AnimalManagement/GetPaginationAnimals",
-				striped: true,
-				rownumbers: true,
-				pagination: true,
-				singleSelect: true,
-				pageSize: 15,
-				idField: 'AnimalID',
-				pageList: [5, 10, 15],
-				columns: [[
-					{ field: "AnimalID", title: "标识码", width: 100 },
-					{ field: "AnimalType", title: "动物品种", width: 70 },
-					{ field: "AnimalBirth", title: "入栏时间", width: 150 },
-					{ field: "FarmID", title: "养殖场ID", width: 120 },
-					{ field: "FeedType", title: "适用饲料类型", width: 100 },
-					{ field: "AnimalState", title: "牲畜当前状态", width: 100 }
-				]],
-				toolbar: [
-					{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
-					{ text: '编辑', iconCls: 'icon-edit', handler: function () { edit(); } },
-					{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } },
-					{ text: '喂养', iconCls: 'icon-add', handler: function () { addFeed(); } },
-					{ text: '喂药', iconCls: 'icon-add', handler: function () { addMedicine(); } },
-					{ text: '检疫', iconCls: 'icon-add', handler: function () { addCheck(); } },
-					{ text: '喂养详情', iconCls: 'icon-add', handler: function () { feedDetail(); } }
-				]
+			$.ajax({
+				url: "/Role/GetUserPowerButton",
+				data: { "KeyName": "Check" },
+				dataType: "Json",
+				type: "POST",
+				success: function (data) {
+					if (data.success) {
+						var toolbar = getToolBar(data);
+						$("#this_table").datagrid({
+							url: "/AnimalManagement/GetPaginationAnimals",
+							striped: true,
+							rownumbers: true,
+							pagination: true,
+							singleSelect: true,
+							pageSize: 15,
+							idField: 'AnimalID',
+							pageList: [5, 10, 15],
+							columns: [[
+								{ field: "AnimalID", title: "标识码", width: 100 },
+								{ field: "AnimalType", title: "动物品种", width: 70 },
+								{ field: "AnimalBirth", title: "入栏时间", width: 150 },
+								{ field: "FarmID", title: "养殖场ID", width: 120 },
+								{ field: "FeedType", title: "适用饲料类型", width: 100 },
+								{ field: "AnimalState", title: "牲畜当前状态", width: 100 }
+							]],
+							toolbar: toolbar.length == 0 ? null : toolbar
+						})
+					} else {
+						$.messager.alert("错误", data.msg);
+					}
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+					alert(XMLHttpRequest.readyState);
+					alert(textStatus);
+				}
 			});
+		//})
+
+		//$(document).ready(function () {
+		//	$("#this_table").datagrid({
+		//		url: "/AnimalManagement/GetPaginationAnimals",
+		//		striped: true,
+		//		rownumbers: true,
+		//		pagination: true,
+		//		singleSelect: true,
+		//		pageSize: 15,
+		//		idField: 'AnimalID',
+		//		pageList: [5, 10, 15],
+		//		columns: [[
+		//			{ field: "AnimalID", title: "标识码", width: 100 },
+		//			{ field: "AnimalType", title: "动物品种", width: 70 },
+		//			{ field: "AnimalBirth", title: "入栏时间", width: 150 },
+		//			{ field: "FarmID", title: "养殖场ID", width: 120 },
+		//			{ field: "FeedType", title: "适用饲料类型", width: 100 },
+		//			{ field: "AnimalState", title: "牲畜当前状态", width: 100 }
+		//		]],
+		//		toolbar: [
+		//			{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
+		//			{ text: '编辑', iconCls: 'icon-edit', handler: function () { edit(); } },
+		//			{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } },
+		//			{ text: '喂养', iconCls: 'icon-add', handler: function () { addFeed(); } },
+		//			{ text: '喂药', iconCls: 'icon-add', handler: function () { addMedicine(); } },
+		//			{ text: '检疫', iconCls: 'icon-add', handler: function () { addCheck(); } },
+		//			{ text: '喂养详情', iconCls: 'icon-add', handler: function () { feedDetail(); } }
+		//		]
+		//	});
 
 			$.ajax({
 				type: "POST",

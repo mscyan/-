@@ -1,13 +1,13 @@
 ﻿
 @{
-    Layout = null;
+	Layout = null;
 }
 
 <!DOCTYPE html>
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+	<meta name="viewport" content="width=device-width" />
 	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
 	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
 	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
@@ -17,20 +17,20 @@
 			font-size: 15px;
 		}
 
-		.editRoleFormTable {
+		.editUserFormTable {
 			border-collapse: collapse;
 			width: 100%;
 			border: 1px solid black;
 		}
 
-		.editRoleFormTable th {
+		.editUserFormTable th {
 			border: 1px solid #ccc;
 			padding: 3px;
 			background-color: #F5F5F5;
 			height: 25px;
 		}
 
-		.editRoleFormTable td {
+		.editUserFormTable td {
 			text-align: left;
 			border: 1px solid #ccc;
 			padding: 3px;
@@ -38,22 +38,28 @@
 			height: 25px;
 		}
 	</style>
-    <title>EditRole</title>
+	<title>AddUser</title>
 </head>
 <body>
 	<div style="padding:15px">
-		<form id="editRoleForm" method="post">
-			<table class="editRoleFormTable">
+		<form id="editUserForm" method="post">
+			<table class="editUserFormTable">
 				<tr>
-					<th>角色名称</th>
+					<th>用户名称</th>
 					<td>
-						<input type="text" id="role_name" class="easyui-textbox validatebox" data-options="required:true" style="width:170px;height:22px" />
+						<input type="text" id="user_name" class="easyui-textbox validatebox" data-options="required:true" style="width:170px;height:22px" />
 					</td>
 				</tr>
 				<tr>
-					<th>角色描述</th>
+					<th>密码</th>
 					<td>
-						<input type="text" id="role_desc" class="easyui-textbox validatebox" data-options="required:true" style="width:170px;height:22px" />
+						<input type="text" id="user_tel" class="easyui-textbox validatebox" data-options="required:true" style="width:170px;height:22px" />
+					</td>
+				</tr>
+				<tr>
+					<th>电话</th>
+					<td>
+						<input type="text" id="user_company" class="easyui-textbox validatebox" data-options="required:true" style="width:170px;height:22px" />
 					</td>
 				</tr>
 			</table>

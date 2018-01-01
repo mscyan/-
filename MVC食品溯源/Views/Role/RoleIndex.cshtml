@@ -23,35 +23,63 @@
 		}
 	</style>
 	<script>
+		getToolBar = function (data) {
+			if (data.toolbar != undefined && data.toolbar != '') {
+				var toolbar = [];
+				$.each(data.toolbar, function (index, row) {
+					var handler = row.handler;
+					row.handler = function () { eval(handler); };
+					toolbar.push(row);
+				});
+				toolbar.push({ text: '角色赋权', iconCls: 'icon-add', handler: function () { givePower(); } });
+				return toolbar;
+			} else {
+				return [];
+			}
+		}
 		$(document).ready(function () {
-			$("#role_table").datagrid({
-				url: "/Role/GetAllRoles",
-				striped: true,
-				rownumber: true,
-				pagination: true,
-				singleSelect: true,
-				idField: 'RoleID',
-				//sortName: 'AnimalType',
-				sortOrder: "asc",
-				pageList: [5, 10, 20, 30],
-				columns: [[
-					{ field: "RoleID", title: "角色ID", width: 100 },
-					{ field: "RoleName", title: "角色名称", sortable: true, width: 100 },
-					{ field: "Description", title: "描述", width: 100 },
-					{ field: "GivenBy", title: "赋权者", width: 100 },
-				]],
-				toolbar: [
-					{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
-					{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
-					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
-				]
-			})
+			$.ajax({
+				url: "/Role/GetUserPowerButton",
+				data: { "KeyName": "Role" },
+				dataType: "Json",
+				type: "POST",
+				success: function (data) {
+					if (data.success) {
+						var toolbar = getToolBar(data);
+						$("#role_table").datagrid({
+							url: "/Role/GetPaginationRoles",
+							striped: true,
+							rownumber: true,
+							pagination: true,
+							singleSelect: true,
+							idField: 'RoleID',
+							pagesize: 5,
+							sortOrder: "asc",
+							pageList: [5, 10, 20, 30],
+							columns: [[
+								{ field: "RoleID", title: "角色ID", width: 100 },
+								{ field: "RoleName", title: "角色名称", sortable: true, width: 100 },
+								{ field: "Description", title: "描述", width: 100 },
+								{ field: "GivenBy", title: "赋权者", width: 100 },
+							]],
+							toolbar: toolbar.length == 0 ? null : toolbar
+						})
+					} else {
+						$.messager.alert("错误", data.msg);
+					}
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+					alert(XMLHttpRequest.readyState);
+					alert(textStatus);
+				}
+			});
 		})
-		function add() {
+		function addRole() {
 			//增加
 			//alert('Open the Add Window')
 			$("<div/>").dialog({
-				id: "addRole_id",
+				id: "addRoleDialog",
 				href: "/Role/AddRole",
 				title: "添加角色",
 				width: 300,
@@ -63,75 +91,206 @@
 					handler: function () {
 						var role_name = $("#role_name").val();
 						var role_desc = $("#role_desc").val();
-						var giver = 'Admin';
+						var role_giver = $("#role_giver").val();
 						$.ajax({
 							url: "/Role/AddRoleAction",
-							data: { 'AnimalType': animal_type, 'FeedType': feed_type },
+							data: { 'rolename': role_name, 'roledesc': role_desc, 'giver': role_giver },
 							type: "POST",
 							dataType: "Json",
 							success: function (data) {
 								alert(data);
 								$("#addRole_id").dialog("destroy");
 								$("#role_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+							},
+							error: function (XMLHttpRequest, textStatus, errorThrown) {
+								alert(XMLHttpRequest.status);
+								alert(XMLHttpRequest.readyState);
+								alert(textStatus);
 							}
 						})
 					}
 				}, {
 					text: '取消',
 					handler: function () {
-						$("addRole_id").dialog("destroy");
+						$("#addRoleDialog").dialog("destroy");
 					}
 				}],
 				onLoad: function () {
 					// do nothing
 				},
 				onClose: function () {
-					$("#addRole_id").dialog("destroy");
+					$("#addRoleDialog").dialog("destroy");
 				}
 			})
 		}
-		function edit() {
+		function editRole() {
 			//编辑
 			var row = $("#role_table").datagrid("getChecked");
 			if (row.length < 1) {
-				$.messager.alert("Notification", "Please choose the button");
+				$.messager.alert("提示", "请选择要编辑的行");
 				return;
 			}
 			else {
-
+				$("<div/>").dialog({
+					id: "editRoleForm",
+					href: "/Role/EditRole",
+					title: "修改角色信息",
+					width: 300,
+					height: 220,
+					modal: true,
+					buttons: [{
+						id: 'certain',
+						text: '修  改',
+						handler: function () {
+							var role_id = row[0].RoleID;
+							var role_name = $("#role_name").val();
+							var role_desc = $("#role_desc").val();
+							$.ajax({
+								url: "/Role/EditRoleAction",
+								data: { 'roleid': role_id, 'rolename': role_name, 'roledesc': role_desc },
+								type: "POST",
+								dataType: "Json",
+								success: function (data) {
+									alert(data);
+									$("#addRole_id").dialog("destroy");
+									$("#role_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+								},
+								error: function (XMLHttpRequest, textStatus, errorThrown) {
+									alert(XMLHttpRequest.status);
+									alert(XMLHttpRequest.readyState);
+									alert(textStatus);
+								}
+							})
+						}
+					}, {
+						text: '取消',
+						handler: function () {
+							$("#alterMedicine_div").dialog("destroy");
+						}
+					}],
+					onLoad: function () {
+						// do nothing
+					},
+					onClose: function () {
+						$("#alterMedicine_div").dialog("destroy");
+					}
+				})
 			}
 		}
 
-		function deleteRow() {
+		function deleteRole() {
 			//删除行
 			var rows = $("#role_table").datagrid("getChecked");
 			if (rows.length < 1) {
-				$.messager.confirm("提示", "请先选中要删除的列");
+				$.messager.confirm("提示", "请先选中要删除的行");
 				return;
 			}
-			$.messager.confirm("提示", "确定删除此列？", function (r) {
-				if (r) {
-					// 参数r是提示框的按钮（确定-> true 取消->false）
-					//alert(r + "***");
-					var AnimalID = "";
-					$.each(rows, function (i, row) {
-						AnimalID = row.AnimalID + ",";
+			$.messager.confirm("提示", "确定删除此行？", function () {
+			//$.messager.confirm("提示", "确定删除此行？", function (r) {
+			//	if (r) {
+			//		var RoleID = "";
+			//		$.each(rows, function (i, row) {
+			//			RoleID = row.RoleID + ",";
+			//		});
+			//		RoleID = RoleID.substring(0, RoleID.length - 1);
+			//		//alert(AnimalID+" "+typeof(AnimalID));
+				$.ajax({
+					url: "/Role/DeleteRoleById",
+					data: { 'id': rows[0].RoleID },
+					type: "POST",
+					dataType: "Json",
+					success: function (data) {
+						alert(data);
+						$("#role_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
+					}
+				})
+				//}
+			});
+		}
+		//角色赋权
+		function givePower() {
+			var row = $("#role_table").datagrid("getChecked");
+			if (row.length < 1) {
+				$.messager.alert("提示", "请先勾选要授权的角色");
+				return;
+			}
+			if (row.length > 1) {
+				$.messager.alert("提示", "不支持批量角色授权");
+				$("#role_table").datagrid('clearSelections').datagrid('clearChecked');
+				return;
+			}
+			//初始化dialog
+			$("<div/>").dialog({
+				id: "treePowerDialog",
+				href: "/Role/TreePower",
+				title: "角色授权",
+				width: 300,
+				height: 200,
+				modal: true,
+				buttons: [{
+					id: "givePowerBtn",
+					text: "授 权",
+					handler: function () {
+						//$("#givePowerBtn").linkbutton("disable");
+						doGivePower(row[0].RoleID);
+						//$("#treePowerDialog").dialog("destroy");
+					}
+				}],
+				onLoad: function () {
+					$("#treerolemenu").tree({
+						data: [{
+							"id": "add",
+							//"id": 1,
+							"text": "增加"
+						},
+						{
+							"id": "delete",
+							//"id": 2,
+							"text": "删除"
+						},
+						{
+							"id": "edit",
+							//"id": 3,
+							"text": "修改"
+						}],
+						checkbox: true
 					});
-					AnimalID = AnimalID.substring(0, AnimalID.length - 1);
-					//alert(AnimalID+" "+typeof(AnimalID));
-					$.ajax({
-						url: "/Role/DeleteRoleById",
-						data: { 'ids': AnimalID },
-						type: "POST",
-						dataType: "Json",
-						success: function (data) {
-							alert(data);
-							$("#role_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
-						}
-					})
+				},
+				onClose: function () {
+					$("#treePowerDialog").dialog("destroy");//销毁dialog对象
 				}
 			});
 		}
+		//保存按钮授权
+		function doGivePower(roleId) {
+			var powerIds = "";
+			var nodes = $("#treerolemenu").tree("getChecked");
+			for (var i = 0; i < nodes.length; i++) {
+				powerIds += nodes[i].id + ",";
+			}
+
+			var para = {};
+			para.timespan = new Date().getTime();
+			para.powerIds = powerIds;
+			para.roleId = roleId;
+
+			$.ajax({
+				url: "/Role/SetRolePower",
+				data: para,
+				type: "POST",
+				dataType: "Json",
+				success: function (data) {
+					if (data.success) {
+						$("#treePowerDialog").dialog("destroy");
+						$.messager.alert("提示", data.msg);
+					} else {
+						$("#givePowerBtn").linkbutton("enable");
+						$.messager.alert("提示", data.msg);
+					}
+				}
+			});
+		}
+
 	</script>
 </head>
 <body>

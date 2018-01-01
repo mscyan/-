@@ -32,22 +32,60 @@ namespace MVC食品溯源.Controllers
 			return View();
 		}
 
-		public ActionResult GetAllUserAction()
+		//public ActionResult GetAllUserAction()
+		//{
+		//	UserDataAccess uda = new UserDataAccess();
+		//	var us = uda.GetAllUserList();
+		//	return Json(us);
+		//}
+
+		public ActionResult GetPaginationUserAction()
+		{
+			int pageindex = Request["page"] == null ? 1 : Convert.ToInt32(Request["page"]);
+			int pagesize = Request["rows"] == null ? 0 : Convert.ToInt32(Request["rows"]);
+
+			UserDataAccess uda = new UserDataAccess();
+			var allRoles = uda.GetPaginationRole(pagesize, pageindex);
+			return Content("{\"total\": " + uda.GetCount().ToString() + ",\"rows\":" + JsonConvert.SerializeObject(allRoles) + "}");
+		}
+
+		public ActionResult AddUserAction(string username,string userpassword,string usertel,string usercompany)
 		{
 			UserDataAccess uda = new UserDataAccess();
-			var us = uda.GetAllUserList();
-			return Json(us);
+			if (uda.AddUser(username, userpassword, usertel, usercompany))
+			{
+				return Json("添加成功");
+			}
+			else
+			{
+				return Json("添加失败");
+			}
 		}
 
-		public ActionResult AddUserAction()
+		public ActionResult DeleteUserByUsername(string username)
 		{
-
-			return Json("添加成功");
+			UserDataAccess uda = new UserDataAccess();
+			if (uda.DeleteUser(username))
+			{
+				return Json("删除成功");
+			}
+			else
+			{
+				return Json("删除失败");
+			}
 		}
 
-		public ActionResult DeleteUserById(string id)
+		public ActionResult EditUserAction(string username, string userpassword, string usertel)
 		{
-			return Json("删除成功");
+			UserDataAccess uda = new UserDataAccess();
+			if (uda.UpdateUser(username, userpassword, usertel))
+			{
+				return Json("编辑成功");
+			}
+			else
+			{
+				return Json("编辑失败");
+			}
 		}
 
 		public ActionResult TreeRole()

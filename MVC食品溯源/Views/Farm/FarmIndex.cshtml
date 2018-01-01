@@ -21,6 +21,27 @@
 		}
 	</style>
 	<script>
+		//退出登录
+		function loginOut() {
+			$.messager.confirm("提示", "确定退出系统？", function (r) {
+				if (r) {
+					$.ajax({
+						url: "/Login/LoginOut",
+						type: "post",
+						data: { "action": "logout" },
+						dataType: "Json",
+						success: function (result) {
+							if (result.success) {
+								window.location.href = "/Login/LoginIndex";
+							}
+							else {
+								$.messager.alert("提示", result.msg);
+							}
+						}
+					})
+				}
+			});
+		}
 		//添加选项卡
 		function addTab(subtitle, url, icon) {
 			var strHtml = '<iframe id="frmWorkArea" width="99.5%" height="99%" style="padding:1px;" frameborder="0" scrolling="yes" src="' + url + '"></iframe>';
@@ -46,6 +67,12 @@
 	<div class="easyui-layout" style="width:100%;height:630px;">
 		<div data-options="region:'north'" style="height:60px;background:rgb(245,245,245);">
 			<img src="~/Resources/img/Logo.png" style="margin-top:10px;margin-left:10px" /> <span style="font-size:18px;line-height:30px;">养殖管理后台</span>
+			<div style="position: absolute; right: 5px; top: 10px;">
+				欢迎您：<span style="color: #0082ff; ">@Session["Username"]</span> @DateTime.Now.ToLongDateString()@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)
+			</div>
+			<div style="position: absolute; right: 0px; top: 30px;">
+				<a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true" onclick="loginOut();">退出登录</a>
+			</div>
 		</div>
 		<div data-options="region:'south',split:true" style="height:50px;"></div>
 		<div data-options="region:'west',split:true" title="系统设置" style="width:180px;height:100%">

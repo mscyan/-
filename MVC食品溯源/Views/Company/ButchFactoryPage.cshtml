@@ -26,31 +26,63 @@
 		}
 	</style>
 	<script>
+		getToolBar = function (data) {
+			if (data.toolbar != undefined && data.toolbar != '') {
+				var toolbar = [];
+				$.each(data.toolbar, function (index, row) {
+					var handler = row.handler;
+					row.handler = function () { eval(handler); };
+					toolbar.push(row);
+				});
+				return toolbar;
+			} else {
+				return [];
+			}
+		}
 		$(document).ready(function () {
-			$("#butchfactory_table").datagrid({
-				url:"/Company/GetAllButchFactoryAction",
-				striped: true,
-				rownumber: true,
-				pagination: true,
-				singleSelect: true,
-				idField: 'ButchFactoryID',
-				//sortName: 'AnimalType',
-				sortOrder: "asc",
-				pageList: [5, 10, 20, 30],
-				columns: [[
-					{ field: "ButchFactoryID", title: "零售点ID", width: 100 },
-					{ field: "ButchPerson", title: "负责人",sortable:true, width: 100 },
-					{ field: "ButchPosition", title: "地址", width: 150 },
-					{ field: "ButchTel", title: "联系电话ID", width: 150 },
-					{ field: "ButchFactoryName", title: "零售点名称", width: 120 }
-				]],
-				toolbar: [
-					//{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
-					//{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
-					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
-				]
-			})
+			$.ajax({
+				url: "/Role/GetUserPowerButton",
+				data: { "KeyName": "BuntchFactory" },
+				dataType: "Json",
+				type: "POST",
+				success: function (data) {
+					if (data.success) {
+						var toolbar = getToolBar(data);
+						$("#butchfactory_table").datagrid({
+							url: "/Company/GetAllButchFactoryAction",
+							striped: true,
+							rownumber: true,
+							pagination: true,
+							singleSelect: true,
+							idField: 'ButchFactoryID',
+							//sortName: 'AnimalType',
+							sortOrder: "asc",
+							pageList: [5, 10, 20, 30],
+							columns: [[
+								{ field: "ButchFactoryID", title: "零售点ID", width: 100 },
+								{ field: "ButchPerson", title: "负责人", sortable: true, width: 100 },
+								{ field: "ButchPosition", title: "地址", width: 150 },
+								{ field: "ButchTel", title: "联系电话ID", width: 150 },
+								{ field: "ButchFactoryName", title: "零售点名称", width: 120 }
+							]],
+							toolbar: toolbar.length == 0 ? null : toolbar
+						})
+					}
+					else {
+						$.messager.alert("错误", data.msg);
+					}
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+					alert(XMLHttpRequest.readyState);
+					alert(textStatus);
+				}
+			});
 		})
+
+		function addBuntchFactory() {
+
+		}
 	</script>
 </head>
 <body>

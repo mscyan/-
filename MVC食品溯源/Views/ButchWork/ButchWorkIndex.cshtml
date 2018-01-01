@@ -24,34 +24,111 @@
 		}
 	</style>
 	<script>
+		//退出登录
+		function loginOut() {
+			$.messager.confirm("提示", "确定退出系统？", function (r) {
+				if (r) {
+					$.ajax({
+						url: "/Login/LoginOut",
+						type: "post",
+						data: { "action": "logout" },
+						dataType: "Json",
+						success: function (result) {
+							if (result.success) {
+								window.location.href = "/Login/LoginIndex";
+							}
+							else {
+								$.messager.alert("提示", result.msg);
+							}
+						}
+					})
+				}
+			});
+		}
+
+		getToolBar = function (data) {
+			if (data.toolbar != undefined && data.toolbar != '') {
+				var toolbar = [];
+				$.each(data.toolbar, function (index, row) {
+					var handler = row.handler;
+					row.handler = function () { eval(handler); };
+					toolbar.push(row);
+				});
+				return toolbar;
+			} else {
+				return [];
+			}
+		}
 		$(document).ready(function () {
-			$("#this_table").datagrid({
-				url:"/ButchWork/GetAllButchWorkAction",
-				striped: true,
-				rownumbers: true,
-				pagination: true,
-				singleSelect: true,
-				idField: 'ButchWorkInfoID',
-				sortName: 'ButchFactoryID',
-				sortOrder: "asc",
-				pageList: [5, 10, 20, 30],
-				columns: [[
-					{ field: "ButchWorkInfoID", title: "操作ID", width: 100 },
-					{ field: "ButchFactoryID", title: "屠宰场编号", width: 100 },
-					{ field: "ButchDate", title: "屠宰日期", width: 150 },
-					{ field: "ButchInfo", title: "屠宰信息", width: 150 },
-					{ field: "AnimalUniqueCode", title: "牲畜ID", width: 100 },
-					{ field: "AnimalState", title: "牲畜状态", width: 120 },
-					{ field: "VideoSource", title: "视频路径", width: 350 }
-				]],
-				toolbar: [
-					{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
-					{ text: '修改', iconCls: 'icon-edit', handler: function () { edit(); } },
-					{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
-				]
-			})
+			$.ajax({
+				url: "/Role/GetUserPowerButton",
+				data: { "KeyName": "ButchWork" },
+				dataType: "Json",
+				type: "POST",
+				success: function (data) {
+					if (data.success) {
+						var toolbar = getToolBar(data);
+						$("#this_table").datagrid({
+							url: "/ButchWork/GetAllButchWorkAction",
+							striped: true,
+							rownumbers: true,
+							pagination: true,
+							singleSelect: true,
+							idField: 'ButchWorkInfoID',
+							sortName: 'ButchFactoryID',
+							sortOrder: "asc",
+							pageList: [5, 10, 20, 30],
+							columns: [[
+								{ field: "ButchWorkInfoID", title: "操作ID", width: 100 },
+								{ field: "ButchFactoryID", title: "屠宰场编号", width: 100 },
+								{ field: "ButchDate", title: "屠宰日期", width: 150 },
+								{ field: "ButchInfo", title: "屠宰信息", width: 150 },
+								{ field: "AnimalUniqueCode", title: "牲畜ID", width: 100 },
+								{ field: "AnimalState", title: "牲畜状态", width: 120 },
+								{ field: "VideoSource", title: "视频路径", width: 350 }
+							]],
+							toolbar: toolbar.length == 0 ? null : toolbar
+						})
+					} else {
+						$.messager.alert("错误", data.msg);
+					}
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+					alert(XMLHttpRequest.readyState);
+					alert(textStatus);
+				}
+			});
 		})
-		function add() {
+
+		//$(document).ready(function () {
+		//	$("#this_table").datagrid({
+		//		url:"/ButchWork/GetAllButchWorkAction",
+		//		striped: true,
+		//		rownumbers: true,
+		//		pagination: true,
+		//		singleSelect: true,
+		//		idField: 'ButchWorkInfoID',
+		//		sortName: 'ButchFactoryID',
+		//		sortOrder: "asc",
+		//		pageList: [5, 10, 20, 30],
+		//		columns: [[
+		//			{ field: "ButchWorkInfoID", title: "操作ID", width: 100 },
+		//			{ field: "ButchFactoryID", title: "屠宰场编号", width: 100 },
+		//			{ field: "ButchDate", title: "屠宰日期", width: 150 },
+		//			{ field: "ButchInfo", title: "屠宰信息", width: 150 },
+		//			{ field: "AnimalUniqueCode", title: "牲畜ID", width: 100 },
+		//			{ field: "AnimalState", title: "牲畜状态", width: 120 },
+		//			{ field: "VideoSource", title: "视频路径", width: 350 }
+		//		]],
+		//		toolbar: [
+		//			{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
+		//			{ text: '修改', iconCls: 'icon-edit', handler: function () { edit(); } },
+		//			{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
+		//		]
+		//	})
+		//})
+		function addButchWork() {
 			$("<div/>").dialog({
 				id: "addButchWork_div",
 				href: "/ButchWork/AddButchWorkPage",
@@ -94,7 +171,7 @@
 				}
 			})
 		}
-		function edit() {
+		function editButchWork() {
 			//编辑
 			var row = $("#this_table").datagrid("getChecked");
 			if (row.length < 1) {
@@ -148,7 +225,7 @@
 			}
 		}
 
-		function deleteRow() {
+		function deleteButchWork() {
 			//删除行
 			var rows = $("#this_table").datagrid("getChecked");
 			if (rows.length < 1)
@@ -183,6 +260,12 @@
 	<div class="easyui-layout" style="width:100%;height:700px;">
 		<div data-options="region:'north'" style="height:100px">
 			牲畜屠宰管理平台
+			<div style="position: absolute; right: 5px; top: 10px;">
+				欢迎您：<span style="color: #0082ff; ">@Session["Username"]</span> @DateTime.Now.ToLongDateString()@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)
+			</div>
+			<div style="position: absolute; right: 0px; top: 30px;">
+				<a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true" onclick="loginOut();">退出登录</a>
+			</div>
 		</div>
 		<div data-options="region:'south',split:true" style="height:50px;"></div>
 		<div data-options="region:'center',title:'牲畜屠宰管理页面'">

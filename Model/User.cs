@@ -15,6 +15,14 @@ namespace Model
 			this.tel = tel;
 		}
 
+		public User(string username, string password, string tel, string companyid)
+		{
+			this.username = username;
+			this.password = password;
+			this.tel = tel;
+			this.companyID = companyid;
+		}
+
 		public User()
 		{
 		}

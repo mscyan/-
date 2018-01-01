@@ -49,6 +49,34 @@ namespace DataAccessLibrary
 				return null;
 		}
 
+		public object GetCount()
+		{
+			string sql = "select count(*) from [User]";
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			return int.Parse(dt.Rows[0][0].ToString());
+		}
+
+		public object GetPaginationRole(int pagesize, int pageindex)
+		{
+			string sql = string.Format("select top {0} * from [User] where Username not in (select top {1} Username from [User])", pagesize, pagesize * (pageindex - 1));
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			if (dt.Rows.Count > 0)
+			{
+				List<User> list = new List<User>();
+				for (int i = 0; i < dt.Rows.Count; i++)
+				{
+					list.Add(new User(
+						dt.Rows[i][0].ToString(),
+						dt.Rows[i][1].ToString(),
+						dt.Rows[i][2].ToString(),
+						dt.Rows[i][3].ToString()));
+				}
+				return list;
+			}
+			else
+				return null;
+		}
+
 		/// <summary>
 		/// 判断用户是否存在,注册时检测用户名是否存在
 		/// </summary>
@@ -73,9 +101,10 @@ namespace DataAccessLibrary
 			if (userTable.Rows.Count > 0)
 			{
 				user = new User(
-					userTable.Rows[0][0].ToString(),
-					userTable.Rows[0][1].ToString(),
-					userTable.Rows[0][2].ToString()
+					userTable.Rows[0][0].ToString().Trim(),
+					userTable.Rows[0][1].ToString().Trim(),
+					userTable.Rows[0][2].ToString().Trim(),
+					userTable.Rows[0][3].ToString().Trim()
 					);
 				return user;
 			}
@@ -109,9 +138,14 @@ namespace DataAccessLibrary
 		/// 删除
 		/// </summary>
 		/// <returns></returns>
-		public bool DeleteUser()
+		public bool DeleteUser(string Username)
 		{
-			return false;
+			string sql = string.Format("delete from [User] where Username = '{0}'", Username);
+			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, null);
+			if (Convert.ToInt32(obj) > 0)
+				return true;
+			else
+				return false;
 		}
 
 		public bool UserRoleAuthorize(string Username, string roleids)

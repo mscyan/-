@@ -72,16 +72,42 @@
                     Tel: $("#registerTel").val(),
                     CompanyID: $("#userRegisterCompany").combobox('getValue')
                 }
-                $.post("/Register/CheckUserRegister", postData, function (data) {
-                    if (data == "OK") {
-                        alert("注册成功");
-                        window.location.href = "/Login/LoginIndex";
-                    }
-                    else {
-                        alert(data);
-                        window.location.href = "/Register/RegisterIndex";
-                    }
-                });
+      //          $.post("/Register/CheckUserRegister", postData, function (data) {
+      //              if (data == "OK") {
+      //                  $.messager.alert("提示","注册成功");
+      //                  window.location.href = "/Login/LoginIndex";
+      //              }
+      //              else {
+						//$.messager.alert("提示",data);
+      //                  window.location.href = "/Register/RegisterIndex";
+      //              }
+      //          });
+
+				$.post("/Register/CheckUserRegister", postData, function (data) {
+					if (data == "OK") {
+						$.messager.alert({
+							title: "提示",
+							msg: "注册成功",
+							icon:"info",
+							draggable: false,
+							fn: function () {
+								window.location.href = "/Login/LoginIndex";
+							}
+						});
+					}
+					else {
+						$.messager.alert({
+							title: "提示",
+							msg: data,
+							icon:"error",
+							draggable: false,
+							fn: function () {
+								window.location.href = "/Register/RegisterIndex";
+							}
+						});
+					}
+				});
+
             }
 
         }

@@ -8,20 +8,62 @@
 <html>
 <head>
 	<meta name="viewport" content="width=device-width" />
+	<link href="~/Scripts/jquery-easyui-1.4.4/themes/bootstrap/easyui.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
+	<script src="~/Scripts/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
+	<style>
+		* {
+			font-size: 15px;
+		}
+
+		.addRoleFormTable {
+			border-collapse: collapse;
+			width: 100%;
+			border: 1px solid black;
+		}
+
+			.addRoleFormTable th {
+				border: 1px solid #ccc;
+				padding: 3px;
+				background-color: #F5F5F5;
+				height: 25px;
+			}
+
+			.addRoleFormTable td {
+				text-align: left;
+				border: 1px solid #ccc;
+				padding: 3px;
+				background-color: white;
+				height: 25px;
+			}
+	</style>
 	<title>AddRole</title>
 </head>
 <body>
-	<div>
-		<table>
-			<tr>
-				<td align="right">角色名称</td>
-				<td><input id="role_name" type="text" /></td>
-			</tr>
-			<tr>
-				<td align="right">角色描述</td>
-				<td><input id="role_desc" type="text" /></td>
-			</tr>
-		</table>
+	<div style="padding:15px">
+		<form id="addRoleForm" method="post">
+			<table class="addRoleFormTable">
+				<tr>
+					<th>角色名称</th>
+					<td>
+						<input type="text" id="role_name" class="easyui-textbox validatebox" data-options="required:true" style="width:170px;height:22px" />
+					</td>
+				</tr>
+				<tr>
+					<th>角色描述</th>
+					<td>
+						<input type="text" id="role_desc" class="easyui-textbox validatebox" data-options="required:true" style="width:170px;height:22px" />
+					</td>
+				</tr>
+				<tr>
+					<th>角色创建者</th>
+					<td>
+						<input type="text" id="role_giver" class="easyui-textbox validatebox" data-options="required:true" style="width:170px;height:22px" />
+					</td>
+				</tr>
+			</table>
+		</form>
 	</div>
 </body>
 </html>

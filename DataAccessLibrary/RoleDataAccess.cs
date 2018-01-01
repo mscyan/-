@@ -21,6 +21,21 @@ namespace DataAccessLibrary
 			else
 				return false;
 		}
+		//更新角色
+		public bool UpdateRole(int roleid, string name, string description)
+		{
+			string sql = string.Format("update [Role] set [RoleName] = @RoleName,Description = @Description where RoleID = @RoleID");
+			SqlParameter[] paras =
+			{
+				new SqlParameter("@RoleName",name),
+				new SqlParameter("@Description",description)
+			};
+			object obj = SqlManager.ExecuteNonQuery(SqlManager.connStr, CommandType.Text, sql, paras);
+			if (Convert.ToInt32(obj) > 0)
+				return true;
+			else
+				return false;
+		}
 
 		//获取所有的角色
 		public List<Role> GetAllRole()
@@ -88,6 +103,35 @@ namespace DataAccessLibrary
 			{
 				return false;
 			}
+		}
+
+		public object GetCount()
+		{
+			string sql = "select count(*) from [Role]";
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			return int.Parse(dt.Rows[0][0].ToString());
+		}
+		//根据分页获取角色数据
+		public object GetPaginationRole(int pagesize, int pageindex)
+		{
+			string sql = string.Format("select top {0} * from [Role] where RoleID not in (select top {1} RoleID from [Role])", pagesize, pagesize * (pageindex - 1));
+			DataTable dt = SqlManager.GetDataTable(SqlManager.connStr, CommandType.Text, sql, null);
+			if (dt.Rows.Count > 0)
+			{
+				List<Role> list = new List<Role>();
+				for (int i = 0; i < dt.Rows.Count; i++)
+				{
+					Role role = new Role();
+					role.RoleID = dt.Rows[i][0].ToString();
+					role.RoleName = dt.Rows[i][1].ToString();
+					role.Description = dt.Rows[i][2].ToString();
+					role.GivenBy = dt.Rows[i][3].ToString();
+					list.Add(role);
+				}
+				return list;
+			}
+			else
+				return null;
 		}
 
 		//根据ID删除指定角色

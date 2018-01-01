@@ -76,8 +76,9 @@
 				Password: $("#loginPwd").val()
 			}
 			$.post("/Login/CheckUserLogin", dataLogin, function (data) {
-				if (data == "OK") {
-					window.location.href = "/BackSystem/Index";
+				var dataJson = eval('(' + data + ')')
+				if (dataJson.result == "OK") {
+					window.location.href = dataJson.address;
 				} else {
 					alert(data);
 					window.location.href = "/Login/LoginIndex";

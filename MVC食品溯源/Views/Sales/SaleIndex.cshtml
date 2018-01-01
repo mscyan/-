@@ -23,36 +23,113 @@
 		}
 	</style>
 	<script>
-		$(document).ready(function () {
-			$("#this_table").datagrid({
-				url: "/Sales/GetPaginationSaleAction",
-				striped: true,
-				rownumbers: true,
-				pagination: true,
-				singleSelect: true,
-				pageSize: 5,
-				idField: 'SaleID',
-				pageList: [5, 10, 20, 30],
-				columns: [[
-					{ field: "SaleID", title: "销售ID", width: 100 },
-					{ field: "MarketID", title: "零售点ID", width: 100 },
-					{ field: "SaleDate", title: "售卖时间", width: 150 },
-					{ field: "SalePosition", title: "售卖地点", width: 80 },
-					{ field: "AnimalID", title: "牲畜ID", width: 150 },
-					{ field: "SaleType", title: "商品类型", width: 100 },
-					{ field: "HasSaled", title: "是否已售出", width: 100 },
-					{ field: "SaleState", title: "商品状态", width: 100 }
-				]],
-				toolbar: [
-					{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
-					{ text: '修改', iconCls: 'icon-edit', handler: function () { edit(); } },
-					{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } },
-					{ text: '标注问题批次', iconCls: '', handler: function () { markUnsafe(); } }
-				]
-			})
-		});
+		//退出登录
+		function loginOut() {
+			$.messager.confirm("提示", "确定退出系统？", function (r) {
+				if (r) {
+					$.ajax({
+						url: "/Login/LoginOut",
+						type: "post",
+						data: { "action": "logout" },
+						dataType: "Json",
+						success: function (result) {
+							if (result.success) {
+								window.location.href = "/Login/LoginIndex";
+							}
+							else {
+								$.messager.alert("提示", result.msg);
+							}
+						}
+					})
+				}
+			});
+		}
 
-		function add() {
+		getToolBar = function (data) {
+			if (data.toolbar != undefined && data.toolbar != '') {
+				var toolbar = [];
+				$.each(data.toolbar, function (index, row) {
+					var handler = row.handler;
+					row.handler = function () { eval(handler); };
+					toolbar.push(row);
+				});
+				return toolbar;
+			} else {
+				return [];
+			}
+		}
+		$(document).ready(function () {
+			$.ajax({
+				url: "/Role/GetUserPowerButton",
+				data: { "KeyName": "Sale" },
+				dataType: "Json",
+				type: "POST",
+				success: function (data) {
+					if (data.success) {
+						var toolbar = getToolBar(data);
+						$("#this_table").datagrid({
+							url: "/Sales/GetPaginationSaleAction",
+							striped: true,
+							rownumbers: true,
+							pagination: true,
+							singleSelect: true,
+							pageSize: 5,
+							idField: 'SaleID',
+							pageList: [5, 10, 20, 30],
+							columns: [[
+								{ field: "SaleID", title: "销售ID", width: 100 },
+								{ field: "MarketID", title: "零售点ID", width: 100 },
+								{ field: "SaleDate", title: "售卖时间", width: 150 },
+								{ field: "SalePosition", title: "售卖地点", width: 80 },
+								{ field: "AnimalID", title: "牲畜ID", width: 150 },
+								{ field: "SaleType", title: "商品类型", width: 100 },
+								{ field: "HasSaled", title: "是否已售出", width: 100 },
+								{ field: "SaleState", title: "商品状态", width: 100 }
+							]],
+							toolbar: toolbar.length == 0 ? null : toolbar
+						})
+					} else {
+						$.messager.alert("错误", data.msg);
+					}
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+					alert(XMLHttpRequest.readyState);
+					alert(textStatus);
+				}
+			});
+		})
+
+		//$(document).ready(function () {
+		//	$("#this_table").datagrid({
+		//		url: "/Sales/GetPaginationSaleAction",
+		//		striped: true,
+		//		rownumbers: true,
+		//		pagination: true,
+		//		singleSelect: true,
+		//		pageSize: 5,
+		//		idField: 'SaleID',
+		//		pageList: [5, 10, 20, 30],
+		//		columns: [[
+		//			{ field: "SaleID", title: "销售ID", width: 100 },
+		//			{ field: "MarketID", title: "零售点ID", width: 100 },
+		//			{ field: "SaleDate", title: "售卖时间", width: 150 },
+		//			{ field: "SalePosition", title: "售卖地点", width: 80 },
+		//			{ field: "AnimalID", title: "牲畜ID", width: 150 },
+		//			{ field: "SaleType", title: "商品类型", width: 100 },
+		//			{ field: "HasSaled", title: "是否已售出", width: 100 },
+		//			{ field: "SaleState", title: "商品状态", width: 100 }
+		//		]],
+		//		toolbar: [
+		//			{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
+		//			{ text: '修改', iconCls: 'icon-edit', handler: function () { edit(); } },
+		//			{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } },
+		//			{ text: '标注问题批次', iconCls: '', handler: function () { markUnsafe(); } }
+		//		]
+		//	})
+		//});
+
+		function addSale() {
 			$("<div/>").dialog({
 				id: "addSale_div",
 				href: "/Sales/AddSalePage",
@@ -102,7 +179,7 @@
 				}
 			})
 		}
-		function edit() {
+		function editSale() {
 			//编辑
 			var row = $("#this_table").datagrid("getChecked");
 			if (row.length < 1) {
@@ -161,7 +238,7 @@
 			}
 		}
 
-		function deleteRow() {
+		function deleteSale() {
 			//删除行
 			var rows = $("#this_table").datagrid("getChecked");
 			if (rows.length < 1) {
@@ -218,8 +295,20 @@
 	</script>
 </head>
 <body>
-    <div> 
-		<table id="this_table"></table>
-    </div>
+	<div class="easyui-layout" style="width:100%;height:700px;">
+		<div data-options="region:'north'" style="height:100px">
+			销售管理平台
+			<div style="position: absolute; right: 5px; top: 10px;">
+				欢迎您：<span style="color: #0082ff; ">@Session["Username"]</span> @DateTime.Now.ToLongDateString()@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)
+			</div>
+			<div style="position: absolute; right: 0px; top: 30px;">
+				<a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true" onclick="loginOut();">退出登录</a>
+			</div>
+		</div>
+		<div data-options="region:'south',split:true" style="height:50px;"></div>
+		<div data-options="region:'center',title:'销售管理页面'">
+			<table id="this_table"></table>
+		</div>
+	</div>
 </body>
 </html>

@@ -22,10 +22,31 @@ namespace MVC食品溯源.Controllers
 				UserDataAccess uda = new UserDataAccess();
 				if (uda.IsUserExist(userInfo.Username))
 				{
-					if (uda.GetUserByUsername(userInfo.Username, userInfo.Password) != null)
+					User user = uda.GetUserByUsername(userInfo.Username, userInfo.Password);
+					if (user != null)
 					{
 						Session["Username"] = userInfo.Username;
-						return Content("OK");
+						string companyid = user.CompanyID;
+						string address;
+						switch (companyid)
+						{
+							case "养殖场":
+								address = @"/Farm/FarmIndex";
+								break;
+							case "屠宰场":
+								address = @"/ButchWork/ButchWorkIndex";
+								break;
+							case "加工厂":
+								address = @"/ManuWork/ManuWorkIndex";
+								break;
+							case "零售点":
+								address = @"/Sales/SaleIndex";
+								break;
+							default:
+								address = "/BackSystem/Index";
+								break;
+						}
+						return Content("{\"result\":\"OK\",\"address\":\"" + address + "\"}");
 					}
 					else
 					{

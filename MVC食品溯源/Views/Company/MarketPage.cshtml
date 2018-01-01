@@ -26,31 +26,61 @@
 		}
 	</style>
 	<script>
+		getToolBar = function (data) {
+			if (data.toolbar != undefined && data.toolbar != '') {
+				var toolbar = [];
+				$.each(data.toolbar, function (index, row) {
+					var handler = row.handler;
+					row.handler = function () { eval(handler); };
+					toolbar.push(row);
+				});
+				return toolbar;
+			} else {
+				return [];
+			}
+		}
 		$(document).ready(function () {
-			$("#market_table").datagrid({
-				url:"/Company/GetAllMarketAction",
-				striped: true,
-				rownumber: true,
-				pagination: true,
-				singleSelect: true,
-				idField: 'MarketID',
-				//sortName: 'AnimalType',
-				sortOrder: "asc",
-				pageList: [5, 10, 20, 30],
-				columns: [[
-					{ field: "MarketID", title: "零售点ID", width: 100 },
-					{ field: "MarketPerson", title: "负责人",sortable:true, width: 100 },
-					{ field: "MarketPosition", title: "地址", width: 150 },
-					{ field: "MarketTel", title: "联系电话ID", width: 150 },
-					{ field: "MarketName", title: "零售点名称", width: 120 }
-				]],
-				toolbar: [
-					//{ text: 'Add', iconCls: 'icon-add', handler: function () { add(); } },
-					//{ text: 'Edit', iconCls: 'icon-edit', handler: function () { edit(); } },
-					{ text: 'Delete', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
-				]
-			})
+			$.ajax({
+				url: "/Role/GetUserPowerButton",
+				data: { "KeyName": "Market" },
+				dataType: "Json",
+				type: "POST",
+				success: function (data) {
+					if (data.success) {
+						var toolbar = getToolBar(data);
+						$("#market_table").datagrid({
+							url: "/Company/GetAllMarketAction",
+							striped: true,
+							rownumber: true,
+							pagination: true,
+							singleSelect: true,
+							idField: 'MarketID',
+							//sortName: 'AnimalType',
+							sortOrder: "asc",
+							pageList: [5, 10, 20, 30],
+							columns: [[
+								{ field: "MarketID", title: "零售点ID", width: 100 },
+								{ field: "MarketPerson", title: "负责人", sortable: true, width: 100 },
+								{ field: "MarketPosition", title: "地址", width: 150 },
+								{ field: "MarketTel", title: "联系电话ID", width: 150 },
+								{ field: "MarketName", title: "零售点名称", width: 120 }
+							]],
+							toolbar: toolbar.length == 0 ? null : toolbar
+						})
+					} else {
+						$.messager.alert("错误", data.msg);
+					}
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+					alert(XMLHttpRequest.readyState);
+					alert(textStatus);
+				}
+			});
 		})
+		function addMarket() {
+
+		}
 	</script>
 </head>
 <body>

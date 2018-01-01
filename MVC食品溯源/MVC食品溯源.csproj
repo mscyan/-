@@ -957,7 +957,6 @@
     <Content Include="Views\Default\View02.cshtml" />
     <Content Include="Views\Default\View03.cshtml" />
     <Content Include="Views\Login\LoginIndex.cshtml" />
-    <Content Include="Views\Login\View02.cshtml" />
     <Content Include="Views\AnimalManagement\AnimalIndex.cshtml" />
     <Content Include="Views\AnimalManagement\AddAnimal.cshtml" />
     <Content Include="Views\AnimalManagement\AlterAnimal.cshtml" />
@@ -1007,6 +1006,8 @@
     <Content Include="Views\User\TreeRole.cshtml" />
     <Content Include="Views\Role\TreePower.cshtml" />
     <Content Include="Views\Index\SearchResultPage.cshtml" />
+    <Content Include="Views\User\AddUser.cshtml" />
+    <Content Include="Views\User\EditUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
