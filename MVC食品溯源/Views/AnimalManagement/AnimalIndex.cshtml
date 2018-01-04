@@ -30,6 +30,7 @@
 					row.handler = function () { eval(handler); };
 					toolbar.push(row);
 				});
+				//toolbar.push({})
 				toolbar.push({ text: '喂养', iconCls: 'icon-add', handler: function () { addFeed(); } });
 				toolbar.push({ text: '喂药', iconCls: 'icon-add', handler: function () { addMedicine(); } });
 				toolbar.push({ text: '检疫', iconCls: 'icon-add', handler: function () { addCheck(); } });
@@ -42,7 +43,7 @@
 		$(document).ready(function () {
 			$.ajax({
 				url: "/Role/GetUserPowerButton",
-				data: { "KeyName": "Check" },
+				data: { "KeyName": "Animal" },
 				dataType: "Json",
 				type: "POST",
 				success: function (data) {
@@ -77,36 +78,6 @@
 					alert(textStatus);
 				}
 			});
-		//})
-
-		//$(document).ready(function () {
-		//	$("#this_table").datagrid({
-		//		url: "/AnimalManagement/GetPaginationAnimals",
-		//		striped: true,
-		//		rownumbers: true,
-		//		pagination: true,
-		//		singleSelect: true,
-		//		pageSize: 15,
-		//		idField: 'AnimalID',
-		//		pageList: [5, 10, 15],
-		//		columns: [[
-		//			{ field: "AnimalID", title: "标识码", width: 100 },
-		//			{ field: "AnimalType", title: "动物品种", width: 70 },
-		//			{ field: "AnimalBirth", title: "入栏时间", width: 150 },
-		//			{ field: "FarmID", title: "养殖场ID", width: 120 },
-		//			{ field: "FeedType", title: "适用饲料类型", width: 100 },
-		//			{ field: "AnimalState", title: "牲畜当前状态", width: 100 }
-		//		]],
-		//		toolbar: [
-		//			{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
-		//			{ text: '编辑', iconCls: 'icon-edit', handler: function () { edit(); } },
-		//			{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } },
-		//			{ text: '喂养', iconCls: 'icon-add', handler: function () { addFeed(); } },
-		//			{ text: '喂药', iconCls: 'icon-add', handler: function () { addMedicine(); } },
-		//			{ text: '检疫', iconCls: 'icon-add', handler: function () { addCheck(); } },
-		//			{ text: '喂养详情', iconCls: 'icon-add', handler: function () { feedDetail(); } }
-		//		]
-		//	});
 
 			$.ajax({
 				type: "POST",
@@ -117,7 +88,6 @@
 						
 					}
 					else {
-						//alert(data.length);
 						$("#this_table").datagrid({
 							rowStyler: function (index, row) {
 								for (var i = 0; i < data.length; i++) {
@@ -320,7 +290,7 @@
 			}
 		}
 
-		function add() {
+		function addAnimal() {
 			//增加
 			//alert('Open the Add Window')
 			$("<div/>").dialog({
@@ -368,7 +338,7 @@
 			})
 		}
 
-		function edit() {
+		function editAnimal() {
 			//编辑
 			var row = $("#this_table").datagrid("getChecked");
 			if (row.length < 1) {
@@ -425,7 +395,7 @@
 			}
 		}
 
-		function deleteRow() {
+		function deleteAnimal() {
 			//删除行
 			var rows = $("#this_table").datagrid("getChecked");
 			if (rows.length < 1)	

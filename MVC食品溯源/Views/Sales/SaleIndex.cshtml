@@ -21,6 +21,12 @@
 		body {
 			font-family: 'Microsoft YaHei';
 		}
+		a {
+			/*font-size:16px;*/
+			font-size: 15px;
+			text-decoration: none;
+			color: black;
+		}
 	</style>
 	<script>
 		//退出登录
@@ -73,9 +79,9 @@
 							rownumbers: true,
 							pagination: true,
 							singleSelect: true,
-							pageSize: 5,
+							pageSize: 15,
 							idField: 'SaleID',
-							pageList: [5, 10, 20, 30],
+							pageList: [5, 10, 15],
 							columns: [[
 								{ field: "SaleID", title: "销售ID", width: 100 },
 								{ field: "MarketID", title: "零售点ID", width: 100 },
@@ -100,35 +106,6 @@
 			});
 		})
 
-		//$(document).ready(function () {
-		//	$("#this_table").datagrid({
-		//		url: "/Sales/GetPaginationSaleAction",
-		//		striped: true,
-		//		rownumbers: true,
-		//		pagination: true,
-		//		singleSelect: true,
-		//		pageSize: 5,
-		//		idField: 'SaleID',
-		//		pageList: [5, 10, 20, 30],
-		//		columns: [[
-		//			{ field: "SaleID", title: "销售ID", width: 100 },
-		//			{ field: "MarketID", title: "零售点ID", width: 100 },
-		//			{ field: "SaleDate", title: "售卖时间", width: 150 },
-		//			{ field: "SalePosition", title: "售卖地点", width: 80 },
-		//			{ field: "AnimalID", title: "牲畜ID", width: 150 },
-		//			{ field: "SaleType", title: "商品类型", width: 100 },
-		//			{ field: "HasSaled", title: "是否已售出", width: 100 },
-		//			{ field: "SaleState", title: "商品状态", width: 100 }
-		//		]],
-		//		toolbar: [
-		//			{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
-		//			{ text: '修改', iconCls: 'icon-edit', handler: function () { edit(); } },
-		//			{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } },
-		//			{ text: '标注问题批次', iconCls: '', handler: function () { markUnsafe(); } }
-		//		]
-		//	})
-		//});
-
 		function addSale() {
 			$("<div/>").dialog({
 				id: "addSale_div",
@@ -141,8 +118,7 @@
 					id: 'certain',
 					text: '添 加',
 					handler: function () {
-						@* string market_id, string sale_position, string animal_id, string sale_type, string has_saled *@
-						var market_id = "HPJLF782CS";/////~~~~~~~~!!!!!!!!!!!!!!
+						var market_id = "HPJLF782CS";
 						var sale_position = $("#sale_position").val();
 						var sale_type = $("#sale_type").val();
 						var has_saled = $("#has_saled").val();
@@ -295,9 +271,9 @@
 	</script>
 </head>
 <body>
-	<div class="easyui-layout" style="width:100%;height:700px;">
-		<div data-options="region:'north'" style="height:100px">
-			销售管理平台
+	<div class="easyui-layout" style="width:100%;height:630px;">
+		<div data-options="region:'north'" style="height:60px">
+			<img src="~/Resources/img/Logo.png" style="margin-top:10px;margin-left:10px" /> <span style="font-size:18px;line-height:30px;">零售管理后台</span>
 			<div style="position: absolute; right: 5px; top: 10px;">
 				欢迎您：<span style="color: #0082ff; ">@Session["Username"]</span> @DateTime.Now.ToLongDateString()@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)
 			</div>
@@ -305,7 +281,15 @@
 				<a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true" onclick="loginOut();">退出登录</a>
 			</div>
 		</div>
-		<div data-options="region:'south',split:true" style="height:50px;"></div>
+		<div data-options="region:'south',split:true" style="height:50px;font-size:15px;padding:12px;">
+			@*<div>天津脑动力工作室开发</div>*@
+			<div style="float:right">
+				<span><a href="/Farm/FarmIndex"> >养殖管理< </a></span>
+				<span><a href="/ButchWork/ButchWorkIndex"> >屠宰管理< </a></span>
+				<span><a href="/ManuWork/ManuWorkIndex"> >加工管理< </a></span>
+				<span><a href="/Sales/SaleIndex"> >零售管理< </a></span>
+			</div>
+		</div>
 		<div data-options="region:'center',title:'销售管理页面'">
 			<table id="this_table"></table>
 		</div>

@@ -190,6 +190,7 @@
     <Content Include="Resources\css\logo.css" />
     <Content Include="Resources\css\search.css" />
     <Content Include="Resources\css\style.css" />
+    <Content Include="Resources\img\background.jpg" />
     <Content Include="Resources\img\bj_pic001.gif" />
     <Content Include="Resources\img\bj_pic002.gif" />
     <Content Include="Resources\img\butch.jpg" />
@@ -211,6 +212,7 @@
     <Content Include="Resources\img\pt004.gif" />
     <Content Include="Resources\img\pt004_hover.gif" />
     <Content Include="Resources\img\sale.jpg" />
+    <Content Include="Resources\img\背景.jpg" />
     <Content Include="Resources\js\content.js" />
     <Content Include="Resources\js\jquery.min.js" />
     <Content Include="Resources\js\jquery.minn.js" />
@@ -229,6 +231,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -953,9 +956,6 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Index\Index.cshtml" />
-    <Content Include="Views\Index\About.cshtml" />
-    <Content Include="Views\Index\LoginResult.cshtml" />
-    <Content Include="Views\Index\TransPage.cshtml" />
     <Content Include="Views\Default\Index.cshtml" />
     <Content Include="Views\Shared\Head.cshtml" />
     <Content Include="Views\Default\View02.cshtml" />
@@ -1005,7 +1005,6 @@
     <Content Include="Views\Medicine\AddMedicineForAnimalPage.cshtml" />
     <Content Include="Views\Feed\AddFeedForAnimal.cshtml" />
     <Content Include="Views\Check\AddCheckForAnimal.cshtml" />
-    <Content Include="Views\Index\modal.cshtml" />
     <Content Include="Views\Register\RegisterIndex.cshtml" />
     <Content Include="Views\User\TreeRole.cshtml" />
     <Content Include="Views\Role\TreePower.cshtml" />

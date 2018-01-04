@@ -32,6 +32,7 @@ namespace MVC食品溯源.Controllers
 			int pageindex = Request["page"] == null ? 1 : Convert.ToInt32(Request["page"]);
 			int pagesize = Request["rows"] == null ? 0 : Convert.ToInt32(Request["rows"]);
 			ManuWorkDataAccess mwda = new ManuWorkDataAccess();
+			//var mws = mwda.GetAllManuWork();
 			var mws = mwda.GetAllManuWork();
 			return Content("{\"total\": " + mwda.GetCount().ToString() + ",\"rows\":" + JsonConvert.SerializeObject(mws) + "}");
 		}

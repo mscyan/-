@@ -30,7 +30,7 @@ namespace MVC食品溯源.Controllers
 		public ActionResult AddSaleAction(string market_id,string sale_position, string animal_id, string sale_type, string has_saled)
 		{
 			SaleInfoDataAccess sda = new SaleInfoDataAccess();
-			bool isaddsuccess = sda.AddSaleInfo(market_id, animal_id, null, sale_position, sale_type);
+			bool isaddsuccess = sda.AddSaleInfo(market_id, animal_id, DateTime.Now.ToLocalTime().ToString(), sale_position, sale_type);
 			if(isaddsuccess)
 				return Json("添加成功");
 			else

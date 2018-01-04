@@ -47,86 +47,6 @@
 				}
 			});
 		}
-		////增加
-		//function add() {
-		//	//alert('Open the Add Window')
-		//	$("<div/>").dialog({
-		//		id: "addAnimal_id",
-		//		href: "/AnimalManagement/AddAnimal",
-		//		title: "添加牲畜信息",
-		//		width: 300,
-		//		height: 200,
-		//		modal: true,
-		//		buttons: [{
-		//			id: 'certain',
-		//			text: '添 加',
-		//			handler: function () {
-		//				var animal_type = $("#animal_type").val();
-		//				var feed_type = $("#feed_type").val();
-		//				$.ajax({
-		//					url: "/AnimalManagement/AddOneAnimal",
-		//					data: { 'AnimalType': animal_type, 'FeedType': feed_type },
-		//					type: "POST",
-		//					dataType: "Json",
-		//					success: function (data) {
-		//						alert(data);
-		//						$("#addAnimal_id").dialog("destroy");
-		//						$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
-		//					}
-		//				})
-		//			}
-		//		}, {
-		//			text: '取消',
-		//			handler: function () {
-		//				$("addAnimal_id").dialog("destroy");
-		//			}
-		//		}],
-		//		onLoad: function () {
-		//			// do nothing
-		//		},
-		//		onClose: function () {
-		//			$("#addAnimal_id").dialog("destroy");
-		//		}
-		//	})
-		//}
-
-		////编辑
-		//function edit() {
-
-
-		//}
-
-		////删除行
-		//function deleteRow() {
-		//	var rows = $("#this_table").datagrid("getChecked");
-		//	if (rows.length < 1)
-		//	{
-		//		$.messager.confirm("提示", "请先选中要删除的列");
-		//		return;
-		//	}
-		//	$.messager.confirm("提示", "确定删除此列？", function (r) {
-		//		if (r) {
-		//			// 参数r是提示框的按钮（确定-> true 取消->false）
-		//			//alert(r + "***");
-		//			var AnimalID = "";
-		//			$.each(rows, function (i, row) {
-		//				AnimalID = row.AnimalID + ",";
-		//			});
-		//			AnimalID = AnimalID.substring(0, AnimalID.length - 1);
-		//			//alert(AnimalID+" "+typeof(AnimalID));
-		//			$.ajax({
-		//				url: "/AnimalManagement/DeleteAnimalById",
-		//				data: { 'ids': AnimalID },
-		//				type: "POST",
-		//				dataType: "Json",
-		//				success: function (data) {
-		//					alert(data);
-		//					$("#this_table").datagrid("reload").datagrid("clearSelections").datagrid("clearChecked");
-		//				}
-		//			})
-		//		}
-		//	});
-		//}
 
 		//添加选项卡
 		function addTab(subtitle, url, icon) {
@@ -190,12 +110,6 @@
 						<li><a onclick='openTabByName("/Company/ButchFactoryPage","屠宰场")'>屠宰场管理</a></li>
 						<li><a onclick='openTabByName("/Company/ManuFactoryPage","加工厂")'>加工厂管理</a></li>
 						<li><a onclick='openTabByName("/Company/MarketPage","零售点")'>零售点管理</a></li>
-					</ul>
-				</li>
-				<li>
-					<span>菜单管理</span>
-					<ul>
-						<li>菜单信息</li>
 					</ul>
 				</li>
 				<li>

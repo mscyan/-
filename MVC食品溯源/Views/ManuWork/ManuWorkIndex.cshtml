@@ -21,6 +21,12 @@
 		body {
 			font-family: 'Microsoft YaHei';
 		}
+		a {
+			/*font-size:16px;*/
+			font-size: 15px;
+			text-decoration: none;
+			color: black;
+		}
 	</style>
 	<script>
 		//退出登录
@@ -74,9 +80,8 @@
 							pagination: true,
 							singleSelect: true,
 							idField: 'ManuWorkInfoID',
-							//sortName: 'ButchFactoryID',
 							sortOrder: "asc",
-							pageList: [5, 10, 20, 30],
+							pageList: [5, 10, 15],
 							columns: [[
 								{ field: "ManuWorkInfoID", title: "操作ID", width: 100 },
 								{ field: "ManuFactoryID", title: "加工厂编号", width: 100 },
@@ -97,32 +102,6 @@
 				}
 			});
 		})
-
-		//$(document).ready(function () {
-		//	$("#this_table").datagrid({
-		//		url:"/ManuWork/GetAllManuWorkInfo",
-		//		striped: true,
-		//		rownumbers: true,
-		//		pagination: true,
-		//		singleSelect: true,
-		//		idField: 'ManuWorkInfoID',
-		//		//sortName: 'ButchFactoryID',
-		//		sortOrder: "asc",
-		//		pageList: [5, 10, 20, 30],
-		//		columns: [[
-		//			{ field: "ManuWorkInfoID", title: "操作ID", width: 100 },
-		//			{ field: "ManuFactoryID", title: "加工厂编号", width: 100 },
-		//			{ field: "ManuDate", title: "加工日期", width: 150 },
-		//			{ field: "AnimalUniqueCode", title: "牲畜ID", width: 150 },
-		//			{ field: "ManuInfo", title: "加工信息", width: 150 }
-		//		]],
-		//		toolbar: [
-		//			{ text: '添加', iconCls: 'icon-add', handler: function () { add(); } },
-		//			{ text: '修改', iconCls: 'icon-edit', handler: function () { edit(); } },
-		//			{ text: '删除', iconCls: 'icon-remove', handler: function () { deleteRow(); } }
-		//		]
-		//	})
-		//})
 		function addManuWork() {
 			$("<div/>").dialog({
 				id: "addManuWork_div",
@@ -248,9 +227,9 @@
 	</script>
 </head>
 <body>
-	<div class="easyui-layout" style="width:100%;height:700px;">
-		<div data-options="region:'north'" style="height:100px">
-			牲畜加工管理平台
+	<div class="easyui-layout" style="width:100%;height:630px;">
+		<div data-options="region:'north'" style="height:60px">
+			<img src="~/Resources/img/Logo.png" style="margin-top:10px;margin-left:10px" /> <span style="font-size:18px;line-height:30px;">加工管理后台</span>
 			<div style="position: absolute; right: 5px; top: 10px;">
 				欢迎您：<span style="color: #0082ff; ">@Session["Username"]</span> @DateTime.Now.ToLongDateString()@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)
 			</div>
@@ -258,7 +237,15 @@
 				<a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true" onclick="loginOut();">退出登录</a>
 			</div>
 		</div>
-		<div data-options="region:'south',split:true" style="height:50px;"></div>
+		<div data-options="region:'south',split:true" style="height:50px;font-size:15px;padding:12px;">
+			@*<div>天津脑动力工作室开发</div>*@
+			<div style="float:right">
+				<span><a href="/Farm/FarmIndex"> >养殖管理< </a></span>
+				<span><a href="/ButchWork/ButchWorkIndex"> >屠宰管理< </a></span>
+				<span><a href="/ManuWork/ManuWorkIndex"> >加工管理< </a></span>
+				<span><a href="/Sales/SaleIndex"> >零售管理< </a></span>
+			</div>
+		</div>
 		<div data-options="region:'center',title:'牲畜加工管理页面'">
 			<table id="this_table"></table>
 		</div>

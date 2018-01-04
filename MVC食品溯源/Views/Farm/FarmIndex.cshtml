@@ -19,6 +19,18 @@
 		body {
 			font-family: 'Microsoft YaHei';
 		}
+		a {
+			/*font-size:16px;*/
+			font-size:15px;
+			text-decoration:none;
+			color:black;
+
+		}
+		span {
+			font-size: 16px;
+			
+		}
+		
 	</style>
 	<script>
 		//退出登录
@@ -74,11 +86,19 @@
 				<a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true" onclick="loginOut();">退出登录</a>
 			</div>
 		</div>
-		<div data-options="region:'south',split:true" style="height:50px;"></div>
-		<div data-options="region:'west',split:true" title="系统设置" style="width:180px;height:100%">
+		<div data-options="region:'south',split:true" style="height:50px;font-size:15px;padding:12px;">
+			@*<div>天津脑动力工作室开发</div>*@
+			<div style="float:right">
+				<span><a href="/Farm/FarmIndex"> >养殖管理< </a></span>
+				<span><a href="/ButchWork/ButchWorkIndex"> >屠宰管理< </a></span>
+				<span><a href="/ManuWork/ManuWorkIndex"> >加工管理< </a></span>
+				<span><a href="/Sales/SaleIndex"> >零售管理< </a></span>
+			</div>
+		</div>
+		<div data-options="region:'west',split:true" title="系统设置" style="width:180px;height:100%;font-size:15px;">
 			<ul class="easyui-tree">
 				<li>
-					<span>饲料管理</span>
+					<span><a>饲料管理</a></span>
 					<ul>
 						<li><a onclick='openTabByName("/Feed/FeedTypePage","饲料种类")'>饲料种类</a></li>
 						<li><a onclick='openTabByName("/Feed/FeedPage","饲料信息")'>饲料</a></li>
@@ -86,7 +106,7 @@
 					</ul>
 				</li>
 				<li>
-					<span>用药管理</span>
+					<span><a>用药管理</a></span>
 					<ul>
 						<li><a onclick='openTabByName("/Medicine/MedicineTypePage","药品种类")'>药品种类</a></li>
 						<li><a onclick='openTabByName("/Medicine/MedicinePage","药品")'>药品</a></li>
@@ -94,13 +114,13 @@
 					</ul>
 				</li>
 				<li>
-					<span>牲畜养殖管理</span>
+					<span><a>牲畜养殖管理</a></span>
 					<ul>
 						<li><a onclick='openTabByName("/AnimalManagement/AnimalIndex","牲畜管理")'>牲畜信息</a></li>
 					</ul>
 				</li>
 				<li>
-					<span>检疫管理</span>
+					<span><a>检疫管理</a></span>
 					<ul>
 						<li><a onclick='openTabByName("/Check/CheckIndex","检疫管理")'>检疫信息</a></li>
 					</ul>
