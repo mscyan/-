@@ -5,12 +5,13 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Configuration;
 namespace DataAccessLibrary
 {
 	class SqlManager
 	{
-		public static string connStr = "Data Source=MSI;Initial Catalog=食品溯源;Integrated Security=True";
+		//public static string connStr = "Data Source=MSI;Initial Catalog=食品溯源;Integrated Security=True";
+		public static string connStr = ConfigurationManager.ConnectionStrings["connectionStringss"].ToString();
 
 		public SqlManager() { }
 
